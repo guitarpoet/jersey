@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -68,6 +69,10 @@ public class UtilService {
 		get.setRequestHeader("User-Agent",
 		        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2");
 		return get;
+	}
+
+	public Date now() {
+		return new Date();
 	}
 
 	public String getHtml(String url) throws HttpException, IOException {
