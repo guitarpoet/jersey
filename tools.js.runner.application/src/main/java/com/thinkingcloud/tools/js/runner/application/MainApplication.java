@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaMethod;
@@ -21,6 +22,7 @@ public class MainApplication {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SecurityException,
 	        NoSuchMethodException {
+		System.setOut(new PrintStream(System.out, true, "utf-8"));
 		if (args.length != 1) {
 			logger.error("Need only 1 script file to run.");
 		} else {
