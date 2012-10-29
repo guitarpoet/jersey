@@ -10,3 +10,5 @@ run: rebuild
 	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && ./run projects.tmp/update_using_cas.js"
 test: src/main/scripts/simple.js
 	./run src/main/scripts/simple.js
+remote_test: code
+	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && make test"
