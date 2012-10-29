@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.0.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-2.0.xsd
+         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<context:component-scan base-package="com.thinkingcloud.tools" />
+	<tx:annotation-driven proxy-target-class="true" />
+	<task:annotation-driven />
+	<bean name="client" class="org.apache.commons.httpclient.HttpClient" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		lazy-init="true">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:/app.properties</value>
+				<value>file:app.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxIdle" value="10" />
+		<property name="maxActive" value="100" />
+		<property name="maxWait" value="10000" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="1200000" />
+		<property name="minEvictableIdleTimeMillis" value="1800000" />
+		<property name="numTestsPerEvictionRun" value="5" />
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+</beans>
