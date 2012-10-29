@@ -12,4 +12,4 @@ done
 main=com.thinkingcloud.tools.js.runner.application.MainApplication
 
 # 3. Run it
-java $DEBUG -cp "$classpath" $main $*
+java $DEBUG -cp "$classpath" -Dfile.encoding=UTF8 $main $*

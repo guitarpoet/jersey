@@ -22,7 +22,7 @@ public class MainApplication {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SecurityException,
 	        NoSuchMethodException {
-		System.setOut(new PrintStream(System.out, true, "utf-8"));
+		System.setOut(new PrintStream(System.out, true, "UTF-8"));
 		if (args.length != 1) {
 			logger.error("Need only 1 script file to run.");
 		} else {
