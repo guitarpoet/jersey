@@ -113,10 +113,6 @@ public class UtilService {
 		return new BufferedStreamEnumeration(loadResource(location));
 	}
 
-	public String[] split(String str, String sep) {
-		return str.split(sep);
-	}
-
 	public Scriptable parseJSON(String json) {
 		Context context = Context.getCurrentContext();
 		return (Scriptable) context.evaluateString(scope, "(" + json + ")", "<json>", 1, null);

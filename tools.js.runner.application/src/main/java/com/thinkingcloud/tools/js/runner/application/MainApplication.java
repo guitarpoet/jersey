@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.thinkingcloud.tools.js.runner.application.service.StringUtilsService;
 import com.thinkingcloud.tools.js.runner.application.service.UtilService;
 
 public class MainApplication {
@@ -34,7 +35,9 @@ public class MainApplication {
 
 			UtilService utils = appContext.getBean(UtilService.class);
 			utils.scope = scope;
+			StringUtilsService sutils = appContext.getBean(StringUtilsService.class);
 			scope.put("utils", scope, Context.javaToJS(utils, scope));
+			scope.put("sutils", scope, Context.javaToJS(sutils, scope));
 			context.evaluateReader(scope, new InputStreamReader(Thread.currentThread().getContextClassLoader()
 			        .getResourceAsStream("scripts/init.js")), "init.js", 1, null);
 			context.evaluateReader(scope, new FileReader(args[0]), args[0], 1, null);
