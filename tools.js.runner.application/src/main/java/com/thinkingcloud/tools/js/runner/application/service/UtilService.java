@@ -159,8 +159,10 @@ public class UtilService {
 				escape = false;
 				break;
 			case ':':
-				mode = KEY_END;
 				escape = false;
+				if (mode == KEY_END) {
+					continue;
+				}
 				break;
 			}
 			if (c == '"' && !escape) {

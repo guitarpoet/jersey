@@ -1,5 +1,6 @@
 utils.require('underscore');
 
+console.log(java.lang.System.getProperties());
 console.log("test {}", "adsf");
 logger.info("test {}", "asdf");
 console.log("test {}", "asdf".capitalize());
