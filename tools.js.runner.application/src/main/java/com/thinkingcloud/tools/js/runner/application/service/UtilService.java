@@ -211,7 +211,7 @@ public class UtilService {
 		return (Scriptable) Context.javaToJS(o, scope);
 	}
 
-	public Object toJava(Scriptable s) {
+	public Object toJava(Object s) {
 		return Context.jsToJava(s, Object.class);
 	}
 
