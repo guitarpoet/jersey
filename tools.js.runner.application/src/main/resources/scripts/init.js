@@ -21,6 +21,9 @@ console = {
 		logger.error.apply(logger, arguments);
 	}
 }
+toi = function(n) {
+	return new java.lang.Integer(n);
+}
 String.prototype.split = function(sep) {
 	return sutils.split(this, sep);
 }
