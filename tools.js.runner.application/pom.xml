@@ -61,6 +61,10 @@
 			<artifactId>httpclient</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>jtidy</groupId>
 			<artifactId>jtidy</artifactId>
 		</dependency>
