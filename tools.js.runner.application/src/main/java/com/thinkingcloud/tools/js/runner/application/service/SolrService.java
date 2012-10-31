@@ -3,9 +3,19 @@ package com.thinkingcloud.tools.js.runner.application.service;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpException;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HttpContext;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.request.UpdateRequest;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -18,6 +28,27 @@ public class SolrService {
 
 	@Autowired
 	private SolrServer solr;
+
+	public void init() {
+		HttpSolrServer server = (HttpSolrServer) solr;
+		DefaultHttpClient client = (DefaultHttpClient) server.getHttpClient();
+		client.addRequestInterceptor(new HttpRequestInterceptor() {
+			@Override
+			public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+				if (request instanceof UpdateRequest) {
+					UpdateRequest r = (UpdateRequest) request;
+					System.out.println(r.getXML());
+				}
+			}
+		});
+
+		client.addResponseInterceptor(new HttpResponseInterceptor() {
+			@Override
+			public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
+				IOUtils.copy(response.getEntity().getContent(), System.out);
+			}
+		});
+	}
 
 	public String toXml(SolrInputDocument doc) {
 		return ClientUtils.toXML(doc);
