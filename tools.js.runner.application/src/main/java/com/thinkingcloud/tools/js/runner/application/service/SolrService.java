@@ -1,6 +1,7 @@
 package com.thinkingcloud.tools.js.runner.application.service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -37,6 +38,18 @@ public class SolrService {
 
 	public SolrInputDocument convert(SolrDocument doc) {
 		return ClientUtils.toSolrInputDocument(doc);
+	}
+
+	public SolrInputDocument createDoc() {
+		return new SolrInputDocument();
+	}
+
+	public SolrInputDocument createDoc(Map<String, Object> data) {
+		SolrInputDocument doc = createDoc();
+		for (Map.Entry<String, Object> e : data.entrySet()) {
+			doc.addField(e.getKey(), e.getValue());
+		}
+		return doc;
 	}
 
 	public void commit() throws SolrServerException, IOException {

@@ -211,6 +211,10 @@ public class UtilService {
 		return (Scriptable) Context.javaToJS(o, scope);
 	}
 
+	public Object toJava(Scriptable s) {
+		return Context.jsToJava(s, Object.class);
+	}
+
 	public String tidyXml(String xml) throws UnsupportedEncodingException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);
