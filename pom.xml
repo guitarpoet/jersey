@@ -221,7 +221,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore</artifactId>
+				<artifactId>httpclient</artifactId>
 				<version>4.1.2</version>
 			</dependency>
 			<dependency>
