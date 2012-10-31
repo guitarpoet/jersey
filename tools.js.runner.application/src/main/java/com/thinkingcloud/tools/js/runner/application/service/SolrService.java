@@ -47,7 +47,6 @@ public class SolrService {
 	public SolrInputDocument createDoc(Map<String, Object> data) {
 		SolrInputDocument doc = createDoc();
 		for (Map.Entry<String, Object> e : data.entrySet()) {
-			System.out.println(e.getKey() + ":" + e.getValue());
 			doc.addField(e.getKey(), e.getValue());
 		}
 		return doc;
