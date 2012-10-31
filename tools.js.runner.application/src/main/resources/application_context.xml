@@ -28,7 +28,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+	<bean class="org.apache.solr.client.solrj.impl.CommonsHttpSolrServer">
 		<constructor-arg value="${solr.url}" />
 	</bean>
 	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
