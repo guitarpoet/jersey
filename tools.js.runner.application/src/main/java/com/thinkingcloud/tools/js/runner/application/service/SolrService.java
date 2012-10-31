@@ -52,6 +52,10 @@ public class SolrService {
 		return doc;
 	}
 
+	public void add(Map<String, Object> doc) throws SolrServerException, IOException {
+		add(createDoc(doc));
+	}
+
 	public void add(SolrInputDocument doc) throws SolrServerException, IOException {
 		solr.add(doc);
 	}
