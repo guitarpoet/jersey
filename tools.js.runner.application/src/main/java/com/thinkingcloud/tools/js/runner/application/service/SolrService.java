@@ -52,6 +52,10 @@ public class SolrService {
 		return doc;
 	}
 
+	public void add(SolrInputDocument doc) throws SolrServerException, IOException {
+		solr.add(doc);
+	}
+
 	public void commit() throws SolrServerException, IOException {
 		solr.commit();
 	}
