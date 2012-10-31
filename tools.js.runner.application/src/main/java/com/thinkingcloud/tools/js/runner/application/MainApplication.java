@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.thinkingcloud.tools.js.runner.application.service.DBService;
+import com.thinkingcloud.tools.js.runner.application.service.SolrService;
 import com.thinkingcloud.tools.js.runner.application.service.StringUtilsService;
 import com.thinkingcloud.tools.js.runner.application.service.UtilService;
 
@@ -40,9 +41,11 @@ public class MainApplication {
 			utils.scope = scope;
 			StringUtilsService sutils = appContext.getBean(StringUtilsService.class);
 			DBService db = appContext.getBean(DBService.class);
+			SolrService solr = appContext.getBean(SolrService.class);
 			scope.put("utils", scope, Context.javaToJS(utils, scope));
 			scope.put("sutils", scope, Context.javaToJS(sutils, scope));
 			scope.put("db", scope, Context.javaToJS(db, scope));
+			scope.put("solr", scope, solr);
 			context.evaluateReader(scope, new InputStreamReader(Thread.currentThread().getContextClassLoader()
 			        .getResourceAsStream("scripts/init.js")), "init.js", 1, null);
 			context.evaluateReader(scope, new FileReader(args[0]), args[0], 1, null);
