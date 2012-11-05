@@ -1,5 +1,4 @@
-utils.require('underscore');
-
+require('underscore');
 console.log(java.lang.System.getProperties());
 console.log("test {}", "adsf");
 logger.info("test {}", "asdf");

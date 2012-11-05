@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class StringUtilsService {
 
+	public boolean isNumber(Object o) {
+		return StringUtils.isNumeric(String.valueOf(o));
+	}
+
 	public boolean isBlank(String str) {
 		return StringUtils.isBlank(str);
 	}

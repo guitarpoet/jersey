@@ -8,7 +8,7 @@ printf = function() {
 	utils.printf.apply(utils, arguments)
 };
 console = {
-	log : function() {
+	log: function() {
 		logger.info.apply(logger, arguments);
 	},
 	info : function() {
@@ -21,15 +21,21 @@ console = {
 		logger.error.apply(logger, arguments);
 	}
 }
+
+require = function(name) {
+	utils.require.apply(utils, arguments);
+}
+
 toi = function(n) {
 	return new java.lang.Integer(n);
 }
-String.prototype.split = function(sep) {
-	return sutils.split(this, sep);
-}
+
 String.prototype.isBlank = function() {
 	return sutils.isBlank(this);
 }
 String.prototype.capitalize = function() {
 	return sutils.capitalize(this);
+}
+String.prototype.explode = function(sep) {
+	return sutils.split(this, sep);
 }
