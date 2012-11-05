@@ -7,10 +7,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -217,6 +220,66 @@ public class UtilService {
 
 	public Object toJava(Object s) {
 		return Context.jsToJava(s, Object.class);
+	}
+
+	/**
+	 * Download any html page in utf-8 encoding.
+	 * 
+	 * @param url
+	 * @param encoding
+	 * @param headers
+	 * @return
+	 * @throws HttpException
+	 * @throws IOException
+	 */
+	public String download(String url, String encoding, Map<String, String> headers) throws HttpException, IOException {
+		GetMethod get = new GetMethod(url);
+		for (Map.Entry<String, String> e : headers.entrySet()) {
+			get.addRequestHeader(e.getKey(), e.getValue());
+		}
+		client.executeMethod(get);
+		if (encoding == null) {
+			return get.getResponseBodyAsString();
+		} else {
+			Charset charset = Charset.forName(encoding);
+			long contentLength = get.getResponseContentLength();
+			ByteBuffer buffer = null;
+			if (contentLength == -1) {
+				buffer = ByteBuffer.allocate(1024);
+			} else {
+				buffer = ByteBuffer.allocate((int) contentLength);
+			}
+			InputStream input = get.getResponseBodyAsStream();
+			byte[] bf = new byte[1024];
+			int count = 0;
+			int offset = 0;
+			while ((count = input.read(bf)) != -1) {
+				buffer.put(bf, offset, count);
+				offset += count;
+			}
+			input.close();
+			return charset.decode(buffer).toString();
+		}
+	}
+
+	public void sleep(int second) throws InterruptedException {
+		Thread.sleep(1000 * second);
+	}
+
+	public Map<String, String> defaultHeaders() {
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("User-Agent",
+		        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2");
+		headers.put("Accept-Language", "en-us,en;q=0.5");
+		return headers;
+	}
+
+	public String download(String url, String encoding) throws HttpException, IOException {
+		return download(url, encoding, defaultHeaders());
+	}
+
+	public String download(String url) throws HttpException, IOException {
+		return download(url, null);
 	}
 
 	public String tidyXml(String xml) throws UnsupportedEncodingException {
