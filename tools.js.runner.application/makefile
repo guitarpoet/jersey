@@ -15,5 +15,5 @@ test: src/main/scripts/simple.js
 	./run -c src/main/scripts/test.properties src/main/scripts/simple.js
 cup: projects.tmp/fetch_cupboard_no.js
 	./run projects.tmp/fetch_cupboard_no.js
-remote_test: code
+remote_test: rebuild
 	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && make test"
