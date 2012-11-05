@@ -14,4 +14,6 @@ map.a = 1;
 map.b = 2;
 console.log(new java.util.HashMap(map));
 console.log(utils.config('hello'));
-console.log(utils.download("http://www.taobao.com"));
+var a = utils.download("http://taobao.com");
+a = sutils.zip(a);
+println(a.length() / sutils.unzip(a).length());

@@ -176,12 +176,19 @@ public class UtilService {
 	 * @throws HttpException
 	 * @throws IOException
 	 */
-	public String download(String url, String encoding, Map<String, String> headers) throws HttpException, IOException {
+	protected String download(String url, String encoding, Map<String, String> headers) throws HttpException,
+	        IOException {
 		GetMethod get = new GetMethod(url);
-		for (Map.Entry<String, String> e : headers.entrySet()) {
-			get.addRequestHeader(e.getKey(), e.getValue());
+		if (headers != null) {
+			for (Map.Entry<String, String> e : headers.entrySet()) {
+				get.addRequestHeader(e.getKey(), e.getValue());
+			}
 		}
 		client.executeMethod(get);
+		if (get.getResponseHeader("Content-Type") == null
+		        || !get.getResponseHeader("Content-Type").getValue().contains("text/html")) {
+			return null;
+		}
 		if (encoding == null) {
 			return get.getResponseBodyAsString();
 		} else {

@@ -7,7 +7,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.lang.StringUtils;
@@ -70,6 +73,33 @@ public class StringUtilsService {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		tidy.parse(new ByteArrayInputStream(xml.getBytes("utf-8")), output);
 		return new String(output.toByteArray(), "utf-8");
+	}
+
+	public String zip(String data) throws IOException {
+		ByteArrayOutputStream array = new ByteArrayOutputStream();
+		DeflaterOutputStream out = (new DeflaterOutputStream(array));
+		byte[] buffer = new byte[1024];
+		int count;
+		ByteArrayInputStream reader = new ByteArrayInputStream(data.getBytes("utf-8"));
+		while ((count = reader.read(buffer)) != -1) {
+			out.write(buffer, 0, count);
+		}
+		out.flush();
+		out.close();
+		return Base64.encodeBase64String(array.toByteArray());
+	}
+
+	public String unzip(String zip) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		InflaterInputStream reader = new InflaterInputStream(new ByteArrayInputStream(Base64.decodeBase64(zip)));
+		byte[] buffer = new byte[1024];
+		int count;
+		while ((count = reader.read(buffer)) != -1) {
+			out.write(buffer, 0, count);
+		}
+		out.flush();
+		out.close();
+		return new String(out.toByteArray(), "utf-8");
 	}
 
 	public String fixUrl(String url, String base) {
