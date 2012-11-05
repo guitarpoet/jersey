@@ -91,7 +91,7 @@ public class StringUtilsService {
 		tidy.setWraplen(1024);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DOMReader reader = new DOMReader();
-		return reader.read((org.w3c.dom.Document) tidy.parse(new ByteArrayInputStream(html.getBytes("utf-8")), out));
+		return reader.read(tidy.parseDOM(new ByteArrayInputStream(html.getBytes("utf-8")), out));
 	}
 
 	public Document getDocument(String url, Map<String, String> headers) throws HttpException, IOException {
