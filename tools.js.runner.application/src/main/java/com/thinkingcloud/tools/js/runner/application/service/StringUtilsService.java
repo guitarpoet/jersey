@@ -72,11 +72,11 @@ public class StringUtilsService {
 		return new String(output.toByteArray(), "utf-8");
 	}
 
-	public String fixUrl(String url) {
+	public String fixUrl(String url, String base) {
 		if (url.startsWith("http"))
 			return url;
 		StringBuilder sb = new StringBuilder();
-		sb.append(client.getHostConfiguration().getHostURL());
+		sb.append(base);
 		if (!url.startsWith("/"))
 			sb.append("/");
 		sb.append(url);
