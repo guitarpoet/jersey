@@ -18,6 +18,10 @@ public class StringUtilsService {
 		return true;
 	}
 
+	public boolean contains(String container, String str) {
+		return container.contains(str);
+	}
+
 	public boolean isNumber(Object o) {
 		return StringUtils.isNumeric(String.valueOf(o));
 	}
