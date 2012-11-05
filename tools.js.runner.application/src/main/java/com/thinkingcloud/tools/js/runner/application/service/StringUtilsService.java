@@ -73,7 +73,7 @@ public class StringUtilsService {
 	}
 
 	public String fixUrl(String url, String base) {
-		if (url.startsWith("http"))
+		if (url.startsWith("http") || url.startsWith("ftp") || url.startsWith("javascript"))
 			return url;
 		StringBuilder sb = new StringBuilder();
 		sb.append(base);
