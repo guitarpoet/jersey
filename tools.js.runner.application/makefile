@@ -17,3 +17,8 @@ cup: projects.tmp/fetch_cupboard_no.js
 	./run projects.tmp/fetch_cupboard_no.js
 remote_test: rebuild
 	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && make test"
+scp_task: rebuild projects.tmp/task.js projects.tmp/task.properties
+	scp projects.tmp/task.js jubuntu.local:/home/jack/Projects/tools.js.runner/tools.js.runner.application/projects.tmp
+	scp projects.tmp/task.properties jubuntu.local:/home/jack/Projects/tools.js.runner/tools.js.runner.application/projects.tmp
+task: scp_task
+	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && ./run -c projects.tmp/task.properties projects.tmp/task.js"

@@ -1,10 +1,22 @@
 package com.thinkingcloud.tools.js.runner.application.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StringUtilsService {
+
+	public boolean isValidUrl(String url) {
+		try {
+			new URL(url);
+		} catch (MalformedURLException e) {
+			return false;
+		}
+		return true;
+	}
 
 	public boolean isNumber(Object o) {
 		return StringUtils.isNumeric(String.valueOf(o));
