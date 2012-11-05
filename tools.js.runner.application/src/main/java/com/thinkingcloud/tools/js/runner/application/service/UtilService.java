@@ -53,6 +53,10 @@ public class UtilService {
 		}
 	}
 
+	public Object config(String key) {
+		return System.getProperties().get(key);
+	}
+
 	public void require(String lib) throws IOException {
 		include("classpath:scripts/" + lib + ".js");
 	}

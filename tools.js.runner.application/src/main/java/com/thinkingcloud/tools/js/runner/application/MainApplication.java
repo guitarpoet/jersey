@@ -1,10 +1,16 @@
 package com.thinkingcloud.tools.js.runner.application;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.Properties;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaMethod;
 import org.mozilla.javascript.tools.shell.Global;
@@ -23,12 +29,28 @@ public class MainApplication {
 	private static Logger logger = LoggerFactory.getLogger(MainApplication.class);
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SecurityException,
-	        NoSuchMethodException {
+	        NoSuchMethodException, ParseException {
 		System.setOut(new PrintStream(System.out, true, "UTF-8"));
-		if (args.length != 1) {
-			logger.error("Need only 1 script file to run.");
+		GnuParser parser = new GnuParser();
+		Options ops = new Options();
+		ops.addOption("c", "config", true, "The configuration file location.");
+		ops.addOption("a", "application", true, "Other spring configuration file location.");
+		CommandLine cmd = parser.parse(ops, args);
+		if (cmd.hasOption("c")) {
+			Properties p = new Properties();
+			p.load(new FileReader(cmd.getOptionValue("c")));
+			System.getProperties().putAll(p);
+		}
+		ClassPathXmlApplicationContext appContext = null;
+		if (!cmd.hasOption("a")) {
+			appContext = new ClassPathXmlApplicationContext("application_context.xml");
 		} else {
-			ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("application_context.xml");
+			appContext = new ClassPathXmlApplicationContext("application_context.xml", cmd.getOptionValue("a"));
+		}
+		if (cmd.getArgList().isEmpty()) {
+			logger.error("You need at least 1 script to run.");
+			System.exit(0);
+		} else {
 			Context context = Context.enter();
 			context.setOptimizationLevel(-1);
 			context.setLanguageVersion(Context.VERSION_1_5);
@@ -53,7 +75,7 @@ public class MainApplication {
 			g.put("file", g, Context.javaToJS(file, g));
 			context.evaluateReader(g, new InputStreamReader(Thread.currentThread().getContextClassLoader()
 			        .getResourceAsStream("scripts/init.js")), "init.js", 1, null);
-			Main.processSource(context, args[0]);
+			Main.processSource(context, cmd.getArgs()[0]);
 		}
 	}
 }
