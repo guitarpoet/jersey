@@ -1,12 +1,9 @@
 package com.thinkingcloud.tools.js.runner.application.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
@@ -22,9 +19,6 @@ import net.minidev.json.parser.ParseException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.lobobrowser.html.domimpl.HTMLDocumentImpl;
-import org.lobobrowser.html.parser.DocumentBuilderImpl;
-import org.lobobrowser.html.test.SimpleUserAgentContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
@@ -33,9 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.w3c.tidy.Configuration;
-import org.w3c.tidy.Tidy;
-import org.xml.sax.SAXException;
 
 @Service
 public class UtilService {
@@ -50,6 +41,7 @@ public class UtilService {
 	private HttpClient client;
 
 	public void include(String resource) throws IOException {
+		logger.info("");
 		InputStream in = loadResource(resource);
 		if (in != null) {
 			Context.getCurrentContext().evaluateReader(scope, new InputStreamReader(in), resource, 1, null);
@@ -64,56 +56,8 @@ public class UtilService {
 		include("classpath:scripts/" + lib + ".js");
 	}
 
-	protected GetMethod initGet(String url) {
-		String u = null;
-		if (url.startsWith("http")) {
-			u = url;
-		} else {
-			u = url.startsWith("/") ? url : "/" + url;
-		}
-		GetMethod get = new GetMethod(u);
-		get.setRequestHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		get.setRequestHeader("User-Agent",
-		        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2");
-		return get;
-	}
-
 	public Date now() {
 		return new Date();
-	}
-
-	public String getHtml(String url) throws HttpException, IOException {
-		return getHtml(url, null);
-	}
-
-	public String getTidyHtml(String url) throws UnsupportedEncodingException, HttpException, IOException {
-		return getTidyHtml(url, null);
-	}
-
-	public String getTidyHtml(String url, String encoding) throws UnsupportedEncodingException, HttpException,
-	        IOException {
-		return tidyXml(getHtml(url, encoding));
-	}
-
-	public String getHtml(String url, String encoding) throws HttpException, IOException {
-		logger.info("Going to fetch url {}...", url);
-		GetMethod get = initGet(url);
-		client.executeMethod(get);
-		if (get.getStatusCode() != 200)
-			return null;
-		return encoding == null ? get.getResponseBodyAsString() : Charset.forName(encoding)
-		        .decode(Charset.forName(get.getResponseCharSet()).encode(get.getResponseBodyAsString())).toString();
-	}
-
-	public HTMLDocumentImpl getHtmlDocument(String url) throws HttpException, IOException, SAXException {
-		SimpleUserAgentContext context = new SimpleUserAgentContext();
-		DocumentBuilderImpl db = new DocumentBuilderImpl(context);
-		GetMethod get = initGet(url);
-		client.executeMethod(get);
-		InputStream in = get.getResponseBodyAsStream();
-		HTMLDocumentImpl doc = (HTMLDocumentImpl) db.parse(in);
-		in.close();
-		return doc;
 	}
 
 	public InputStream loadResource(String location) throws IOException {
@@ -262,6 +206,10 @@ public class UtilService {
 		}
 	}
 
+	public String download(String url, Map<String, String> headers) throws HttpException, IOException {
+		return download(url, null, headers);
+	}
+
 	public void sleep(int second) throws InterruptedException {
 		Thread.sleep(1000 * second);
 	}
@@ -279,18 +227,7 @@ public class UtilService {
 	}
 
 	public String download(String url) throws HttpException, IOException {
-		return download(url, null);
+		return download(url, null, null);
 	}
 
-	public String tidyXml(String xml) throws UnsupportedEncodingException {
-		Tidy tidy = new Tidy();
-		tidy.setCharEncoding(Configuration.UTF8);
-		tidy.setIndentContent(true);
-		tidy.setBreakBeforeBR(true);
-		tidy.setXmlTags(true);
-		tidy.setWraplen(1024);
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		tidy.parse(new ByteArrayInputStream(xml.getBytes("utf-8")), output);
-		return new String(output.toByteArray(), "utf-8");
-	}
 }
