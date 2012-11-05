@@ -40,5 +40,5 @@ String.prototype.explode = function(sep) {
 	return sutils.split(this, sep);
 }
 String.prototype.contains = function(str) {
-	return sutils.contains(str);
+	return sutils.contains(this, str);
 }
