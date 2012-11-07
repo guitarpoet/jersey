@@ -178,6 +178,7 @@ public class UtilService {
 	 */
 	protected String download(String url, String encoding, Map<String, String> headers) throws HttpException,
 	        IOException {
+		logger.info("Ready to download {}", url);
 		GetMethod get = new GetMethod(url);
 		if (headers != null) {
 			for (Map.Entry<String, String> e : headers.entrySet()) {
