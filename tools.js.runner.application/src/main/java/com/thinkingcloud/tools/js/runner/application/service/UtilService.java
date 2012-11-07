@@ -16,9 +16,11 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
-import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
@@ -179,30 +181,31 @@ public class UtilService {
 	protected String download(String url, String encoding, Map<String, String> headers) throws HttpException,
 	        IOException {
 		logger.info("Ready to download {}", url);
-		GetMethod get = new GetMethod(url);
+		HttpGet get = new HttpGet(url);
+		HttpResponse response = null;
 		try {
 			if (headers != null) {
 				for (Map.Entry<String, String> e : headers.entrySet()) {
-					get.addRequestHeader(e.getKey(), e.getValue());
+					get.addHeader(e.getKey(), e.getValue());
 				}
 			}
-			client.executeMethod(get);
-			if (get.getResponseHeader("Content-Type") == null
-			        || !get.getResponseHeader("Content-Type").getValue().contains("text/html")) {
+			response = client.execute(get);
+			if (response.getEntity().getContentType() == null
+			        || !response.getEntity().getContentType().getValue().contains("text/html")) {
 				return null;
 			}
 			if (encoding == null) {
-				return get.getResponseBodyAsString();
+				return EntityUtils.toString(response.getEntity());
 			} else {
 				Charset charset = Charset.forName(encoding);
-				long contentLength = get.getResponseContentLength();
+				long contentLength = response.getEntity().getContentLength();
 				ByteBuffer buffer = null;
 				if (contentLength == -1) {
 					buffer = ByteBuffer.allocate(1024);
 				} else {
 					buffer = ByteBuffer.allocate((int) contentLength);
 				}
-				InputStream input = get.getResponseBodyAsStream();
+				InputStream input = response.getEntity().getContent();
 				byte[] bf = new byte[1024];
 				int count = 0;
 				int offset = 0;
@@ -214,7 +217,7 @@ public class UtilService {
 				return charset.decode(buffer).toString();
 			}
 		} finally {
-			get.releaseConnection();
+			EntityUtils.consume(response.getEntity());
 		}
 	}
 

@@ -11,9 +11,8 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.client.HttpClient;
 import org.dom4j.Document;
 import org.dom4j.io.DOMReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +123,7 @@ public class StringUtilsService {
 		return reader.read(tidy.parseDOM(new ByteArrayInputStream(html.getBytes("utf-8")), out));
 	}
 
-	public Document getDocument(String url, Map<String, String> headers) throws HttpException, IOException {
+	public Document getDocument(String url, Map<String, String> headers) throws IOException {
 		return parse(utils.download(url, headers));
 	}
 }
