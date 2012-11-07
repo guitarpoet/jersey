@@ -180,37 +180,41 @@ public class UtilService {
 	        IOException {
 		logger.info("Ready to download {}", url);
 		GetMethod get = new GetMethod(url);
-		if (headers != null) {
-			for (Map.Entry<String, String> e : headers.entrySet()) {
-				get.addRequestHeader(e.getKey(), e.getValue());
+		try {
+			if (headers != null) {
+				for (Map.Entry<String, String> e : headers.entrySet()) {
+					get.addRequestHeader(e.getKey(), e.getValue());
+				}
 			}
-		}
-		client.executeMethod(get);
-		if (get.getResponseHeader("Content-Type") == null
-		        || !get.getResponseHeader("Content-Type").getValue().contains("text/html")) {
-			return null;
-		}
-		if (encoding == null) {
-			return get.getResponseBodyAsString();
-		} else {
-			Charset charset = Charset.forName(encoding);
-			long contentLength = get.getResponseContentLength();
-			ByteBuffer buffer = null;
-			if (contentLength == -1) {
-				buffer = ByteBuffer.allocate(1024);
+			client.executeMethod(get);
+			if (get.getResponseHeader("Content-Type") == null
+			        || !get.getResponseHeader("Content-Type").getValue().contains("text/html")) {
+				return null;
+			}
+			if (encoding == null) {
+				return get.getResponseBodyAsString();
 			} else {
-				buffer = ByteBuffer.allocate((int) contentLength);
+				Charset charset = Charset.forName(encoding);
+				long contentLength = get.getResponseContentLength();
+				ByteBuffer buffer = null;
+				if (contentLength == -1) {
+					buffer = ByteBuffer.allocate(1024);
+				} else {
+					buffer = ByteBuffer.allocate((int) contentLength);
+				}
+				InputStream input = get.getResponseBodyAsStream();
+				byte[] bf = new byte[1024];
+				int count = 0;
+				int offset = 0;
+				while ((count = input.read(bf)) != -1) {
+					buffer.put(bf, offset, count);
+					offset += count;
+				}
+				input.close();
+				return charset.decode(buffer).toString();
 			}
-			InputStream input = get.getResponseBodyAsStream();
-			byte[] bf = new byte[1024];
-			int count = 0;
-			int offset = 0;
-			while ((count = input.read(bf)) != -1) {
-				buffer.put(bf, offset, count);
-				offset += count;
-			}
-			input.close();
-			return charset.decode(buffer).toString();
+		} finally {
+			get.releaseConnection();
 		}
 	}
 
