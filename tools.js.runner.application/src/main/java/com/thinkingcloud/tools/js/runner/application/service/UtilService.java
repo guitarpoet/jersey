@@ -10,7 +10,9 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -166,6 +168,10 @@ public class UtilService {
 
 	public Object toJava(Object s) {
 		return Context.jsToJava(s, Object.class);
+	}
+
+	public Set<Object> set() {
+		return new HashSet<Object>();
 	}
 
 	/**
