@@ -14,7 +14,13 @@
 	<context:component-scan base-package="com.thinkingcloud.tools" />
 	<tx:annotation-driven proxy-target-class="true" />
 	<task:annotation-driven />
-	<bean name="client" class="org.apache.commons.httpclient.HttpClient" />
+	<bean name="client" class="org.apache.commons.httpclient.HttpClient">
+		<property name="hostConfiguration">
+			<bean class="org.apache.commons.httpclient.HostConfiguration">
+				<property name="host" value="${server.base}" />
+			</bean>
+		</property>
+	</bean>
 	<task:scheduler id="scheduler" pool-size="10" />
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
