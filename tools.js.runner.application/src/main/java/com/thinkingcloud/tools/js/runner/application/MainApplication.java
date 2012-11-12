@@ -76,10 +76,8 @@ public class MainApplication {
 			g.put("file", g, Context.javaToJS(file, g));
 			context.evaluateReader(g, new InputStreamReader(Thread.currentThread().getContextClassLoader()
 			        .getResourceAsStream("scripts/init.js")), "init.js", 1, null);
-			Main.setErr(System.err);
-			Main.setIn(System.in);
-			Main.setOut(System.out);
-			Main.processSource(context, cmd.getArgs()[0]);
+
+			context.evaluateReader(g, new FileReader(cmd.getArgs()[0]), cmd.getArgs()[0], 1, null);
 		}
 	}
 }

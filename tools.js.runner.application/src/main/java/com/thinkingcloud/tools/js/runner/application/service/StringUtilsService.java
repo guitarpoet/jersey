@@ -2,10 +2,12 @@ package com.thinkingcloud.tools.js.runner.application.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
@@ -19,6 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.tidy.Configuration;
 import org.w3c.tidy.Tidy;
+
+import au.com.bytecode.opencsv.CSVReader;
+
+import com.thinkingcloud.tools.js.runner.application.utils.CSVEnumerator;
 
 @Service
 public class StringUtilsService {
@@ -110,6 +116,57 @@ public class StringUtilsService {
 			sb.append("/");
 		sb.append(url);
 		return sb.toString();
+	}
+
+	public CSVEnumerator enumCSV(String file) throws IOException {
+		FileReader reader = new FileReader(file);
+		return new CSVEnumerator(reader);
+	}
+
+	public String toString(Object[] arr) {
+		return Arrays.toString(arr);
+	}
+
+	public String[][] csv(String file) throws IOException {
+		FileReader reader = new FileReader(file);
+		try {
+			return new CSVReader(new FileReader(file)).readAll().toArray(new String[][] {});
+		} finally {
+			reader.close();
+		}
+	}
+
+	public String numberfy(String value) {
+		if (value.trim().equals(StringUtils.EMPTY))
+			return "0";
+		int first = -1;
+		int last = value.length();
+		for (int j = 0; j < value.length(); j++) {
+			switch (value.charAt(j)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case '.':
+				if (first == -1)
+					first = j;
+				break;
+			default:
+				if (first != -1) {
+					last = j;
+					return value.substring(first, last);
+				}
+			}
+		}
+		if (first == -1)
+			return "0";
+		return value.substring(first, last);
 	}
 
 	public Document parse(String html) throws UnsupportedEncodingException {

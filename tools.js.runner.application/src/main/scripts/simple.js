@@ -17,3 +17,5 @@ console.log(utils.config('hello'));
 var a = utils.download("http://taobao.com");
 a = sutils.zip(a);
 println(a.length() / sutils.unzip(a).length());
+
+println(sutils.numberfy("123.1元"));

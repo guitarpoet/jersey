@@ -83,6 +83,10 @@ public class SolrService {
 		return doc;
 	}
 
+	public void remove(String id) throws SolrServerException, IOException {
+		solr.deleteById(id);
+	}
+
 	public void add(Map<String, Object> doc) throws SolrServerException, IOException {
 		add(createDoc(doc));
 	}
