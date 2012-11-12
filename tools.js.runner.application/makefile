@@ -22,3 +22,8 @@ scp_task: rebuild projects.tmp/task.js projects.tmp/task.properties
 	scp projects.tmp/task.properties jubuntu.local:/home/jack/Projects/tools.js.runner/tools.js.runner.application/projects.tmp
 task: scp_task
 	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && ./run -c projects.tmp/task.properties projects.tmp/task.js"
+coffee: ./src/main/resources/scripts/models/product.coffee
+	cp -f ./src/main/resources/scripts/models/product.coffee target/classes/scripts/models/
+	find . -name "*.coffee" -exec coffee -b -c {} \;
+get_cup: coffee
+	./run projects.tmp/fetch_cup.js
