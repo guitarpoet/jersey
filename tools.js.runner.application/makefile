@@ -27,3 +27,9 @@ coffee: ./src/main/resources/scripts/models/product.coffee
 	find . -name "*.coffee" -exec coffee -b -c {} \;
 get_cup: coffee
 	./run projects.tmp/fetch_cup.js
+
+projects.tmp/fetch_cas.js: coffee
+	
+run_cup: rebuild projects.tmp/fetch_cas.js
+	scp projects.tmp/fetch_cup.js jubuntu.local:/home/jack/Projects/tools.js.runner/tools.js.runner.application/projects.tmp
+	ssh jubuntu.local "cd /home/jack/Projects/tools.js.runner/tools.js.runner.application && ./run projects.tmp/fetch_cup.js" | tee /tmp/console.log
