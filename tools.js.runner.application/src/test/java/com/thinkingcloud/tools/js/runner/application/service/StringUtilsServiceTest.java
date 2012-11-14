@@ -1,5 +1,6 @@
 package com.thinkingcloud.tools.js.runner.application.service;
 
+import org.apache.oro.text.regex.MatchResult;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,5 +24,14 @@ public class StringUtilsServiceTest {
 		System.out.println(service.unzip(answer));
 		assertThat(sample, is(service.unzip(answer)));
 
+	}
+
+	@Test
+	public void testMatch() throws Exception {
+		String url = "http://www.ba17.com/AAS/Product322.aspx";
+		String pattern = "http://www.ba17.com/[^/]*/Product(\\d*).aspx";
+		MatchResult match = service.match(pattern, url);
+		assertThat(match, notNullValue());
+		assertThat(match.group(1), is(equalTo("322")));
 	}
 }

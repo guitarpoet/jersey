@@ -15,8 +15,16 @@ import java.util.zip.InflaterInputStream;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.HttpClient;
+import org.apache.oro.text.regex.MalformedPatternException;
+import org.apache.oro.text.regex.MatchResult;
+import org.apache.oro.text.regex.Perl5Compiler;
+import org.apache.oro.text.regex.Perl5Matcher;
+import org.apache.oro.text.regex.Perl5Pattern;
 import org.dom4j.Document;
 import org.dom4j.io.DOMReader;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.tools.shell.Global;
+import org.mozilla.javascript.tools.shell.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.tidy.Configuration;
@@ -123,6 +131,16 @@ public class StringUtilsService {
 		return new CSVEnumerator(reader);
 	}
 
+	public Object eval(String js) {
+		Context context = Context.getCurrentContext();
+		Global g = Main.getGlobal();
+		return context.evaluateString(g, js, "code", 1, null);
+	}
+
+	public Object json(String data) {
+		return eval("(" + data + ")");
+	}
+
 	public String toString(Object[] arr) {
 		return Arrays.toString(arr);
 	}
@@ -134,6 +152,16 @@ public class StringUtilsService {
 		} finally {
 			reader.close();
 		}
+	}
+
+	public MatchResult match(String pattern, String str) throws MalformedPatternException {
+		Perl5Compiler compiler = new Perl5Compiler();
+		Perl5Pattern p = (Perl5Pattern) compiler.compile(pattern);
+		Perl5Matcher matcher = new Perl5Matcher();
+		if (matcher.matches(str, p)) {
+			return matcher.getMatch();
+		}
+		return null;
 	}
 
 	public String numberfy(String value) {

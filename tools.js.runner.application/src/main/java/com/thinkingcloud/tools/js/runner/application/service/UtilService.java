@@ -197,7 +197,8 @@ public class UtilService {
 			}
 			response = client.execute(get);
 			if (response.getEntity().getContentType() == null
-			        || !response.getEntity().getContentType().getValue().contains("text/html")) {
+			        || (!response.getEntity().getContentType().getValue().contains("text/html") && !response
+			                .getEntity().getContentType().getValue().contains("json"))) {
 				return null;
 			}
 			if (encoding == null) {

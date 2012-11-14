@@ -22,6 +22,8 @@ console = {
 	}
 }
 
+puts = println
+
 require = function(name) {
 	utils.require.apply(utils, arguments);
 }
