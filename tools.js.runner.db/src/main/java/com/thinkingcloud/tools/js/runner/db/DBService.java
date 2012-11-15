@@ -1,11 +1,9 @@
-package com.thinkingcloud.tools.js.runner.application.service;
+package com.thinkingcloud.tools.js.runner.db;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -32,22 +30,6 @@ import org.springframework.stereotype.Service;
 public class DBService {
 	@Autowired
 	private JdbcTemplate jdbc;
-
-	/**
-	 * @param dataSource
-	 * @see org.springframework.jdbc.support.JdbcAccessor#setDataSource(javax.sql.DataSource)
-	 */
-	public void setDataSource(DataSource dataSource) {
-		jdbc.setDataSource(dataSource);
-	}
-
-	/**
-	 * @return
-	 * @see org.springframework.jdbc.support.JdbcAccessor#getDataSource()
-	 */
-	public DataSource getDataSource() {
-		return jdbc.getDataSource();
-	}
 
 	/**
 	 * @param dbName

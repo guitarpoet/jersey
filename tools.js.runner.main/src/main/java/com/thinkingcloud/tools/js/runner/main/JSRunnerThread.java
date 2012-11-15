@@ -64,7 +64,6 @@ public class JSRunnerThread {
 			Main.setErr(System.err);
 			Main.setOut(System.out);
 			Main.setIn(System.in);
-			global.put("context", global, context);
 			Main.main(cmd.getArgs());
 			if (context.isRunning())
 				context.close();

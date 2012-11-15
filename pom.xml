@@ -238,5 +238,6 @@
 	<modules>
 		<module>tools.js.runner.application</module>
 		<module>tools.js.runner.main</module>
+    <module>tools.js.runner.db</module>
   </modules>
 </project>
