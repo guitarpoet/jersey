@@ -29,8 +29,8 @@ import org.w3c.tidy.Tidy;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-@Service
-public class StringUtilsService {
+@Service("sutils")
+public class StringService {
 
 	public boolean isValidUrl(String url) {
 		try {

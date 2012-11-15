@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.service.StringUtilsService;
-
 @Service
 public class NewGlobal extends Global {
 
@@ -23,16 +21,16 @@ public class NewGlobal extends Global {
 	@Autowired
 	private ApplicationContext context;
 
-	@Autowired
-	private StringUtilsService sutils;
-
 	private static Logger logger = LoggerFactory.getLogger("com.thinkingcloud.tools.coffee.runner");
 
 	@PostConstruct
 	public void init() {
 		defineProperty("logger", logger, ScriptableObject.DONTENUM);
-		defineProperty("sutils", sutils, ScriptableObject.DONTENUM);
 		for (Map.Entry<String, BaseFunction> e : context.getBeansOfType(BaseFunction.class).entrySet()) {
+			defineProperty(e.getKey(), e.getValue(), ScriptableObject.DONTENUM);
+		}
+
+		for (Map.Entry<String, Object> e : context.getBeansWithAnnotation(Service.class).entrySet()) {
 			defineProperty(e.getKey(), e.getValue(), ScriptableObject.DONTENUM);
 		}
 	}
