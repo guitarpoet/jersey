@@ -9,7 +9,7 @@ do
 done
 
 # 2. Set the main
-main=com.thinkingcloud.tools.coffee.runner.CoffeeRunnerApplication
+main=com.thinkingcloud.tools.js.runner.main.JSRunnerApplication
 
 # 3. Run it
 java $DEBUG -cp "$classpath" -Dfile.encoding=UTF8 $main $*

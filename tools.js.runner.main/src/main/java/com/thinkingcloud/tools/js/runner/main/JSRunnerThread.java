@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.coffee.runner;
+package com.thinkingcloud.tools.js.runner.main;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,9 +14,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CoffeeRunnerThread {
+public class JSRunnerThread {
 
-	private static Logger logger = LoggerFactory.getLogger(CoffeeRunnerThread.class);
+	private static Logger logger = LoggerFactory.getLogger(JSRunnerThread.class);
 
 	@Autowired
 	private ConfigurableApplicationContext context;

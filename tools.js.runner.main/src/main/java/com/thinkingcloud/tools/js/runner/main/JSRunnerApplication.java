@@ -1,12 +1,12 @@
-package com.thinkingcloud.tools.coffee.runner;
+package com.thinkingcloud.tools.js.runner.main;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class CoffeeRunnerApplication {
+public class JSRunnerApplication {
 
 	public static void main(String[] args) throws InterruptedException {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("application_context.xml");
-		CoffeeRunnerThread thread = context.getBean(CoffeeRunnerThread.class);
+		JSRunnerThread thread = context.getBean(JSRunnerThread.class);
 		thread.setArgs(args);
 		thread.run();
 	}

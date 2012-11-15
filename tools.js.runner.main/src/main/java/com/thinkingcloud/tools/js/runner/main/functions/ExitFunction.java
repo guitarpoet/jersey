@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.coffee.runner.functions;
+package com.thinkingcloud.tools.js.runner.main.functions;
 
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;

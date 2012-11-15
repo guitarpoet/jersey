@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.coffee.runner.functions;
+package com.thinkingcloud.tools.js.runner.main.functions;
 
 import java.util.Arrays;
 
@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.coffee.runner.service.Job;
-import com.thinkingcloud.tools.coffee.runner.service.JobManger;
+import com.thinkingcloud.tools.js.runner.main.service.Job;
+import com.thinkingcloud.tools.js.runner.main.service.JobManger;
 
 @Service("job")
 public class JobFunction extends BaseFunction {

@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.coffee.runner;
+package com.thinkingcloud.tools.js.runner.main;
 
 import java.util.Map;
 
