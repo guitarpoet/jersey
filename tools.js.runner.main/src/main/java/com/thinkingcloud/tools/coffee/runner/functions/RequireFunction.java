@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
@@ -13,11 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-@Service
-public class RequireFunction extends SimpleFunction {
-	public RequireFunction() {
-		super("require");
-	}
+@Service("require")
+public class RequireFunction extends BaseFunction {
 
 	private static final long serialVersionUID = -7908751368918579064L;
 

@@ -2,6 +2,7 @@ package com.thinkingcloud.tools.coffee.runner.functions;
 
 import java.util.Arrays;
 
+import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
@@ -11,12 +12,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-@Service
-public class AppContextFunction extends SimpleFunction {
-
-	public AppContextFunction() {
-		super("appContext");
-	}
+@Service("appContext")
+public class AppContextFunction extends BaseFunction {
 
 	private static final long serialVersionUID = 7576374988025300959L;
 

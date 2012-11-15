@@ -66,6 +66,8 @@ public class CoffeeRunnerThread {
 			Main.setIn(System.in);
 			global.put("context", global, context);
 			Main.main(cmd.getArgs());
+			if (context.isRunning())
+				context.close();
 		} catch (Throwable t) {
 			logger.error(t.getMessage(), t);
 		}

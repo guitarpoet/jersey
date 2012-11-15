@@ -13,11 +13,8 @@ import org.springframework.stereotype.Service;
 import com.thinkingcloud.tools.coffee.runner.service.Job;
 import com.thinkingcloud.tools.coffee.runner.service.JobManger;
 
-@Service
-public class JobFunction extends SimpleFunction {
-	public JobFunction() {
-		super("job");
-	}
+@Service("job")
+public class JobFunction extends BaseFunction {
 
 	private static final long serialVersionUID = -7559259376215033767L;
 

@@ -9,6 +9,5 @@ public class CoffeeRunnerApplication {
 		CoffeeRunnerThread thread = context.getBean(CoffeeRunnerThread.class);
 		thread.setArgs(args);
 		thread.run();
-		context.close();
 	}
 }
