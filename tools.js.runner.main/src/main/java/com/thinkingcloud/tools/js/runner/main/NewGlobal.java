@@ -21,7 +21,7 @@ public class NewGlobal extends Global {
 	@Autowired
 	private ApplicationContext context;
 
-	private static Logger logger = LoggerFactory.getLogger("com.thinkingcloud.tools.coffee.runner");
+	public static final Logger logger = LoggerFactory.getLogger("com.thinkingcloud.tools.coffee.runner");
 
 	@PostConstruct
 	public void init() {

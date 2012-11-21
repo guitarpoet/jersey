@@ -6,6 +6,7 @@ import java.io.FileReader;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.shell.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JSRunnerThread {
 
-	private static Logger logger = LoggerFactory.getLogger(JSRunnerThread.class);
+	private static final Logger logger = LoggerFactory.getLogger(JSRunnerThread.class);
 
 	@Autowired
 	private ConfigurableApplicationContext context;
@@ -60,6 +61,8 @@ public class JSRunnerThread {
 			} else {
 				logger.warn("The configuration file {} is not existed.", f);
 			}
+			Context c = Context.enter();
+			c.setOptimizationLevel(-1);
 			Main.global = global;
 			Main.setErr(System.err);
 			Main.setOut(System.out);
