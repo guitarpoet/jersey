@@ -27,6 +27,10 @@ public class HttpService {
 
 	private Logger logger = LoggerFactory.getLogger(HttpService.class);
 
+	public Object posta;
+
+	public Object geta;
+
 	@Autowired
 	private HttpClient client;
 
