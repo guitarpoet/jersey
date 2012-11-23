@@ -41,6 +41,10 @@ public class HttpService {
 		return headers;
 	}
 
+	public String post(String url, Map<String, Object> datas) throws ClientProtocolException, IOException {
+		return post(url, null, datas);
+	}
+
 	public String post(String url, Map<String, String> headers, Map<String, Object> datas)
 	        throws ClientProtocolException, IOException {
 		HttpPost post = new HttpPost(url);

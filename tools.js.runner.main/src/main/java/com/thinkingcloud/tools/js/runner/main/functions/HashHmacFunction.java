@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.codec.binary.Hex;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -20,6 +19,19 @@ public class HashHmacFunction extends BaseFunction {
 
 	static {
 		algs.put("sha1", "HmacSHA1");
+		algs.put("md5", "HmacMD5");
+	}
+
+	private static String byte2hex(byte[] bytes) {
+		StringBuilder sign = new StringBuilder();
+		for (int i = 0; i < bytes.length; i++) {
+			String hex = Integer.toHexString(bytes[i] & 0xFF);
+			if (hex.length() == 1) {
+				sign.append("0");
+			}
+			sign.append(hex.toUpperCase());
+		}
+		return sign.toString();
 	}
 
 	@Override
@@ -37,13 +49,7 @@ public class HashHmacFunction extends BaseFunction {
 			mac.init(signingKey);
 
 			// Compute the hmac on input data bytes
-			byte[] rawHmac = mac.doFinal(value.getBytes());
-
-			// Convert raw bytes to Hex
-			byte[] hexBytes = new Hex().encode(rawHmac);
-
-			// Covert array of Hex bytes to a String
-			return new String(hexBytes, "UTF-8");
+			return byte2hex(mac.doFinal(value.getBytes()));
 		} catch (Throwable t) {
 			return null;
 		}

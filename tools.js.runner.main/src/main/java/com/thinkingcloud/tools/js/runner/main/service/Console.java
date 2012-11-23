@@ -1,10 +1,9 @@
 package com.thinkingcloud.tools.js.runner.main.service;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -50,11 +49,20 @@ public class Console {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void dir(Object o) {
+	public String inspect(Object o, int indentLevel) {
 		StringBuilder sb = new StringBuilder();
 		if (o instanceof List) {
-			sb.append(Arrays.toString(((List) o).toArray()));
-		} else if (o instanceof Scriptable) {
+			sb.append("[\n");
+			boolean first = true;
+			for (Object item : (List) o) {
+				if (first)
+					first = false;
+				else
+					sb.append(",");
+				sb.append(inspect(item, 0));
+			}
+			sb.append("]\n");
+		} else if (o instanceof Scriptable && !(o instanceof NativeJavaObject)) {
 			sb.append("{\n");
 			Scriptable script = (Scriptable) o;
 			boolean first = true;
@@ -64,17 +72,31 @@ public class Console {
 				} else {
 					sb.append(",\n");
 				}
-				sb.append("\t").append(id).append(":");
+				for (int i = 0; i <= indentLevel; i++)
+					sb.append("\t");
+
+				sb.append(id).append(":");
 				if (id instanceof Integer) {
 					sb.append(script.get((Integer) id, script));
 				} else {
-					sb.append(script.get(String.valueOf(id), script));
+					sb.append(inspect(script.get(String.valueOf(id), script), indentLevel + 1));
 				}
 			}
-			sb.append("\n}");
-		} else {
-			sb.append(ToStringBuilder.reflectionToString(o));
+			sb.append("\n");
+			for (int i = 0; i < indentLevel; i++)
+				sb.append("\t");
+			sb.append("}");
+		} else if (o instanceof String) {
+			sb.append("\"").append(o).append("\"");
+		} else if (o instanceof NativeJavaObject && ((NativeJavaObject) o).unwrap() instanceof String) {
+			sb.append("\"").append(((NativeJavaObject) o).unwrap()).append("\"");
+		} else if (o instanceof NativeJavaObject) {
+			sb.append(((NativeJavaObject) o).unwrap());
 		}
-		print(sb);
+		return sb.toString();
+	}
+
+	public void dir(Object o) {
+		print(inspect(o, 0));
 	}
 }
