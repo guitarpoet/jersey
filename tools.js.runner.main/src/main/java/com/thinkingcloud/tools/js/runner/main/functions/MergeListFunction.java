@@ -2,14 +2,17 @@ package com.thinkingcloud.tools.js.runner.main.functions;
 
 import java.util.ArrayList;
 
-import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+
 @Service("flat")
 @SuppressWarnings("rawtypes")
-public class MergeListFunction extends BaseFunction {
+@Function(parameters = { @Parameter(name = "obj", type = "list or object", doc = "The list or object need to flat to 1 list.", multi = true) }, doc = "Flat all the list and args into 1 list.", returns = "Merged list")
+public class MergeListFunction extends SimpleFunction {
 
 	private static final long serialVersionUID = 818359013057155034L;
 

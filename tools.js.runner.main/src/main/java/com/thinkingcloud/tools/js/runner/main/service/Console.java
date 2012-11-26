@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.main.NewGlobal;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
 
 @Service("console")
-public class Console {
+@Plugin(doc = "The console object")
+public class Console extends BaseService {
 
 	private static final Logger logger = NewGlobal.logger;
 

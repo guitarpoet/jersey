@@ -27,7 +27,7 @@ public class NewGlobal extends Global {
 	public void init() {
 		defineProperty("logger", logger, ScriptableObject.DONTENUM);
 		for (Map.Entry<String, BaseFunction> e : context.getBeansOfType(BaseFunction.class).entrySet()) {
-			defineProperty(e.getKey(), e.getValue(), ScriptableObject.DONTENUM);
+			put(e.getKey(), e.getValue(), this);
 		}
 
 		for (Map.Entry<String, Object> e : context.getBeansWithAnnotation(Service.class).entrySet()) {

@@ -27,11 +27,17 @@ import org.springframework.stereotype.Service;
 import org.w3c.tidy.Configuration;
 import org.w3c.tidy.Tidy;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 @Service("sutils")
-public class StringService {
+@Plugin(doc = "The string utils service.")
+public class StringService extends BaseService {
 
+	@Function(parameters = @Parameter(name = "url", doc = "The url to verify.", type = "string"), doc = "Verify the url, test if it is a valid url.")
 	public boolean isValidUrl(String url) {
 		try {
 			new URL(url);
@@ -41,30 +47,39 @@ public class StringService {
 		return true;
 	}
 
+	@Function(parameters = { @Parameter(name = "container", type = "string", doc = "The container string to find."),
+	        @Parameter(name = "str", type = "string", doc = "The string to find.") }, doc = "Test if the string contains other string.")
 	public boolean contains(String container, String str) {
 		return container.contains(str);
 	}
 
+	@Function(parameters = { @Parameter(name = "obj", doc = "The object to test", type = "string") }, doc = "Test if the object is a number.")
 	public boolean isNumber(Object o) {
 		return StringUtils.isNumeric(String.valueOf(o));
 	}
 
+	@Function(parameters = @Parameter(name = "str", type = "string", doc = "The string to test"), doc = "Test if the string is blank.")
 	public boolean isBlank(String str) {
 		return StringUtils.isBlank(str);
 	}
 
+	@Function(parameters = { @Parameter(name = "str", type = "string", doc = "The string to split."),
+	        @Parameter(name = "sep", type = "string", doc = "The seperator.") }, doc = "Split the string using the seperator.")
 	public String[] split(String str, String sep) {
 		return str.split(sep);
 	}
 
+	@Function(parameters = @Parameter(name = "str", type = "string", doc = "The string to test."), doc = "Test if the string is an empty string.")
 	public boolean isEmpty(String str) {
 		return StringUtils.isEmpty(str);
 	}
 
+	@Function(parameters = @Parameter(name = "str", type = "string", doc = "The string to capitalize"), doc = "Capitalize the string.")
 	public String capitalize(String str) {
 		return StringUtils.capitalize(str);
 	}
 
+	@Function(parameters = @Parameter(name = "xml", type = "string", doc = "The xml string to tidy."), doc = "Tidy the xml using jtidy.")
 	public String tidyXml(String xml) throws UnsupportedEncodingException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);
@@ -77,6 +92,7 @@ public class StringService {
 		return new String(output.toByteArray(), "utf-8");
 	}
 
+	@Function(parameters = @Parameter(name = "data", type = "string", doc = "The string to zip."), doc = "Zip the string using the zlib and encode the zip into base 64 encoded string.")
 	public String zip(String data) throws IOException {
 		ByteArrayOutputStream array = new ByteArrayOutputStream();
 		DeflaterOutputStream out = (new DeflaterOutputStream(array));
@@ -91,6 +107,7 @@ public class StringService {
 		return Base64.encodeBase64String(array.toByteArray());
 	}
 
+	@Function(parameters = @Parameter(name = "zip", type = "string", doc = "The string to unzip"), doc = "Unzip the string.")
 	public String unzip(String zip) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		InflaterInputStream reader = new InflaterInputStream(new ByteArrayInputStream(Base64.decodeBase64(zip)));
@@ -115,20 +132,24 @@ public class StringService {
 		return sb.toString();
 	}
 
+	@Function(parameters = @Parameter(name = "script", type = "string", doc = "The script to evaluate."), doc = "Evaluate the script.")
 	public Object eval(String js) {
 		Context context = Context.getCurrentContext();
 		Global g = Main.getGlobal();
 		return context.evaluateString(g, js, "code", 1, null);
 	}
 
+	@Function(parameters = @Parameter(name = "data", type = "string", doc = "The json data to parse."), doc = "Parse the string to json data.")
 	public Object json(String data) {
 		return eval("(" + data + ")");
 	}
 
+	@Function(parameters = @Parameter(name = "list", type = "list", doc = "The array to convert to string"), doc = "Convert the array to string.")
 	public String toString(Object[] arr) {
 		return Arrays.toString(arr);
 	}
 
+	@Function(parameters = @Parameter(name = "file", type = "string", doc = "The csv file to open."), doc = "Read the csv file into datas.")
 	public String[][] csv(String file) throws IOException {
 		FileReader reader = new FileReader(file);
 		try {

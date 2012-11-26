@@ -6,13 +6,19 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+
 @Service("hash_hmac")
-public class HashHmacFunction extends BaseFunction {
+@Function(parameters = {
+        @Parameter(name = "alg", type = "string", doc = "The algorithm for this hash, support md5 and sha1 for this version."),
+        @Parameter(name = "value", type = "string", doc = "The string that need encrypt."),
+        @Parameter(name = "key", type = "string", doc = "The key for encrypt the value.") }, doc = "The same function as php", returns = "The hash value.")
+public class HashHmacFunction extends SimpleFunction {
 	private static final long serialVersionUID = -3760752443304460927L;
 
 	private static final Map<String, String> algs = new HashMap<String, String>();

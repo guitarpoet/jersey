@@ -3,15 +3,18 @@ package com.thinkingcloud.tools.js.runner.main.functions;
 import java.security.MessageDigest;
 
 import org.apache.commons.codec.binary.Hex;
-import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+
 @Service("md5")
-public class MD5Function extends BaseFunction {
+@Function(parameters = { @Parameter(name = "str", type = "string", doc = "The string for md5 hash.") }, doc = "Generate the md5 hash for the input string", returns = "The md5 string.")
+public class MD5Function extends SimpleFunction {
 
 	private static final long serialVersionUID = -5815230307564450858L;
 

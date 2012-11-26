@@ -1,12 +1,15 @@
 package com.thinkingcloud.tools.js.runner.main.functions;
 
-import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+
 @Service("config")
-public class ConfigFunction extends BaseFunction {
+@Function(parameters = { @Parameter(name = "config", doc = "The name of the configuration", type = "string") }, doc = "Read the configuration from system.properties", returns = "The configuration.")
+public class ConfigFunction extends SimpleFunction {
 
 	private static final long serialVersionUID = 3979797223325868923L;
 

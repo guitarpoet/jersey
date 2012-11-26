@@ -1,6 +1,5 @@
 package com.thinkingcloud.tools.js.runner.main.functions;
 
-import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
@@ -9,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+
 @Service("exit")
-public class ExitFunction extends BaseFunction {
+@Function(doc = "Exit the shell.")
+public class ExitFunction extends SimpleFunction {
 
 	private static final long serialVersionUID = 3033796323919573312L;
 

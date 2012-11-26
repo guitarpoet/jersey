@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
@@ -15,8 +14,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+
 @Service("appContext")
-public class AppContextFunction extends BaseFunction {
+@Function(parameters = { @Parameter(name = "file", multi = true, type = "string", doc = "The files to load application context.") }, doc = "The function to load application context to javascript console", returns = "The application context.")
+public class AppContextFunction extends SimpleFunction {
 
 	private static final long serialVersionUID = 7576374988025300959L;
 

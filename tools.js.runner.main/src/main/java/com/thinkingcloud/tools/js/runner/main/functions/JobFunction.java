@@ -12,9 +12,16 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.main.service.Job;
 import com.thinkingcloud.tools.js.runner.main.service.JobManger;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
 
 @Service("job")
-public class JobFunction extends BaseFunction {
+@Function(parameters = {
+        @Parameter(name = "name", type = "string", doc = "The background job's name"),
+        @Parameter(name = "function", type = "function", doc = "The function that need to run in background."),
+        @Parameter(name = "callback", optional = true, type = "function", doc = "The callback function if the function in job has returned."),
+        @Parameter(name = "args", optional = true, multi = true, doc = "The args that need to send to the job function.") }, doc = "Create a background job.", returns = "The future object for this job.")
+public class JobFunction extends SimpleFunction {
 
 	private static final long serialVersionUID = -7559259376215033767L;
 
