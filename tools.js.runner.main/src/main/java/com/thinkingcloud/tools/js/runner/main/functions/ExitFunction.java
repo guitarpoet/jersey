@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
 
 @Service("exit")
 @Function(doc = "Exit the shell.")

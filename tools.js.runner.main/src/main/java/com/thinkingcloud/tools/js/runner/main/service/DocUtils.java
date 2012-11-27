@@ -12,15 +12,16 @@ import org.mozilla.javascript.Scriptable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 @Service("doc")
+@Module(doc = "The document utils.")
 public class DocUtils {
 
 	@Autowired
@@ -34,6 +35,7 @@ public class DocUtils {
 		return out.toString();
 	}
 
+	@Function(parameters = @Parameter(name = "object", doc = "scriptable"), doc = "Generate the function's documentation.")
 	public String functionDoc(Scriptable scriptable) throws IOException, TemplateException {
 		Map<String, Object> data = new HashMap<String, Object>();
 		for (Object key : scriptable.getIds()) {
@@ -42,9 +44,9 @@ public class DocUtils {
 		return genFunctionDoc(data);
 	}
 
-	public Map<String, Object> generateServiceData(Class<?> clazz) {
+	public Map<String, Object> generateModuleData(Class<?> clazz) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Plugin p = clazz.getAnnotation(Plugin.class);
+		Module p = clazz.getAnnotation(Module.class);
 		if (p != null) {
 			Service s = clazz.getAnnotation(Service.class);
 			map.put("serviceName", s.value());

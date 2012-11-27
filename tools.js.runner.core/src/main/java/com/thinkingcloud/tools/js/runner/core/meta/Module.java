@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.js.runner.main.utils.meta;
+package com.thinkingcloud.tools.js.runner.core.meta;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Plugin {
+public @interface Module {
 	String doc();
 }

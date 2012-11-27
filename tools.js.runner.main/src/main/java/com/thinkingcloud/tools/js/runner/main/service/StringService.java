@@ -28,13 +28,13 @@ import org.w3c.tidy.Tidy;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 import com.thinkingcloud.tools.js.runner.main.utils.Slf4jLoggingPrintWriter;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
 
 @Service("sutils")
-@Plugin(doc = "The string utils service.")
+@Module(doc = "The string utils service.")
 public class StringService extends BaseService {
 
 	@Function(parameters = @Parameter(name = "url", doc = "The url to verify.", type = "string"), doc = "Verify the url, test if it is a valid url.")

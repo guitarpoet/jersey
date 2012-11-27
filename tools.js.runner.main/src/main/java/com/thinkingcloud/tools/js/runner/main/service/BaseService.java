@@ -11,6 +11,6 @@ public class BaseService {
 	private DocUtils doc;
 
 	public String doc() throws IOException, TemplateException {
-		return doc.serviceDoc(doc.generateServiceData(getClass()));
+		return doc.serviceDoc(doc.generateModuleData(getClass()));
 	}
 }

@@ -10,12 +10,12 @@ import org.apache.ivy.core.retrieve.RetrieveOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 
 @Service("jpm")
-@Plugin(doc = "The package management service.")
+@Module(doc = "The package management service.")
 public class PackageManagerService extends BaseService {
 
 	@Autowired

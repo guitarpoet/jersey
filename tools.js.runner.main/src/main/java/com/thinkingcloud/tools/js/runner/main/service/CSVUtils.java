@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.main.utils.CSVBuffer;
 import com.thinkingcloud.tools.js.runner.main.utils.CSVIterator;
 
 @Service("csv")
+@Module(doc = "The csv utils service.")
 public class CSVUtils {
 	private Logger logger = LoggerFactory.getLogger(CSVUtils.class);
 

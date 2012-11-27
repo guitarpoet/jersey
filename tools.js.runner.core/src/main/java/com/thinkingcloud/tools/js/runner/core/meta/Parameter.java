@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.js.runner.main.utils.meta;
+package com.thinkingcloud.tools.js.runner.core.meta;
 
 public @interface Parameter {
 	String name();

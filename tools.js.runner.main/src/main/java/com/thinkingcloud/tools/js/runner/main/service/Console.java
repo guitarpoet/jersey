@@ -8,11 +8,11 @@ import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.main.NewGlobal;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
 
 @Service("console")
-@Plugin(doc = "The console object")
+@Module(doc = "The console object")
 public class Console extends BaseService {
 
 	private static final Logger logger = NewGlobal.logger;

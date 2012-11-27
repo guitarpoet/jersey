@@ -7,8 +7,8 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 
 @Service("smap")
 @Function(parameters = { @Parameter(optional = true, name = "origin", type = "map", doc = "The map to make this sorted map.") }, doc = "Create a new tree sorted map.", returns = "A tree map.")

@@ -6,8 +6,8 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 
 @Service("list")
 @Function(parameters = { @Parameter(multi = true, name = "obj", type = "object", optional = true, doc = "The objects to insert into the arraylist.") }, doc = "Create an array list using the args.", returns = "An arraylist.")

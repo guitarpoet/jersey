@@ -14,8 +14,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
-import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 
 @Service("appContext")
 @Function(parameters = { @Parameter(name = "file", multi = true, type = "string", doc = "The files to load application context.") }, doc = "The function to load application context to javascript console", returns = "The application context.")

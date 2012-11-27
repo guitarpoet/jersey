@@ -1,0 +1,60 @@
+#! /bin/sh
+
+export JSCONSOLE_HOME="/Applications/jsconsole"
+
+tmp_file=/tmp/arg.tmp
+
+# 1. Making classpath
+classpath=`pwd`
+
+
+# Added the system libraries
+for file in `ls ${JSCONSOLE_HOME}/lib`
+do
+	classpath="$classpath:${JSCONSOLE_HOME}/lib/$file"
+done
+
+# Added the local libraries
+for file in `ls lib`
+do
+	classpath="$classpath:lib/$file"
+done
+
+# 2. Set the main
+main=com.thinkingcloud.tools.js.runner.main.JSRunnerApplication
+
+# 3. Compile the coffee script if need to
+for arg in $*
+do
+	if [[ -f "$arg" ]]
+	then
+		if [[ `expr $arg : .*coffee` != 0 ]]
+		then
+			file=`echo $arg | sed s/.coffee/.js/`
+			echo "Now compiling the file $arg to $file"
+			rm -f $file
+			coffee -b -c $arg
+			echo $file >> $tmp_file
+		else
+			echo $arg >> $tmp_file
+		fi
+	else
+		echo $arg >> $tmp_file
+	fi
+done
+
+if [[ -f $tmp_file ]]
+then
+	args=`cat $tmp_file | tr "\\n" " "`
+	rm -f $tmp_file
+else
+	args=''
+fi
+
+# 3. Run it
+if [[ -z ${JS_DEBUG} ]]
+then
+	java -cp "$classpath" -Dfile.encoding=UTF8 $main $args
+else
+	java $DEBUG -cp "$classpath" -Dfile.encoding=UTF8 $main $args
+fi
