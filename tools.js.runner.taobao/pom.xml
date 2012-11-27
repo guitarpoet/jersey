@@ -13,9 +13,9 @@
 	<name>tools.js.runner.taobao</name>
 	<dependencies>
 		<dependency>
-			<groupId>com.ganshane.specs</groupId>
-			<artifactId>taobao-sdk</artifactId>
-			<version>20120515</version>
+			<groupId>com.thinkingcloud</groupId>
+			<artifactId>tools.js.runner.http</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

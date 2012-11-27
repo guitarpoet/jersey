@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -27,11 +26,12 @@ import org.springframework.stereotype.Service;
 import org.w3c.tidy.Configuration;
 import org.w3c.tidy.Tidy;
 
+import au.com.bytecode.opencsv.CSVReader;
+
+import com.thinkingcloud.tools.js.runner.main.utils.Slf4jLoggingPrintWriter;
 import com.thinkingcloud.tools.js.runner.main.utils.meta.Function;
 import com.thinkingcloud.tools.js.runner.main.utils.meta.Parameter;
 import com.thinkingcloud.tools.js.runner.main.utils.meta.Plugin;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 @Service("sutils")
 @Plugin(doc = "The string utils service.")
@@ -80,12 +80,13 @@ public class StringService extends BaseService {
 	}
 
 	@Function(parameters = @Parameter(name = "xml", type = "string", doc = "The xml string to tidy."), doc = "Tidy the xml using jtidy.")
-	public String tidyXml(String xml) throws UnsupportedEncodingException {
+	public String tidyXml(String xml) throws IOException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);
 		tidy.setIndentContent(true);
 		tidy.setBreakBeforeBR(true);
 		tidy.setXmlTags(true);
+		tidy.setErrout(new Slf4jLoggingPrintWriter());
 		tidy.setWraplen(1024);
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		tidy.parse(new ByteArrayInputStream(xml.getBytes("utf-8")), output);
@@ -202,12 +203,13 @@ public class StringService extends BaseService {
 		return value.substring(first, last);
 	}
 
-	public Document parse(String html) throws UnsupportedEncodingException {
+	public Document parse(String html) throws IOException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);
 		tidy.setIndentContent(true);
 		tidy.setBreakBeforeBR(true);
 		tidy.setWraplen(1024);
+		tidy.setErrout(new Slf4jLoggingPrintWriter());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DOMReader reader = new DOMReader();
 		return reader.read(tidy.parseDOM(new ByteArrayInputStream(html.getBytes("utf-8")), out));
