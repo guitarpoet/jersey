@@ -80,7 +80,7 @@ public class StringService extends BaseService {
 		return StringUtils.capitalize(str);
 	}
 
-	@Function(parameters = @Parameter(name = "xml", type = "string", doc = "The xml string to tidy."), doc = "Tidy the xml using jtidy.")
+	@Function(parameters = @Parameter(name = "xml", type = "string", doc = "The xml string to tidy."), doc = "Tidy the xml using jtidy.", returns = "The tidyed xml")
 	public String tidyXml(String xml) throws IOException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);
@@ -91,6 +91,19 @@ public class StringService extends BaseService {
 		tidy.setWraplen(1024);
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		tidy.parse(new ByteArrayInputStream(xml.getBytes("utf-8")), output);
+		return new String(output.toByteArray(), "utf-8");
+	}
+
+	@Function(parameters = @Parameter(name = "html", type = "string", doc = "The html string to tidy."), doc = "Tidy the html using jtidy.", returns = "The tidyed html.")
+	public String tidyHtml(String html) throws IOException {
+		Tidy tidy = new Tidy();
+		tidy.setCharEncoding(Configuration.UTF8);
+		tidy.setIndentContent(true);
+		tidy.setBreakBeforeBR(true);
+		tidy.setErrout(new Slf4jLoggingPrintWriter());
+		tidy.setWraplen(1024);
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		tidy.parse(new ByteArrayInputStream(html.getBytes("utf-8")), output);
 		return new String(output.toByteArray(), "utf-8");
 	}
 
