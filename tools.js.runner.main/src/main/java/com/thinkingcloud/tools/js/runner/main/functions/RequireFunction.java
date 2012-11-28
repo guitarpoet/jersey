@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("require")
 @Function(parameters = { @Parameter(name = "location", doc = "The location to require the resource.", type = "string", multi = true) }, doc = "Require the library using the resouce location, support file: and classpath: protocol.", returns = "The plugin has required.")

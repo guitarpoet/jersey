@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("list")
 @Function(parameters = { @Parameter(multi = true, name = "obj", type = "object", optional = true, doc = "The objects to insert into the arraylist.") }, doc = "Create an array list using the args.", returns = "An arraylist.")

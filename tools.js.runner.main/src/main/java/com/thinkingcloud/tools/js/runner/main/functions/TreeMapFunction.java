@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("smap")
 @Function(parameters = { @Parameter(optional = true, name = "origin", type = "map", doc = "The map to make this sorted map.") }, doc = "Create a new tree sorted map.", returns = "A tree map.")

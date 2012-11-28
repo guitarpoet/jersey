@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("md5")
 @Function(parameters = { @Parameter(name = "str", type = "string", doc = "The string for md5 hash.") }, doc = "Generate the md5 hash for the input string", returns = "The md5 string.")

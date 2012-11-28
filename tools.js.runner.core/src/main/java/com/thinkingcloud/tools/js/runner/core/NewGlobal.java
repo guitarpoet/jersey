@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.js.runner.main;
+package com.thinkingcloud.tools.js.runner.core;
 
 import java.util.Map;
 
@@ -23,8 +23,7 @@ public class NewGlobal extends Global {
 
 	public static final Logger logger = LoggerFactory.getLogger("com.thinkingcloud.tools.coffee.runner");
 
-	@PostConstruct
-	public void init() {
+	public void init(ApplicationContext context) {
 		defineProperty("logger", logger, ScriptableObject.DONTENUM);
 		for (Map.Entry<String, BaseFunction> e : context.getBeansOfType(BaseFunction.class).entrySet()) {
 			put(e.getKey(), e.getValue(), this);
@@ -33,5 +32,10 @@ public class NewGlobal extends Global {
 		for (Map.Entry<String, Object> e : context.getBeansWithAnnotation(Service.class).entrySet()) {
 			defineProperty(e.getKey(), e.getValue(), ScriptableObject.DONTENUM);
 		}
+	}
+
+	@PostConstruct
+	public void init() {
+		init(context);
 	}
 }

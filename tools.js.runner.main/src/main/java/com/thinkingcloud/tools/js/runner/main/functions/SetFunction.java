@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("set")
 @Function(parameters = { @Parameter(type = "list", optional = true, name = "origin", doc = "The original collection for create set.") }, doc = "Create a new set.", returns = "The new set.")

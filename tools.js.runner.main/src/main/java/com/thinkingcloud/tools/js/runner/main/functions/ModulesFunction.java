@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Function(doc = "Prints all the modules that have loaded.")
 @Service("modules")
@@ -32,6 +33,7 @@ public class ModulesFunction extends SimpleFunction {
 				sb.append(key).append(":\t");
 				sb.append(m.doc());
 				sb.append("\n");
+			} else {
 			}
 		}
 		return sb;

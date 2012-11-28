@@ -23,8 +23,14 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
+
 @Service("solr")
-public class SolrService {
+@Module(doc = "The solr module.")
+public class SolrService extends BaseService {
 
 	@Autowired
 	private SolrServer solr;
@@ -63,10 +69,12 @@ public class SolrService {
 		return solr.query(q).getResults();
 	}
 
+	@Function(doc = "Query for the solr documents", parameters = @Parameter(name = "query", type = "string", doc = "The solr query"))
 	public SolrDocument[] queryForArray(String query) throws SolrServerException {
 		return query(query).toArray(new SolrDocument[0]);
 	}
 
+	@Function(doc = "Convert the solr doc to solr input doc.", parameters = @Parameter(name = "doc", type = "solr", doc = "The doc to convert."), returns = "The solr input document")
 	public SolrInputDocument convert(SolrDocument doc) {
 		return ClientUtils.toSolrInputDocument(doc);
 	}
@@ -83,10 +91,12 @@ public class SolrService {
 		return doc;
 	}
 
+	@Function(doc = "Remove the data from solr using the id", parameters = @Parameter(name = "id", type = "string", doc = "The data's id in solr."))
 	public void remove(String id) throws SolrServerException, IOException {
 		solr.deleteById(id);
 	}
 
+	@Function(doc = "Added the data into solr.", parameters = @Parameter(type = "object", doc = "The data to add to solr.", name = "doc"))
 	public void add(Map<String, Object> doc) throws SolrServerException, IOException {
 		add(createDoc(doc));
 	}
@@ -95,6 +105,7 @@ public class SolrService {
 		solr.add(doc);
 	}
 
+	@Function(doc = "Commit the solr data.")
 	public void commit() throws SolrServerException, IOException {
 		solr.commit();
 	}

@@ -31,6 +31,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
 import com.thinkingcloud.tools.js.runner.main.utils.Slf4jLoggingPrintWriter;
 
 @Service("sutils")

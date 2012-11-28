@@ -9,7 +9,8 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
-import com.thinkingcloud.tools.js.runner.main.NewGlobal;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
+import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 
 @Service("console")
 @Module(doc = "The console object")

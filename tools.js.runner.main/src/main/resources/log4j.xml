@@ -9,7 +9,6 @@
 			<param name="ConversionPattern" value="[%-5p]: %m%n" />
 		</layout>
 	</appender>
-
 	<appender name="rolling.log" class="org.apache.log4j.RollingFileAppender">
 		<param name="file" value="logs/detail.log" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -37,7 +36,7 @@
 	</logger>
 	<!-- Root Logger -->
 	<root>
-		<priority value="debug" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="rolling.log" />
 	</root>

@@ -7,6 +7,7 @@ import org.mozilla.javascript.Scriptable;
 import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("now")
 @Function(parameters = {}, doc = "Get the datetime of now.", returns = "Date of now.")

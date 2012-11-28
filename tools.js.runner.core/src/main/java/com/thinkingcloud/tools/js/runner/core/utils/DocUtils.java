@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.js.runner.main.service;
+package com.thinkingcloud.tools.js.runner.core.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;

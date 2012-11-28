@@ -21,8 +21,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
+
 @Service("http")
-public class HttpService {
+@Module(doc = "The http service module.")
+public class HttpService extends BaseService {
 	public final String safari = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2";
 
 	private Logger logger = LoggerFactory.getLogger(HttpService.class);
@@ -34,6 +40,7 @@ public class HttpService {
 	@Autowired
 	private HttpClient client;
 
+	@Function(doc = "The default http headers.")
 	public Map<String, String> defaultHeaders() {
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent", safari);
@@ -41,6 +48,10 @@ public class HttpService {
 		return headers;
 	}
 
+	@Function(doc = "Get response using http post.", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The post url"),
+	        @Parameter(name = "headers", optional = true, doc = "the headers for the requrest", type = "map"),
+	        @Parameter(name = "data", type = "map", optional = true, doc = "The post data") }, returns = "The result string.")
 	public String post(String url, Map<String, Object> datas) throws ClientProtocolException, IOException {
 		return post(url, null, datas);
 	}
@@ -74,6 +85,9 @@ public class HttpService {
 		}
 	}
 
+	@Function(doc = "Get response using http get.", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The get url"),
+	        @Parameter(name = "headers", optional = true, doc = "the headers for the requrest", type = "map") }, returns = "The result string.")
 	public String get(String url, Map<String, String> headers) throws HttpException, IOException {
 		logger.info("Ready to get {}", url);
 		HttpGet get = new HttpGet(url);

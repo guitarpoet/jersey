@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
 @Service("sleep")
 @Function(doc = "Sleep the main thread for given milliseconds.", parameters = { @Parameter(name = "miliseconds", type = "long", doc = "The miliseconds to let the thread to sleep.") })

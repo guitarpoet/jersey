@@ -1,8 +1,9 @@
-package com.thinkingcloud.tools.js.runner.main.service;
+package com.thinkingcloud.tools.js.runner.core.utils;
 
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import freemarker.template.TemplateException;
 
