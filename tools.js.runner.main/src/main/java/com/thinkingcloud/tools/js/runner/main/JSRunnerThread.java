@@ -1,5 +1,6 @@
 package com.thinkingcloud.tools.js.runner.main;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 
@@ -15,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.thinkingcloud.tools.js.runner.core.NewGlobal;
+import com.thinkingcloud.tools.js.runner.main.service.StringService;
 
 @Service
 public class JSRunnerThread {
@@ -23,6 +25,9 @@ public class JSRunnerThread {
 
 	@Autowired
 	private ConfigurableApplicationContext context;
+
+	@Autowired
+	private StringService sutils;
 
 	private String[] args;
 
@@ -49,6 +54,7 @@ public class JSRunnerThread {
 			GnuParser parser = new GnuParser();
 			Options opts = new Options();
 			opts.addOption("c", "config", true, "The configuration of this application.");
+			opts.addOption("s", "script", true, "The script to run");
 
 			CommandLine cmd = parser.parse(opts, args);
 
@@ -61,15 +67,23 @@ public class JSRunnerThread {
 			if (f.exists()) {
 				System.getProperties().load(new FileReader(f));
 			} else {
-				logger.warn("The configuration file {} is not existed.", f);
+				logger.info("The configuration file {} is not existed, using default ones.", f);
 			}
 			Context c = Context.enter();
+
 			c.setOptimizationLevel(-1);
 			Main.global = global;
 			Main.setErr(System.err);
 			Main.setOut(System.out);
 			Main.setIn(System.in);
-			Main.main(cmd.getArgs());
+			if (cmd.hasOption("s")) {
+				String source = cmd.getOptionValue("s");
+				if (!source.equals("-"))
+					Main.setIn(new ByteArrayInputStream(source.getBytes()));
+				Main.main(new String[0]);
+				return;
+			} else
+				Main.main(cmd.getArgs());
 			if (context.isRunning())
 				context.close();
 		} catch (Throwable t) {

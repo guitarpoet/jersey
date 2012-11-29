@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.MatchResult;
@@ -174,6 +177,9 @@ public class StringService extends BaseService {
 		}
 	}
 
+	@Function(doc = "Match the string using the pattern", returns = "The match result", parameters = {
+	        @Parameter(name = "pattern", doc = "The regex pattern", type = "string"),
+	        @Parameter(name = "str", type = "string", doc = "The string to be matched.") })
 	public MatchResult match(String pattern, String str) throws MalformedPatternException {
 		Perl5Compiler compiler = new Perl5Compiler();
 		Perl5Pattern p = (Perl5Pattern) compiler.compile(pattern);
@@ -184,7 +190,16 @@ public class StringService extends BaseService {
 		return null;
 	}
 
+	public String readToEnd(Reader reader) throws IOException {
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(reader, writer);
+		writer.flush();
+		reader.close();
+		return writer.toString();
+	}
+
 	public String numberfy(String value) {
+		value.replace(",", "");
 		if (value.trim().equals(StringUtils.EMPTY))
 			return "0";
 		int first = -1;
@@ -217,6 +232,7 @@ public class StringService extends BaseService {
 		return value.substring(first, last);
 	}
 
+	@Function(doc = "Parse the html to xml document", parameters = @Parameter(name = "xml", type = "string", doc = "The html string to parse"), returns = "The parsed dom4j document.")
 	public Document parse(String html) throws IOException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);

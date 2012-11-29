@@ -8,7 +8,9 @@ import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
 import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 
@@ -18,40 +20,63 @@ public class Console extends BaseService {
 
 	private static final Logger logger = NewGlobal.logger;
 
+	@Function(doc = "Log to stdout", parameters = @Parameter(name = "o", doc = "The object to log", type = "object"))
 	public void log(Object o) {
 		logger.info("{}", o);
 	}
 
+	@Function(doc = "Println using the object.", parameters = @Parameter(name = "o", doc = "The obejct to print.", type = "object"))
 	public void print(Object o) {
 		System.out.println(String.valueOf(o));
 	}
 
+	@Function(doc = "Log using the message format", parameters = {
+	        @Parameter(name = "format", type = "string", doc = "The string format"),
+	        @Parameter(name = "args", multi = true, type = "object", doc = "The args in the format") })
 	public void logf(String format, Object... args) {
 		MessageFormat f = new MessageFormat(format);
 		log(f.format(args));
 	}
 
+	@Function(doc = "Log info level log using the message format", parameters = {
+	        @Parameter(name = "format", type = "string", doc = "The string format"),
+	        @Parameter(name = "args", multi = true, type = "object", doc = "The args in the format") })
 	public void info(String message, Object... args) {
 		logger.info(message, args);
 	}
 
+	@Function(doc = "Log debug level log using the message format", parameters = {
+	        @Parameter(name = "format", type = "string", doc = "The string format"),
+	        @Parameter(name = "args", multi = true, type = "object", doc = "The args in the format") })
 	public void debug(String message, Object... args) {
 		logger.debug(message, args);
 	}
 
+	@Function(doc = "Log warn level log using the message format", parameters = {
+	        @Parameter(name = "format", type = "string", doc = "The string format"),
+	        @Parameter(name = "args", multi = true, type = "object", doc = "The args in the format") })
 	public void warn(String message, Object... args) {
 		logger.warn(message, args);
 	}
 
+	@Function(doc = "Log trace level log using the message format", parameters = {
+	        @Parameter(name = "format", type = "string", doc = "The string format"),
+	        @Parameter(name = "args", multi = true, type = "object", doc = "The args in the format") })
 	public void trace(String message, Object... args) {
 		logger.trace(message, args);
 	}
 
+	@Function(doc = "Log error level log using the message format", parameters = {
+	        @Parameter(name = "format", type = "string", doc = "The string format"),
+	        @Parameter(name = "args", multi = true, type = "object", doc = "The args in the format") })
 	public void error(String message, Object... args) {
 		logger.error(message, args);
 	}
 
 	@SuppressWarnings("rawtypes")
+	@Function(doc = "Inspect the object.", parameters = {
+	        @Parameter(name = "o", type = "object", doc = "The object that need inspect."),
+	        @Parameter(name = "indentLevel", type = "int", doc = "The indent level for this inspect, using for beautify.") })
 	public String inspect(Object o, int indentLevel) {
 		StringBuilder sb = new StringBuilder();
 		if (o instanceof List) {
@@ -99,6 +124,7 @@ public class Console extends BaseService {
 		return sb.toString();
 	}
 
+	@Function(doc = "Dump the object into stdout.", parameters = { @Parameter(name = "o", type = "object", doc = "The object that need inspect.") })
 	public void dir(Object o) {
 		print(inspect(o, 0));
 	}

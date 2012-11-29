@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thinkingcloud</groupId>
 	<artifactId>tools.js.runner</artifactId>
@@ -21,7 +22,6 @@
 					<downloadSources>true</downloadSources>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.0.2</version>
@@ -235,12 +235,27 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<distributionManagement>
+		<!-- Publish versioned releases here -->
+		<repository>
+			<id>asia-sd</id>
+			<name>SD Studio</name>
+			<url>http://admin:admin123@www.asia-sd.com:8081/nexus/content/repositories/releases</url>
+		</repository>
+
+		<!-- Publish snapshots here -->
+		<snapshotRepository>
+			<id>asia-sd-snapshot</id>
+			<name>SD Studio snapshots</name>
+			<url>http://admin:admin123@www.asia-sd.com:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<modules>
 		<module>tools.js.runner.main</module>
 		<module>tools.js.runner.db</module>
 		<module>tools.js.runner.solr</module>
 		<module>tools.js.runner.http</module>
-    <module>tools.js.runner.core</module>
-    <module>tools.js.runner.gui</module>
-  </modules>
+		<module>tools.js.runner.core</module>
+		<module>tools.js.runner.gui</module>
+	</modules>
 </project>
