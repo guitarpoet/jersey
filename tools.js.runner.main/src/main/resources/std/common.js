@@ -13,3 +13,7 @@ String.prototype.explode = function(sep) {
 String.prototype.contains = function(str) {
 	return sutils.contains(this, str);
 }
+Object.prototype.clone = function() {
+	var json = JSON.stringify(this);
+	return sutils.json(json);
+}

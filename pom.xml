@@ -241,5 +241,6 @@
 		<module>tools.js.runner.solr</module>
 		<module>tools.js.runner.http</module>
     <module>tools.js.runner.core</module>
+    <module>tools.js.runner.gui</module>
   </modules>
 </project>
