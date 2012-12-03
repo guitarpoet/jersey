@@ -14,8 +14,13 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.meta.Function;
+import com.thinkingcloud.tools.js.runner.core.meta.Module;
+import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+
 @Service
-public class JobManger {
+@Module(doc = "The background job manager.")
+public class JobManager {
 	private ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 
 	/**
@@ -106,18 +111,30 @@ public class JobManger {
 		pool.execute(command);
 	}
 
+	@Function(doc = "Wait until task is done.", parameters = @Parameter(name = "timeout", type = "int", doc = "The timeout time in seconds for wait, default is 10 seconds.", optional = true))
+	public void waitUntilDone(int timeout) throws InterruptedException {
+		pool.awaitTermination(timeout, TimeUnit.SECONDS);
+	}
+
+	public void waitUntilDone() throws InterruptedException {
+		waitUntilDone(10);
+	}
+
 	/**
 	 * 
 	 * @see java.util.concurrent.ThreadPoolExecutor#shutdown()
 	 */
+	@Function(doc = "Shutdown the jobmanager.")
 	public void shutdown() {
 		pool.shutdown();
 	}
 
 	@PreDestroy
 	public void cleanup() throws InterruptedException {
-		shutdown();
-		pool.awaitTermination(10, TimeUnit.SECONDS);
+		if (!isShutdown()) {
+			shutdown();
+			pool.awaitTermination(10, TimeUnit.SECONDS);
+		}
 	}
 
 	/**
@@ -192,5 +209,4 @@ public class JobManger {
 	public long getCompletedTaskCount() {
 		return pool.getCompletedTaskCount();
 	}
-
 }

@@ -10,11 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
 import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 import com.thinkingcloud.tools.js.runner.main.service.Job;
-import com.thinkingcloud.tools.js.runner.main.service.JobManger;
+import com.thinkingcloud.tools.js.runner.main.service.JobManager;
 
 @Service("job")
 @Function(parameters = {
@@ -29,7 +30,10 @@ public class JobFunction extends SimpleFunction {
 	private static Logger logger = LoggerFactory.getLogger(JobFunction.class);
 
 	@Autowired
-	private JobManger jobManager;
+	private JobManager jobManager;
+
+	@Autowired
+	private NewGlobal global;
 
 	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
@@ -47,6 +51,6 @@ public class JobFunction extends SimpleFunction {
 		Object[] callargs = new Object[0];
 		if (offset < args.length)
 			callargs = Arrays.copyOfRange(args, offset, args.length);
-		return jobManager.submit(new Job(name, Context.getCurrentContext(), function, callback, callargs));
+		return jobManager.submit(new Job(name, Context.getCurrentContext(), global, function, callback, callargs));
 	}
 }

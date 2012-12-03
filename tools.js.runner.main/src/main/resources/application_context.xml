@@ -14,7 +14,7 @@
 	<context:component-scan base-package="com.thinkingcloud.tools.js.runner.main" />
 	<context:component-scan base-package="com.thinkingcloud.tools.js.runner.core" />
 	<task:annotation-driven />
-	<task:scheduler id="scheduler" pool-size="10" />
+	<task:scheduler id="scheduler" pool-size="10"/>
 	<bean class="freemarker.template.Configuration" name="freemarker">
 		<property name="templateLoader" ref="resourceLocatorTemplateLoader" />
 		<property name="localizedLookup" value="false" />

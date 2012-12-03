@@ -4,9 +4,11 @@ import java.util.Arrays;
 
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.tools.shell.Main;
+import org.mozilla.javascript.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 
 public class Job implements Runnable {
 
@@ -18,23 +20,26 @@ public class Job implements Runnable {
 
 	private Object[] args;
 
-	private BaseFunction function;
+	private Function function;
 
-	private BaseFunction callback;
+	private Function callback;
 
-	public Job(String name, Context context, BaseFunction function, BaseFunction callback) {
-		this(name, context, function, callback, new Object[0]);
+	private NewGlobal global;
+
+	public Job(String name, NewGlobal global, Context context, Function function, Function callback) {
+		this(name, context, global, function, callback, new Object[0]);
 	}
 
-	public Job(String name, Context context, BaseFunction function) {
-		this(name, context, function, null, new Object[0]);
+	public Job(String name, NewGlobal global, Context context, Function function) {
+		this(name, context, global, function, null, new Object[0]);
 	}
 
-	public Job(String name, Context context, BaseFunction function, Object[] args) {
-		this(name, context, function, null, args);
+	public Job(String name, NewGlobal global, Context context, Function function, Object[] args) {
+		this(name, context, global, function, null, args);
 	}
 
-	public Job(String name, Context context, BaseFunction function, BaseFunction callback, Object[] args) {
+	public Job(String name, Context context, NewGlobal global, Function function, Function callback, Object[] args) {
+		this.global = global;
 		this.name = name;
 		this.context = context;
 		this.function = function;
@@ -90,7 +95,7 @@ public class Job implements Runnable {
 	/**
 	 * @return the callback
 	 */
-	public BaseFunction getCallback() {
+	public Function getCallback() {
 		return callback;
 	}
 
@@ -105,8 +110,8 @@ public class Job implements Runnable {
 	@Override
 	public void run() {
 		logger.info("Ready to execute job {} with args {}", name, Arrays.toString(args));
-		Object ret = function.call(context, Main.getGlobal(), Main.getGlobal(), args);
+		Object ret = function.call(context, global, global, args);
 		if (callback != null)
-			callback.call(context, Main.getGlobal(), Main.getGlobal(), new Object[] { ret, name });
+			callback.call(context, global, global, new Object[] { ret, name });
 	}
 }

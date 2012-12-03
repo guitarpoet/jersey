@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
 import com.thinkingcloud.tools.js.runner.main.utils.FileBuffer;
 import com.thinkingcloud.tools.js.runner.main.utils.StreamLineIterator;
 
 @Service("file")
 @Module(doc = "The file utils.")
-public class FileUtils {
+public class FileUtils extends BaseService {
 	private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
 	@Function(parameters = { @Parameter(name = "path", type = "string", doc = "The resource's path.") }, doc = "Iterate the stream using the path.", returns = "The stream iterator.")

@@ -3,12 +3,11 @@ package com.thinkingcloud.tools.js.runner.main.functions;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.tools.shell.Global;
-import org.mozilla.javascript.tools.shell.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.utils.SimpleFunction;
 
@@ -21,6 +20,9 @@ public class FunctionsFunction extends SimpleFunction {
 	@Autowired
 	private ApplicationContext context;
 
+	@Autowired
+	private NewGlobal global;
+
 	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 		StringBuilder sb = new StringBuilder();
@@ -29,9 +31,8 @@ public class FunctionsFunction extends SimpleFunction {
 			if (f != null)
 				sb.append(function.getFunctionName()).append(":\t").append(f.doc()).append("\n");
 		}
-		Global g = Main.getGlobal();
-		for (Object key : g.getIds()) {
-			Object value = g.get(key);
+		for (Object key : global.getIds()) {
+			Object value = global.get(key);
 			if (value instanceof BaseFunction) {
 				BaseFunction function = (BaseFunction) value;
 				Function f = function.getClass().getAnnotation(Function.class);

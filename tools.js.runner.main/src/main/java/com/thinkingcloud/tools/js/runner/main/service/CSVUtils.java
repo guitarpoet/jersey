@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
 import com.thinkingcloud.tools.js.runner.main.utils.CSVBuffer;
 import com.thinkingcloud.tools.js.runner.main.utils.CSVIterator;
 
 @Service("csv")
 @Module(doc = "The csv utils service.")
-public class CSVUtils {
+public class CSVUtils extends BaseService {
 	private Logger logger = LoggerFactory.getLogger(CSVUtils.class);
 
 	@Function(doc = "Iterate the csv file using iterator mode.", parameters = @Parameter(name = "path", type = "string", doc = "The path of the csv file"), returns = "The csv iterator.")

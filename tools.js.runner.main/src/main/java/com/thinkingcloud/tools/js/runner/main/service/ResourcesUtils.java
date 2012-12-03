@@ -16,11 +16,12 @@ import org.springframework.stereotype.Service;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
+import com.thinkingcloud.tools.js.runner.core.utils.BaseService;
 import com.thinkingcloud.tools.js.runner.main.utils.StreamLineIterator;
 
 @Service("resource")
 @Module(doc = "The utils for resources.")
-public class ResourcesUtils {
+public class ResourcesUtils extends BaseService {
 
 	@Autowired
 	private ResourceLoader resourceLoader;

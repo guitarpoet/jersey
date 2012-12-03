@@ -23,14 +23,14 @@ import org.apache.oro.text.regex.Perl5Pattern;
 import org.dom4j.Document;
 import org.dom4j.io.DOMReader;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.tools.shell.Global;
-import org.mozilla.javascript.tools.shell.Main;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.tidy.Configuration;
 import org.w3c.tidy.Tidy;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
@@ -40,6 +40,9 @@ import com.thinkingcloud.tools.js.runner.main.utils.Slf4jLoggingPrintWriter;
 @Service("sutils")
 @Module(doc = "The string utils service.")
 public class StringService extends BaseService {
+
+	@Autowired
+	private NewGlobal global;
 
 	@Function(parameters = @Parameter(name = "url", doc = "The url to verify.", type = "string"), doc = "Verify the url, test if it is a valid url.")
 	public boolean isValidUrl(String url) {
@@ -153,8 +156,7 @@ public class StringService extends BaseService {
 	@Function(parameters = @Parameter(name = "script", type = "string", doc = "The script to evaluate."), doc = "Evaluate the script.")
 	public Object eval(String js) {
 		Context context = Context.getCurrentContext();
-		Global g = Main.getGlobal();
-		return context.evaluateString(g, js, "code", 1, null);
+		return context.evaluateString(global, js, "code", 1, null);
 	}
 
 	@Function(parameters = @Parameter(name = "data", type = "string", doc = "The json data to parse."), doc = "Parse the string to json data.")
