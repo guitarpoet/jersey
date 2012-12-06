@@ -25,6 +25,7 @@ public class NewGlobal extends Global {
 
 	public void init(ApplicationContext context) {
 		defineProperty("logger", logger, ScriptableObject.DONTENUM);
+		defineProperty("__dirname", System.getProperties().get("user.dir"), ScriptableObject.DONTENUM);
 		for (Map.Entry<String, BaseFunction> e : context.getBeansOfType(BaseFunction.class).entrySet()) {
 			put(e.getKey(), e.getValue(), this);
 		}

@@ -26,6 +26,7 @@ import org.mozilla.javascript.GeneratedClassLoader;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.SecurityController;
 import org.mozilla.javascript.tools.SourceReader;
 import org.mozilla.javascript.tools.ToolErrorReporter;
@@ -100,16 +101,19 @@ public class JSRunnerThread {
 			global.init(c);
 			if (cmd.getArgList().size() > 0) {
 				for (String file : ((List<String>) cmd.getArgList())) {
+					global.defineProperty("__filename", file, ScriptableObject.DONTENUM);
 					c.evaluateReader(global, new FileReader(file), file, 1, null);
 				}
 			} else if (cmd.hasOption("s")) {
 				String source = cmd.getOptionValue("s");
+				global.defineProperty("__filename", "-", ScriptableObject.DONTENUM);
 				if (source.equals("-")) {
 					source = sutils.readToEnd(new InputStreamReader(System.in));
 				}
 				evaluateScript(loadScriptFromSource(c, source, "<stdin>", 1, null), c, global);
 				return;
 			} else {
+				global.defineProperty("__filename", "-", ScriptableObject.DONTENUM);
 				ConsoleReader reader = new ConsoleReader();
 				reader.addCompleter(jsCompleter);
 				reader.addCompleter(new FileNameCompleter());

@@ -1,8 +1,15 @@
 getDoc = (obj) ->
 	if obj.doc
 		print obj.doc()
-	if obj.meta
-		print doc.functionDoc(obj.meta)
+		return
+	if typeof(obj) == 'function'
+		if obj.meta
+			print doc.functionDoc(obj.meta)
+		else
+			print doc.functionDoc obj
+	else
+		if obj.meta
+			print doc.moduleDoc(obj.meta)
 
 man = (name)->
 	sub = global()[name]

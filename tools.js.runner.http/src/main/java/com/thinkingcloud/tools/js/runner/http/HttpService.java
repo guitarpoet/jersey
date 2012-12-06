@@ -37,6 +37,23 @@ public class HttpService extends BaseService {
 
 	public Object geta;
 
+	private String defaultCharset = "gbk";
+
+	/**
+	 * @return the defaultCharset
+	 */
+	public String getDefaultCharset() {
+		return defaultCharset;
+	}
+
+	/**
+	 * @param defaultCharset
+	 *            the defaultCharset to set
+	 */
+	public void setDefaultCharset(String defaultCharset) {
+		this.defaultCharset = defaultCharset;
+	}
+
 	@Autowired
 	private HttpClient client;
 
@@ -79,7 +96,7 @@ public class HttpService extends BaseService {
 			                .getContentType().getValue().contains("json"))) {
 				return null;
 			}
-			return EntityUtils.toString(response.getEntity());
+			return EntityUtils.toString(response.getEntity(), defaultCharset);
 		} finally {
 			EntityUtils.consume(response.getEntity());
 		}
@@ -104,7 +121,8 @@ public class HttpService extends BaseService {
 			                .getEntity().getContentType().getValue().contains("json"))) {
 				return null;
 			}
-			return EntityUtils.toString(response.getEntity());
+			logger.info("Decoding using default charset {}", defaultCharset);
+			return EntityUtils.toString(response.getEntity(), defaultCharset);
 		} finally {
 			EntityUtils.consume(response.getEntity());
 		}

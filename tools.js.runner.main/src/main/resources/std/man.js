@@ -1,8 +1,19 @@
 var getDoc, man;
 
 getDoc = function(obj) {
-  if (obj.doc) print(obj.doc());
-  if (obj.meta) return print(doc.functionDoc(obj.meta));
+  if (obj.doc) {
+    print(obj.doc());
+    return;
+  }
+  if (typeof obj === 'function') {
+    if (obj.meta) {
+      return print(doc.functionDoc(obj.meta));
+    } else {
+      return print(doc.functionDoc(obj));
+    }
+  } else {
+    if (obj.meta) return print(doc.moduleDoc(obj.meta));
+  }
 };
 
 man = function(name) {

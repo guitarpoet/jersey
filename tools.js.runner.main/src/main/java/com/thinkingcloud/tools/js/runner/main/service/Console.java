@@ -1,7 +1,11 @@
 package com.thinkingcloud.tools.js.runner.main.service;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
@@ -19,6 +23,41 @@ import com.thinkingcloud.tools.js.runner.core.NewGlobal;
 public class Console extends BaseService {
 
 	private static final Logger logger = NewGlobal.logger;
+
+	private Map<String, Long> timestamps = new HashMap<String, Long>();
+
+	@Function(doc = "Set the begin timestamp", parameters = @Parameter(name = "name", type = "string", optional = true, doc = "The timestamp's name"))
+	public void time(String name) {
+		timestamps.put(name, System.currentTimeMillis());
+	}
+
+	@Function(doc = "List all the config into 1 string", returns = "The config string")
+	public String listConfig() {
+		StringWriter writer = new StringWriter();
+		System.getProperties().list(new PrintWriter(writer));
+		writer.flush();
+		return writer.toString();
+	}
+
+	public void time() {
+		time("--main--");
+	}
+
+	public long timeEnd() {
+		return timeEnd("--main--");
+	}
+
+	@Function(doc = "End the timer that counts timestamp", parameters = { @Parameter(name = "name", type = "string", optional = true, doc = "The name for the timer") })
+	public long timeEnd(String name) {
+		if (timestamps.containsKey(name)) {
+			long begin = timestamps.get(name);
+			long ret = System.currentTimeMillis() - begin;
+			logger.info("{}: {}ms", name, ret);
+			timestamps.remove(name);
+			return ret;
+		}
+		return 0;
+	}
 
 	@Function(doc = "Log to stdout", parameters = @Parameter(name = "o", doc = "The object to log", type = "object"))
 	public void log(Object o) {

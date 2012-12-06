@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mozilla.javascript.MemberAccessorUtils;
+import org.mozilla.javascript.NativeJavaMethod;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,16 @@ public class DocUtils {
 	}
 
 	@Function(parameters = @Parameter(name = "object", doc = "scriptable"), doc = "Generate the function's documentation.")
-	public String functionDoc(Scriptable scriptable) throws IOException, TemplateException {
+	public String functionDoc(Scriptable scriptable) throws IOException, TemplateException, SecurityException,
+	        NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		if (scriptable instanceof NativeJavaMethod) {
+			for (Method m : MemberAccessorUtils.convert((NativeJavaMethod) scriptable)) {
+				Function f = m.getAnnotation(Function.class);
+				if (f != null) {
+					return genFunctionDoc(functionDataInner(m.getName(), f));
+				}
+			}
+		}
 		Map<String, Object> data = new HashMap<String, Object>();
 		for (Object key : scriptable.getIds()) {
 			data.put(String.valueOf(key), scriptable.get(String.valueOf(key), scriptable));
@@ -79,6 +90,8 @@ public class DocUtils {
 				for (Parameter p : f.parameters()) {
 					Map<String, Object> parameter = new HashMap<String, Object>();
 					parameter.put("name", p.name());
+					if (p.optional())
+						parameter.put("optional", true);
 					if (p.multi())
 						parameter.put("multi", p.multi());
 					parameter.put("type", p.type());
@@ -88,6 +101,10 @@ public class DocUtils {
 			}
 		}
 		return map;
+	}
+
+	public String moduleDoc(Scriptable meta) {
+		return null;
 	}
 
 	public String serviceDoc(Map<String, Object> data) throws IOException, TemplateException {

@@ -9,5 +9,10 @@
 			<ivy
 				pattern="${user.home}/.m2/repository/[organisation]/[module]/[revision]/[module]-[revision].pom" />
 		</filesystem>
+		<chain name="default" dual="true" checkmodified="true"
+			changingPattern=".*SNAPSHOT">
+			<resolver ref="local-maven-2" />
+			<resolver ref="ibiblio" />
+		</chain>
 	</resolvers>
 </ivysettings>

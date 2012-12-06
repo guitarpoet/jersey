@@ -8,7 +8,10 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -200,38 +203,26 @@ public class StringService extends BaseService {
 		return writer.toString();
 	}
 
+	@Function(doc = "Scan the pattern in the value", parameters = {
+	        @Parameter(name = "pattern", doc = "The pattern string", type = "string"),
+	        @Parameter(name = "value", doc = "The string to scan", type = "string") })
+	public String[] scan(String pattern, String value) {
+		Scanner scanner = new Scanner(value);
+		List<String> list = new ArrayList<String>();
+		String str = null;
+		while ((str = scanner.findInLine(pattern)) != null) {
+			list.add(str);
+		}
+		return list.toArray(new String[0]);
+	}
+
+	@Function(doc = "Numberfy the string.", parameters = @Parameter(name = "value", type = "string", doc = "The string to numberfy."))
 	public String numberfy(String value) {
 		value.replace(",", "");
-		if (value.trim().equals(StringUtils.EMPTY))
+		String[] arr = scan("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?", value);
+		if (arr.length == 0)
 			return "0";
-		int first = -1;
-		int last = value.length();
-		for (int j = 0; j < value.length(); j++) {
-			switch (value.charAt(j)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case '.':
-				if (first == -1)
-					first = j;
-				break;
-			default:
-				if (first != -1) {
-					last = j;
-					return value.substring(first, last);
-				}
-			}
-		}
-		if (first == -1)
-			return "0";
-		return value.substring(first, last);
+		return arr[0];
 	}
 
 	@Function(doc = "Parse the html to xml document", parameters = @Parameter(name = "xml", type = "string", doc = "The html string to parse"), returns = "The parsed dom4j document.")
