@@ -257,5 +257,6 @@
 		<module>tools.js.runner.core</module>
 		<module>tools.js.runner.gui</module>
     <module>tools.js.runner.sec</module>
+    <module>tools.js.runner.zookeeper</module>
   </modules>
 </project>

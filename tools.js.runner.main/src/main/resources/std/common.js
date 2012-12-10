@@ -10,6 +10,9 @@ String.prototype.capitalize = function() {
 String.prototype.explode = function(sep) {
 	return sutils.split(this, sep);
 }
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 String.prototype.contains = function(str) {
 	return sutils.contains(this, str);
 }
