@@ -51,6 +51,6 @@ public class JobFunction extends SimpleFunction {
 		Object[] callargs = new Object[0];
 		if (offset < args.length)
 			callargs = Arrays.copyOfRange(args, offset, args.length);
-		return jobManager.submit(new Job(name, Context.getCurrentContext(), global, function, callback, callargs));
+		return jobManager.submit(new Job(name, cx, global, function, callback, callargs));
 	}
 }

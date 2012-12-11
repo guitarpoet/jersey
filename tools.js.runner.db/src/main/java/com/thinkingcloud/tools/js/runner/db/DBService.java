@@ -44,6 +44,20 @@ public class DBService {
 		return jdbc.queryForMap(sql, args);
 	}
 
+	public Object qu(String sql, Object[] args) throws SecurityException, NoSuchMethodException,
+	        IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		Method method = JdbcTemplate.class.getMethod("queryForList", new Class<?>[] { String.class, Object[].class });
+		return method.invoke(jdbc, new Object[] { sql, args });
+	}
+
+	@Function(doc = "Query for the database ", parameters = {
+	        @Parameter(name = "sql", type = "string", doc = "The query sql"),
+	        @Parameter(name = "args", multi = true, doc = "The args for sql", optional = true, type = "object") })
+	public Object query(String sql, Object... args) throws SecurityException, IllegalArgumentException,
+	        NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		return qu(sql, args);
+	}
+
 	/**
 	 * @param sql
 	 * @param args
