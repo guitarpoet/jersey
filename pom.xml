@@ -51,7 +51,6 @@
 		</testResources>
 	</build>
 	<dependencyManagement>
-
 		<dependencies>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
@@ -173,13 +172,11 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${org.slf4j.version}</version>
-				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${org.slf4j.version}</version>
-				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.mozilla</groupId>
@@ -256,8 +253,9 @@
 		<module>tools.js.runner.http</module>
 		<module>tools.js.runner.core</module>
 		<module>tools.js.runner.gui</module>
-    <module>tools.js.runner.sec</module>
-    <module>tools.js.runner.zookeeper</module>
-    <module>tools.js.runner.jetty</module>
+		<module>tools.js.runner.sec</module>
+		<module>tools.js.runner.zookeeper</module>
+		<module>tools.js.runner.jetty</module>
+    <module>tools.js.runner.mvc</module>
   </modules>
 </project>

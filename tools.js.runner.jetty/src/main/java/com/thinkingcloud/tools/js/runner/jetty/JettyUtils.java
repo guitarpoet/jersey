@@ -1,6 +1,6 @@
 package com.thinkingcloud.tools.js.runner.jetty;
 
-import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class JettyUtils extends BaseService {
 	@Autowired
 	private NewGlobal global;
 
-	public JettyServer createServer(Function handler) {
+	public JettyServer createServer(Scriptable handler) {
 		return new JettyServer(handler, global);
 	}
 }

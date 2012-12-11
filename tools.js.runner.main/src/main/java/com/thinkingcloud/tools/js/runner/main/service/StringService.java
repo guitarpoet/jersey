@@ -28,6 +28,7 @@ import org.dom4j.io.DOMReader;
 import org.mozilla.javascript.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 import org.w3c.tidy.Configuration;
 import org.w3c.tidy.Tidy;
 
@@ -193,6 +194,13 @@ public class StringService extends BaseService {
 			return matcher.getMatch();
 		}
 		return null;
+	}
+
+	@Function(doc = "Matching the string using the ant match pattern.", parameters = {
+	        @Parameter(name = "pattern", type = "string", doc = "The ant style's pattern"),
+	        @Parameter(name = "str", type = "string", doc = "The string to match") })
+	public boolean antMatch(String pattern, String str) {
+		return new AntPathMatcher().match(pattern, str);
 	}
 
 	public String readToEnd(Reader reader) throws IOException {
