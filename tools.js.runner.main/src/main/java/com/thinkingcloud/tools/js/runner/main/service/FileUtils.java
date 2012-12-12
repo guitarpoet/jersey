@@ -5,12 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.esotericsoftware.wildcard.Paths;
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
@@ -74,6 +76,17 @@ public class FileUtils extends BaseService {
 			return null;
 		}
 		return file;
+	}
+
+	@Function(doc = "The simple find function for find all the files in the directory and all subdirectories.", parameters = {
+	        @Parameter(name = "path", type = "string", doc = "The directory to search"),
+	        @Parameter(name = "patterns", type = "string", doc = "The patterns", multi = true, optional = true) })
+	public String[] find(String path, String... patterns) {
+		ArrayList<String> ret = new ArrayList<String>();
+		for (String file : new Paths(path, Arrays.asList(patterns))) {
+			ret.add(file);
+		}
+		return ret.toArray(new String[ret.size()]);
 	}
 
 	@Function(parameters = @Parameter(name = "path", type = "string", doc = "The resources's path"), doc = "Open the file to write.", returns = "The opened file buffer.")
