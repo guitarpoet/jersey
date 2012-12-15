@@ -41,7 +41,7 @@ public class TemplateFunction extends SimpleFunction {
 				return writer.toString();
 			}
 		} catch (Throwable e) {
-			logger.error(e.getMessage(), e);
+			logger.warn(e.getMessage());
 		}
 		return null;
 	}
