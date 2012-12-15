@@ -1,16 +1,29 @@
 mvcContext = appContext "ext/mvc_context.xml"
 requestUtils = bean "requestUtils", mvcContext
+cms = bean "cms", mvcContext
 
 class Router
+#TODO Added filters (such as security or encoding) to router, using event handler's pattern
+	meta: {
+		doc: "This is the router class for the server."
+	}
+
 	constructor: (@name) ->
 		@suffix = ".ftl"
 		@prefix = "views/"
 		@errorPage = "error"
 		@notFoundPage = "404"
+		@defaultPrefix = "views/"
+		@theme = "default"
 		@gets = smap()
 		@posts = smap()
 		@dels = smap()
 		@puts = smap()
+		@master = "master"
+
+	setTheme: (theme)->
+		@prefix = "themes/#{theme}/"
+		cms.theme = theme
 
 	get: (pattern, handler) ->
 		@gets.put pattern, handler
@@ -60,21 +73,46 @@ class Router
 		logger.warn "Nothing matched for target {} for method {}", target, method
 		return []
 
-	show: (view, out, model) ->
+	process: (view, model) ->
+		return template("classpath:modules/#{view+@suffix}", model)
+
+	showTemplate: (view, model) ->
+		output = template("classpath:#{@prefix+view+@suffix}", model)
+		if !output
+			if @prefix == @defaultPrefix
+				return this.showTemplate @notFoundPage, model
+			else
+				output = template("classpath:#{@defaultPrefix+view+@suffix}", model)
+		if output
+			return output
+		else
+			return this.showTemplate @notFoundPage, model
+
+	show: (view, model) ->
 		logger.info "Directing to view #{view}"
-		out.println template("classpath:#{@prefix+view+@suffix}", model)
-		out.close()
+		output = this.showTemplate view, model
+		if view != @master
+			model.content = output
+			this.show @master, model
+		else
+			out = model.response.getWriter()
+			out.println output
+			out.flush()
+			out.close()
 	
 	handle: (target, baseRequest, request, response)->
 		logger.info "Incomming request {} for target {}", request, target
 		handlers = this.getHandlers(request.getMethod(), target)
+		self = this
 		model = {
 			target: target,
 			baseRequest: baseRequest,
 			request: request,
-			response: response
+			response: response,
+			router: self,
+			cms: cms
 		}
-		model.self = model
+		model.model = model
 		try
 			if handlers.length # If the handler is found
 				e = request.getAttributeNames()
@@ -85,15 +123,18 @@ class Router
 				model.args = handler.groups if handler.groups
 				view = handlers[0](request, response, model)
 				if view
-					this.show view, response.getWriter(), model
+					this.show view, model
 			else # If there wasn't any handler here, pass through to the classpath
 				#TODO: This will expose all the files to public, will need a restrict way to handle it
 				logger.debug "Nothing matched target #{target}, passing through"
 				requestUtils.pass target, response
 		catch ex
 			model.error = ex
-			if "#{ex.javaException.getClass().getSimpleName()}" == "FileNotFoundException"
+			logger.error ex.toString()
+			if ex.javaException && "#{ex.javaException.getClass().getSimpleName()}" == "FileNotFoundException"
 				logger.warn "Not Found, " + ex.javaException
-				this.show @notFoundPage, response.getWriter(), model
+				response.setStatus(404)
+				this.show @notFoundPage, model
 			else
-				this.show @errorPage, response.getWriter(), model
+				response.setStatus(500)
+				this.show @errorPage, model
