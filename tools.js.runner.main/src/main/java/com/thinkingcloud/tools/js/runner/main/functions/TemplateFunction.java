@@ -1,8 +1,10 @@
 package com.thinkingcloud.tools.js.runner.main.functions;
 
+import java.io.FileNotFoundException;
 import java.io.StringWriter;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +26,10 @@ public class TemplateFunction extends SimpleFunction {
 
 	private static final long serialVersionUID = -4713307857290517532L;
 
+	private static final Logger logger = LoggerFactory.getLogger(TemplateFunction.class);
+
 	@Autowired
 	private Configuration freemarker;
-
-	private static Logger logger = LoggerFactory.getLogger(TemplateFunction.class);
 
 	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
@@ -40,8 +42,11 @@ public class TemplateFunction extends SimpleFunction {
 				writer.flush();
 				return writer.toString();
 			}
+		} catch (FileNotFoundException fe) {
+			logger.warn(fe.getMessage());
+			return null;
 		} catch (Throwable e) {
-			logger.warn(e.getMessage());
+			throw new JavaScriptException(e, "<main>", 1);
 		}
 		return null;
 	}
