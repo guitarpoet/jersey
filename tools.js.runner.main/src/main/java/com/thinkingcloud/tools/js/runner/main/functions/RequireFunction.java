@@ -3,6 +3,8 @@ package com.thinkingcloud.tools.js.runner.main.functions;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -28,6 +30,8 @@ public class RequireFunction extends SimpleFunction {
 	@Autowired
 	private ApplicationContext context;
 
+	public static Map<String, Object> loaded = new HashMap<String, Object>();
+
 	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 		if (args.length == 0) {
@@ -45,8 +49,12 @@ public class RequireFunction extends SimpleFunction {
 				if (resource != null) {
 					in = resource.getInputStream();
 					if (in != null) {
-						return Context.getCurrentContext().evaluateReader(scope, new InputStreamReader(in), loc, 1,
-						        null);
+						if (loaded.containsKey(loc))
+							return loaded.get(loc);
+						Object obj = Context.getCurrentContext().evaluateReader(scope, new InputStreamReader(in), loc,
+						        1, null);
+						loaded.put(loc, obj);
+						return obj;
 					}
 				}
 			} catch (IOException e) {
