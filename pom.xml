@@ -257,5 +257,6 @@
 		<module>tools.js.runner.zookeeper</module>
 		<module>tools.js.runner.jetty</module>
     <module>tools.js.runner.mvc</module>
+    <module>tools.js.runner.jsdb</module>
   </modules>
 </project>
