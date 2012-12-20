@@ -70,16 +70,26 @@ public class JsonSchemaDatabaseService extends BaseService {
 		this.dialect = Dialect.getDialect(System.getProperties());
 	}
 
+	@SuppressWarnings("deprecation")
+	public String limit(String query, int offset, int limit) {
+		return this.dialect.getLimitString(query, offset, limit);
+	}
+
 	public Column handleColumn(Table table, String name, Map<String, Object> properties) {
 		Column ret = new Column(name);
 		String type = (String) properties.get("type");
 		SimpleValue value = new SimpleValue(mappings, table);
+		value.setIdentifierGeneratorStrategy("identity");
 		value.setTypeName(type);
 		if (properties.containsKey("length"))
 			ret.setLength((int) (Math.ceil((Double) properties.get("length"))));
-		if (properties.containsKey("default"))
+		if (properties.containsKey("default")) {
 			value.setNullValue((String) properties.get("default"));
-
+			ret.setDefaultValue((String) properties.get("default"));
+		}
+		if (properties.containsKey("nullable")) {
+			ret.setNullable((Boolean) properties.get("nullable"));
+		}
 		if (properties.containsKey("unique")) {
 			ret.setUnique((Boolean) properties.get("unique"));
 		}

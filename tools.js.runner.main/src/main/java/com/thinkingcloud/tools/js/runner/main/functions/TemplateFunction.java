@@ -1,6 +1,6 @@
 package com.thinkingcloud.tools.js.runner.main.functions;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.StringWriter;
 
 import org.mozilla.javascript.Context;
@@ -42,7 +42,7 @@ public class TemplateFunction extends SimpleFunction {
 				writer.flush();
 				return writer.toString();
 			}
-		} catch (FileNotFoundException fe) {
+		} catch (IOException fe) {
 			logger.warn(fe.getMessage());
 			return null;
 		} catch (Throwable e) {
