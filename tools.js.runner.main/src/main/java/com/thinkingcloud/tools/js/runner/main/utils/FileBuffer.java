@@ -31,6 +31,7 @@ public class FileBuffer {
 		writer.write(sb.toString());
 		writer.flush();
 		writer.close();
+		sb = new StringBuilder();
 	}
 
 	private File getFile() throws IOException {

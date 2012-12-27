@@ -17,8 +17,8 @@ Entity = (function() {
 
   Entity.prototype.save = function() {
     var args, end, field, first, sql, start, _i, _len, _ref;
-    this.createDate = utils.now();
-    this.modifyDate = utils.now();
+    this.createDate = now();
+    this.modifyDate = now();
     start = "insert into " + this.table + " (";
     first = true;
     end = ") values (";
@@ -53,7 +53,7 @@ Entity = (function() {
 
   Entity.prototype.update = function() {
     var args, field, sql, _i, _len, _ref;
-    this.modifyDate = utils.now();
+    this.modifyDate = now();
     sql = "update " + this.table + " ";
     args = [];
     _ref = this.fields();

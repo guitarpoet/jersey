@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.thinkingcloud.tools.js.runner.core.meta.Function;
 import com.thinkingcloud.tools.js.runner.core.meta.Module;
 import com.thinkingcloud.tools.js.runner.core.meta.Parameter;
@@ -20,6 +22,14 @@ import com.thinkingcloud.tools.js.runner.main.utils.CSVIterator;
 @Module(doc = "The csv utils service.")
 public class CSVUtils extends BaseService {
 	private Logger logger = LoggerFactory.getLogger(CSVUtils.class);
+
+	@Function(doc = "Read the csv into array", parameters = @Parameter(name = "path", doc = "The path of the csv file", type = "String"), returns = "The array of the readed data.")
+	public String[][] read(String path) throws IOException {
+		CSVReader reader = new CSVReader(new FileReader(path));
+		String[][] out = reader.readAll().toArray(new String[][] {});
+		reader.close();
+		return out;
+	}
 
 	@Function(doc = "Iterate the csv file using iterator mode.", parameters = @Parameter(name = "path", type = "string", doc = "The path of the csv file"), returns = "The csv iterator.")
 	public CSVIterator iterate(String path) throws FileNotFoundException {

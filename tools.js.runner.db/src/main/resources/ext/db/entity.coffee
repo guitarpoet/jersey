@@ -9,8 +9,8 @@ class Entity
 		return fields
 
 	save: ->
-		@createDate = utils.now()
-		@modifyDate = utils.now()
+		@createDate = now()
+		@modifyDate = now()
 		start = "insert into #{@table} ("
 		first = true
 		end = ") values ("
@@ -38,7 +38,7 @@ class Entity
 		db.update sql, args
 
 	update: ->
-		@modifyDate = utils.now()
+		@modifyDate = now()
 		sql = "update #{@table} "
 		args = []
 		for field in this.fields()

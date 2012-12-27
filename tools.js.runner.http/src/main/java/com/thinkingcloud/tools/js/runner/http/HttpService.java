@@ -1,6 +1,11 @@
 package com.thinkingcloud.tools.js.runner.http;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +107,20 @@ public class HttpService extends BaseService {
 		}
 	}
 
+	@Function(doc = "Downlod the file, keep the original name", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The url of this document"),
+	        @Parameter(name = "basePath", type = "string", doc = "The base path of this document") })
+	public void download(String url, String basePath) throws IOException, HttpException {
+		String fileName = url.substring(url.lastIndexOf("/") + 1);
+		File out = new File(basePath + "/" + fileName);
+		if (!out.exists())
+			out.createNewFile();
+		FileWriter writer = new FileWriter(out);
+		writer.write(get(url));
+		writer.flush();
+		writer.close();
+	}
+
 	@Function(doc = "Get response using http get.", parameters = {
 	        @Parameter(name = "url", type = "string", doc = "The get url"),
 	        @Parameter(name = "headers", optional = true, doc = "the headers for the requrest", type = "map") }, returns = "The result string.")
@@ -117,8 +136,9 @@ public class HttpService extends BaseService {
 			}
 			response = client.execute(get);
 			if (response.getEntity().getContentType() == null
-			        || (!response.getEntity().getContentType().getValue().contains("text/html") && !response
-			                .getEntity().getContentType().getValue().contains("json"))) {
+			        || (!response.getEntity().getContentType().getValue().contains("text/html")
+			                && !response.getEntity().getContentType().getValue().contains("json") && !response
+			                .getEntity().getContentType().getValue().contains("Chemical/MolFile"))) {
 				return null;
 			}
 			logger.info("Decoding using default charset {}", defaultCharset);

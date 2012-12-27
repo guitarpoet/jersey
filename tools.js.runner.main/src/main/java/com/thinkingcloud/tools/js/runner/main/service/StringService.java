@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
@@ -194,6 +195,13 @@ public class StringService extends BaseService {
 			return matcher.getMatch();
 		}
 		return null;
+	}
+
+	public String stackTrace(Exception ex) {
+		StringWriter writer = new StringWriter();
+		ex.printStackTrace(new PrintWriter(writer));
+		writer.flush();
+		return writer.toString();
 	}
 
 	@Function(doc = "Matching the string using the ant match pattern.", parameters = {

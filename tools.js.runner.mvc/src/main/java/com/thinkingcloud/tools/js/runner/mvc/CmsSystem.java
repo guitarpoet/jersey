@@ -2,6 +2,7 @@ package com.thinkingcloud.tools.js.runner.mvc;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
@@ -55,13 +56,20 @@ public class CmsSystem extends BaseService {
 
 	public String module(String name, Object model) throws IOException {
 		Context c = Context.enter();
-		global.put("model", global, model);
 		Resource r = resourceLoader.getResource(MessageFormat.format("classpath:modules/{0}/{0}.js", name));
 		logger.info("Resource for {} is {}", name, r);
 		if (r != null && r.getInputStream() != null) {
 			return String.valueOf(c.evaluateReader(global, new InputStreamReader(r.getInputStream()), name, 1, null));
 		}
 		return null;
+	}
+
+	public String stackTrace(Exception ex) {
+		logger.error("", ex);
+		StringWriter writer = new StringWriter();
+		ex.printStackTrace(new PrintWriter(writer));
+		writer.flush();
+		return writer.toString();
 	}
 
 	@Function(doc = "Process the module's template view", parameters = {
