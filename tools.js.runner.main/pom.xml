@@ -36,6 +36,10 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.thinkingcloud</groupId>
 			<artifactId>tools.js.runner.core</artifactId>
 			<version>1.0-SNAPSHOT</version>
