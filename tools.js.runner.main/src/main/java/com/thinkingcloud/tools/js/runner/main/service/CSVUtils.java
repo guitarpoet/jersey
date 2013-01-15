@@ -1,9 +1,13 @@
 package com.thinkingcloud.tools.js.runner.main.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import jline.internal.InputStreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +35,22 @@ public class CSVUtils extends BaseService {
 		return out;
 	}
 
-	@Function(doc = "Iterate the csv file using iterator mode.", parameters = @Parameter(name = "path", type = "string", doc = "The path of the csv file"), returns = "The csv iterator.")
-	public CSVIterator iterate(String path) throws FileNotFoundException {
+	public CSVIterator iterate(String path, String encoding) throws UnsupportedEncodingException, FileNotFoundException {
 		File file = new File(path);
 		if (!file.exists()) {
 			logger.warn("File {} is not existed!", path);
 			return null;
 		}
-		return new CSVIterator(new FileReader(file));
+		if (encoding != null)
+			return new CSVIterator(new InputStreamReader(new FileInputStream(path), encoding));
+		return new CSVIterator(new FileReader(path));
+	}
+
+	@Function(doc = "Iterate the csv file using iterator mode.", parameters = {
+	        @Parameter(name = "path", type = "string", doc = "The path of the csv file"),
+	        @Parameter(name = "encoding", doc = "The encoding of the file", optional = true, type = "string") }, returns = "The csv iterator.")
+	public CSVIterator iterate(String path) throws FileNotFoundException, UnsupportedEncodingException {
+		return iterate(path, null);
 	}
 
 	@Function(doc = "Open a csv buffer to write", parameters = @Parameter(name = "path", type = "string", doc = "The path to write the csv file."), returns = "The csv buffer")

@@ -54,6 +54,10 @@ public class CmsSystem extends BaseService {
 		freemarker.setCustomAttribute("cms", this);
 	}
 
+	public String dump(Object o) {
+		return o.toString();
+	}
+
 	public String module(String name, Object model) throws IOException {
 		Context c = Context.enter();
 		Resource r = resourceLoader.getResource(MessageFormat.format("classpath:modules/{0}/{0}.js", name));

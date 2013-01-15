@@ -105,6 +105,11 @@ public class SolrService extends BaseService {
 		solr.add(doc);
 	}
 
+	@Function(doc = "Rollback the solr session!")
+	public void rollback() throws SolrServerException, IOException {
+		solr.rollback();
+	}
+
 	@Function(doc = "Commit the solr data.")
 	public void commit() throws SolrServerException, IOException {
 		solr.commit();

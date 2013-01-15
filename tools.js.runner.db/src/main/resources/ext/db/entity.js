@@ -52,15 +52,21 @@ Entity = (function() {
   };
 
   Entity.prototype.update = function() {
-    var args, field, sql, _i, _len, _ref;
+    var args, field, first, sql, _i, _len, _ref;
     this.modifyDate = now();
-    sql = "update " + this.table + " ";
+    sql = "update " + this.table + " set ";
     args = [];
+    first = true;
     _ref = this.fields();
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       field = _ref[_i];
       if (field === "table" || field === "id") continue;
-      sql += "set " + field + " = ? ";
+      if (first) {
+        first = false;
+      } else {
+        sql += ",";
+      }
+      sql += "" + field + " = ? ";
       args.push(this[field]);
     }
     sql += "where id = ?";

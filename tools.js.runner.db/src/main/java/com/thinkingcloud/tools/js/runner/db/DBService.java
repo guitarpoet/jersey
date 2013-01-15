@@ -50,12 +50,13 @@ public class DBService {
 		return method.invoke(jdbc, new Object[] { sql, args });
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Function(doc = "Query for the database ", parameters = {
 	        @Parameter(name = "sql", type = "string", doc = "The query sql"),
 	        @Parameter(name = "args", multi = true, doc = "The args for sql", optional = true, type = "object") })
-	public Object query(String sql, Object... args) throws SecurityException, IllegalArgumentException,
+	public Object[] query(String sql, Object... args) throws SecurityException, IllegalArgumentException,
 	        NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return qu(sql, args);
+		return ((List) qu(sql, args)).toArray();
 	}
 
 	/**

@@ -39,12 +39,17 @@ class Entity
 
 	update: ->
 		@modifyDate = now()
-		sql = "update #{@table} "
+		sql = "update #{@table} set "
 		args = []
+		first = true
 		for field in this.fields()
 			if field == "table" || field == "id"
 				continue
-			sql += "set #{field} = ? "
+			if first
+				first = false
+			else
+				sql += ","
+			sql += "#{field} = ? "
 			args.push this[field]
 		sql += "where id = ?"
 		args.push @id
