@@ -247,20 +247,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<distributionManagement>
-		<!-- Publish versioned releases here -->
-		<repository>
-			<id>asia-sd</id>
-			<name>SD Studio</name>
-			<url>http://admin:admin123@www.asia-sd.com:8081/nexus/content/repositories/releases</url>
-		</repository>
-		<!-- Publish snapshots here -->
-		<snapshotRepository>
-			<id>asia-sd-snapshot</id>
-			<name>SD Studio snapshots</name>
-			<url>http://admin:admin123@www.asia-sd.com:8081/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 	<modules>
 		<module>jersey.main</module>
 		<module>jersey.db</module>
