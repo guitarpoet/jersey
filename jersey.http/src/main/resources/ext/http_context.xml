@@ -11,11 +11,11 @@
        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.0.xsd
        http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-2.0.xsd
          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-	<context:component-scan base-package="com.thinkingcloud.tools.js.runner.http" />
+	<context:component-scan base-package="info.thinkingcloud.jersey.http" />
 	<bean name="client" class="org.apache.http.impl.client.DefaultHttpClient">
 		<property name="redirectStrategy">
 			<bean
-				class="com.thinkingcloud.tools.js.runner.http.RobostRedirectStrategy" />
+				class="info.thinkingcloud.jersey.http.RobostRedirectStrategy" />
 		</property>
 	</bean>
 	<bean
