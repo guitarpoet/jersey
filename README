@@ -1,4 +1,5 @@
-Jersey: A pluggable JavaScript execution nnvironment
+
+Jersey: A pluggable JavaScript execution environment
 ====================================================
 
 This is a pluggable JavaScript execution environment based on Rhino. It can run on any Java runtime above Java 5.
