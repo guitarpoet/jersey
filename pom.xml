@@ -5,13 +5,24 @@
 	<artifactId>jersey</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
-	<name>Jersey - The pluggable JavaScript runner</name>
+	<name>Jersey - The pluggable JavaScript Execution Enviroment</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 		<hibernate.version>3.5.1-Final</hibernate.version>
 	</properties>
+	<description>
+		A pluggable JavaScript execution enviroment for running JavaScript on the host of Java Virtual Machine(based on Mozilla Rhino).
+	</description>
+	<url>http://www.thinkingcloud.info</url>
+	<inceptionYear>2012</inceptionYear>
+	<developers>
+		<developer>
+			<name>Jack</name>
+			<email>guitarpoet@gmail.com</email>
+		</developer>
+	</developers>
 	<build>
 		<plugins>
 			<plugin>
