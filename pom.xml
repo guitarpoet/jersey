@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.thinkingcloud</groupId>
-	<artifactId>tools.js.runner</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<groupId>info.thinkingcloud</groupId>
+	<artifactId>jersey</artifactId>
+	<version>1.0</version>
 	<packaging>pom</packaging>
-	<name>tools.js.runner</name>
+	<name>Jersey - The pluggable JavaScript runner</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.5.RELEASE</spring.version>
@@ -243,7 +243,6 @@
 			<name>SD Studio</name>
 			<url>http://admin:admin123@www.asia-sd.com:8081/nexus/content/repositories/releases</url>
 		</repository>
-
 		<!-- Publish snapshots here -->
 		<snapshotRepository>
 			<id>asia-sd-snapshot</id>
@@ -252,17 +251,18 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<modules>
-		<module>tools.js.runner.main</module>
-		<module>tools.js.runner.db</module>
-		<module>tools.js.runner.solr</module>
-		<module>tools.js.runner.http</module>
-		<module>tools.js.runner.core</module>
-		<module>tools.js.runner.gui</module>
-		<module>tools.js.runner.sec</module>
-		<module>tools.js.runner.zookeeper</module>
-		<module>tools.js.runner.jetty</module>
-    <module>tools.js.runner.mvc</module>
-    <module>tools.js.runner.jsdb</module>
-    <module>tools.js.runner.drools</module>
+		<module>jersey.main</module>
+		<module>jersey.db</module>
+		<module>jersey.solr</module>
+		<module>jersey.http</module>
+		<module>jersey.core</module>
+		<module>jersey.gui</module>
+		<module>jersey.sec</module>
+		<module>jersey.zookeeper</module>
+		<module>jersey.jetty</module>
+		<module>jersey.mvc</module>
+		<module>jersey.jsdb</module>
+		<module>jersey.drools</module>
+		<module>jersey.taobao</module>
   </modules>
 </project>
