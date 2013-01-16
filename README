@@ -27,7 +27,7 @@ The concept of Jersey is as list bellow:
 Architecture
 ------------
 
-Jersey is based on [Java] [http://www.java.com], [Rhino] [https://developer.mozilla.org/en-US/docs/Rhino] and [Spring] [http://www.springframework.org], the component structure of Jersey is based on Spring, and the interpreter of JavaScript is using Rhino.
+Jersey is based on [Java](http://www.java.com), [Rhino](https://developer.mozilla.org/en-US/docs/Rhino) and [Spring](http://www.springframework.org), the component structure of Jersey is based on Spring, and the interpreter of JavaScript is using Rhino.
 
 All the native functions and native modules is initiliazed at the intializing of the environment, all the plugins you want to use, need to be installed into the lib folder first, configure it correctly in the configuration file, then using require function to require the intialize script for this plugin.
 
@@ -64,11 +64,11 @@ Standard Libraries
 
 Jersey provides some standard JavaScript libraries in the distribution. Here is the list of the libraries:
 
-std/common: This provides the common extention of JavaScript, for example capitalize, isBlank, endWith for JavaScript and so on.
-std/date: This provides [date.js] [http://www.datejs.com]
-std/evn.rhino: This provide [env] [http://www.envjs.com], to use library like jQuery
-std/man: This provide the manual function for all the native function and modules
-std/jquery: This provides the famous [jQuery] [http://www.jquery.com]
-std/underscore: This provides [underscore.js] [http://underscorejs.org]
+* std/common: This provides the common extention of JavaScript, for example capitalize, isBlank, endWith for JavaScript and so on.
+* std/date: This provides [date](http://www.datejs.com)
+* std/evn.rhino: This provide [env](http://www.envjs.com), to use library like jQuery
+* std/man: This provide the manual function for all the native function and modules
+* std/jquery: This provides the famous [jQuery](http://www.jquery.com)
+* std/underscore: This provides [underscore](http://underscorejs.org)
 
 You can load your scripts using classpath protocol too.
