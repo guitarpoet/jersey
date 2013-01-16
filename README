@@ -1,18 +1,18 @@
-Jersey: A pluggable JavaScript execution enviroment
+Jersey: A pluggable JavaScript execution nnvironment
 ===================================================
 
-This is a pluggable JavaScript execution enviroment based on Rhino. It can run on any Java runtime above Java 5.
+This is a pluggable JavaScript execution environment based on Rhino. It can run on any Java runtime above Java 5.
 
 Jersey also contains a package manager called jpm, so you just need to provide an ivy module file, then you can get all the plugin and plugin dependencies using maven distribution.
 
 Concept
 -------
 
-Jersey is a running enviroment for JavaScript, it can run Mozilla Rhino flavoured JavaScript using Java. The aim for Jersey, is to provide a nice and pluggable enviroment to playwith or use JavaScript and based on the richi set of Java libraries.
+Jersey is a running environment for JavaScript, it can run Mozilla Rhino flavoured JavaScript using Java. The aim for Jersey, is to provide a nice and pluggable environment to playwith or use JavaScript and based on the richi set of Java libraries.
 
 The concept of Jersey is as list bellow:
 
-* Pluggable: Jersey is pluggable, you can install any plugin to it, and the plugin is just a java jar. All the plugins are deactivate at the start of the enviroment, you can activate the plugins using Spring(Jersey provides you the functions to do that). 
+* Pluggable: Jersey is pluggable, you can install any plugin to it, and the plugin is just a java jar. All the plugins are deactivate at the start of the enviromnent, you can activate the plugins using Spring(Jersey provides you the functions to do that). 
 * Simple: Jersey try to provide the api as simple as possible, and provide a console to play JavaScript with and will add the support of other script that compiles to JavaScript(for example, CoffeeScript) using the console, and the console support the tab completion, so you can fool around very easily
 * Configurable: Jersey provides the configuration basics based on Java's properties, and all the configuration for application and plugins contains within the same configuration file
 * Discoverable: You can list all the provided function and provided modules using native functions.
@@ -28,7 +28,7 @@ Architecture
 
 Jersey is based on [Java] [http://www.java.com], [Rhino] [https://developer.mozilla.org/en-US/docs/Rhino] and [Spring] [http://www.springframework.org], the component structure of Jersey is based on Spring, and the interpreter of JavaScript is using Rhino.
 
-All the native functions and native modules is initiliazed at the intializing of the enviroment, all the plugins you want to use, need to be installed into the lib folder first, configure it correctly in the configuration file, then using require function to require the intialize script for this plugin.
+All the native functions and native modules is initiliazed at the intializing of the environment, all the plugins you want to use, need to be installed into the lib folder first, configure it correctly in the configuration file, then using require function to require the intialize script for this plugin.
 
 Usage
 -----
