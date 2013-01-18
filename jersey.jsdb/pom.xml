@@ -8,7 +8,7 @@
 		<groupId>info.thinkingcloud</groupId>
 		<version>1.0</version>
 	</parent>
-	<artifactId>jersy.jsdb</artifactId>
+	<artifactId>jersey.jsdb</artifactId>
 	<version>1.0</version>
 	<name>JavaScript Schema to Database Schema tool plugin for Jersey</name>
 	<dependencies>
