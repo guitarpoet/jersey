@@ -1,4 +1,4 @@
-package info.thinkingcloud.jersey.main.utils;
+package info.thinkingcloud.jersey.core.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

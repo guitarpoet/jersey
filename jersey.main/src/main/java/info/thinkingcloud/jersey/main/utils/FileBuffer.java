@@ -1,10 +1,12 @@
 package info.thinkingcloud.jersey.main.utils;
 
+import info.thinkingcloud.jersey.core.utils.WriteBuffer;
+
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class FileBuffer {
+public class FileBuffer extends WriteBuffer {
 
 	private String file;
 
@@ -12,26 +14,8 @@ public class FileBuffer {
 		this.file = file;
 	}
 
-	private StringBuilder sb = new StringBuilder();
-
-	public void write(String text) {
-		sb.append(text);
-	}
-
-	public void writeln(String line) {
-		write(line + "\n");
-	}
-
-	public void remove() throws IOException {
-		getFile().delete();
-	}
-
-	public void flush() throws IOException {
-		FileWriter writer = new FileWriter(getFile(), true);
-		writer.write(sb.toString());
-		writer.flush();
-		writer.close();
-		sb = new StringBuilder();
+	public void remove() throws Exception {
+		this.clear();
 	}
 
 	private File getFile() throws IOException {
@@ -43,5 +27,22 @@ public class FileBuffer {
 			f.createNewFile();
 		}
 		return f;
+	}
+
+	@Override
+	protected void doFlush(byte[] data) throws Exception {
+		FileOutputStream out = new FileOutputStream(getFile(), true);
+		out.write(data);
+		out.flush();
+		out.close();
+	}
+
+	@Override
+	protected void doClose() throws Exception {
+	}
+
+	@Override
+	protected void doClear() throws Exception {
+		getFile().delete();
 	}
 }

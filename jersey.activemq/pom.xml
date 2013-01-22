@@ -8,30 +8,11 @@
 		<groupId>info.thinkingcloud</groupId>
 		<version>1.0.1</version>
 	</parent>
-	<artifactId>jersey.db</artifactId>
-	<version>1.0</version>
-	<name>Database plugin of Jersey</name>
+	<groupId>info.thinkingcloud</groupId>
+	<artifactId>jersey.activemq</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>ActiveMQ client plugin of Jersey</name>
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mozilla</groupId>
-			<artifactId>rhino</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -40,6 +21,11 @@
 			<groupId>info.thinkingcloud</groupId>
 			<artifactId>jersey.core</artifactId>
 			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-spring</artifactId>
+			<version>5.7.0</version>
 		</dependency>
 	</dependencies>
 </project>

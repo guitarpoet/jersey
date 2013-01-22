@@ -6,10 +6,10 @@
 	<parent>
 		<artifactId>jersey</artifactId>
 		<groupId>info.thinkingcloud</groupId>
-		<version>1.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>jersey.main</artifactId>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<name>The main application of Jersey</name>
 	<build>
 		<plugins>
@@ -36,13 +36,14 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>3.0.0.v201112011016</version>
 		</dependency>
 		<dependency>
 			<groupId>info.thinkingcloud</groupId>
 			<artifactId>jersey.core</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>

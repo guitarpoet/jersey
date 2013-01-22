@@ -4,8 +4,8 @@ import info.thinkingcloud.jersey.core.meta.Function;
 import info.thinkingcloud.jersey.core.meta.Module;
 import info.thinkingcloud.jersey.core.meta.Parameter;
 import info.thinkingcloud.jersey.core.utils.BaseService;
+import info.thinkingcloud.jersey.core.utils.StreamLineIterator;
 import info.thinkingcloud.jersey.main.utils.FileBuffer;
-import info.thinkingcloud.jersey.main.utils.StreamLineIterator;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.thinkingcloud</groupId>
 	<artifactId>jersey</artifactId>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 	<name>Jersey - The pluggable JavaScript Execution Enviroment</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring.version>3.0.7.RELEASE</spring.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 		<hibernate.version>3.5.1-Final</hibernate.version>
 	</properties>
@@ -261,5 +261,7 @@
 		<module>jersey.jsdb</module>
 		<module>jersey.drools</module>
 		<module>jersey.taobao</module>
+    <module>jersey.hdfs</module>
+    <module>jersey.activemq</module>
   </modules>
 </project>

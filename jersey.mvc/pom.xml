@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>jersey</artifactId>
 		<groupId>info.thinkingcloud</groupId>
-		<version>1.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>jersey.mvc</artifactId>
 	<version>1.0</version>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>info.thinkingcloud</groupId>
 			<artifactId>jersey.core</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
