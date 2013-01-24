@@ -1,4 +1,4 @@
-package com.thinkingcloud.tools.js.runner.drools;
+package info.thinkingcloud.jersey.drools;
 
 import info.thinkingcloud.jersey.core.meta.Function;
 import info.thinkingcloud.jersey.core.meta.Module;
