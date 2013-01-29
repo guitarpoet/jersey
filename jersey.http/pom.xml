@@ -9,7 +9,7 @@
 		<version>1.0.1</version>
 	</parent>
 	<artifactId>jersey.http</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>Http client plugin for Jersey</name>
 	<dependencies>
 		<dependency>

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -21,13 +22,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service("http")
 @Module(doc = "The http service module.")
@@ -41,6 +43,19 @@ public class HttpService extends BaseService {
 	public Object geta;
 
 	private String defaultCharset = "gbk";
+
+	@Function(doc = "Setting the http proxy of the client.", parameters = {
+	        @Parameter(name = "host", type = "string", doc = "The proxy host"),
+	        @Parameter(name = "port", type = "int", doc = "The port of this proxy") })
+	public void setProxy(String host, double port) {
+		client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, new HttpHost(host, (int) port));
+	}
+
+	@Function(doc = "Setting the timeout for the http", parameters = @Parameter(name = "timeout", doc = "The timeout parameter, units in millisecondes."))
+	public void setTimeout(int timeout) {
+		HttpConnectionParams.setConnectionTimeout(client.getParams(), timeout);
+		HttpConnectionParams.setSoTimeout(client.getParams(), timeout);
+	}
 
 	/**
 	 * @return the defaultCharset
