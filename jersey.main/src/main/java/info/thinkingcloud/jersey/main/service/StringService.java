@@ -42,7 +42,6 @@ import org.w3c.tidy.Tidy;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-
 @Service("sutils")
 @Module(doc = "The string utils service.")
 public class StringService extends BaseService {
@@ -132,6 +131,20 @@ public class StringService extends BaseService {
 		out.flush();
 		out.close();
 		return Base64.encodeBase64String(array.toByteArray());
+	}
+
+	@Function(parameters = @Parameter(name = "data", type = "bytes", doc = "The bytes to encode"), doc = "Encode the bytes using base64 encode.")
+	public String base64Encode(byte[] data) {
+		return Base64.encodeBase64String(data);
+	}
+
+	public String base64Encode(String data) {
+		return Base64.encodeBase64String(data.getBytes());
+	}
+
+	@Function(parameters = @Parameter(name = "data", type = "string", doc = "The base64 string to encode"), doc = "Decode the base64 string to bytes.")
+	public byte[] base64Decode(String data) {
+		return Base64.decodeBase64(data);
 	}
 
 	@Function(parameters = @Parameter(name = "zip", type = "string", doc = "The string to unzip"), doc = "Unzip the string.")

@@ -44,6 +44,16 @@ public class HdfsService extends BaseService {
 		fileSystem = FileSystem.get(config);
 	}
 
+	@Function(doc = "Remove the file at the path", parameters = @Parameter(name = "path", type = "string", doc = "The file path to remove."))
+	public void remove(String path) throws IOException {
+		fileSystem.delete(new Path(path), true);
+	}
+
+	@Function(doc = "Get the file status of the file at the path", parameters = @Parameter(name = "path", type = "string", doc = "The file's path"), returns = "File status object")
+	public FileStatus info(String path) throws IOException {
+		return fileSystem.getFileStatus(new Path(path));
+	}
+
 	@Function(doc = "Open the hadoop path to write on", parameters = @Parameter(name = "path", type = "string", doc = "The file path to open."))
 	public HdfsBuffer open(String path) {
 		return new HdfsBuffer(fileSystem, path);
