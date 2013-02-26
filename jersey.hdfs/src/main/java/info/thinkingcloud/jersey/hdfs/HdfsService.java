@@ -18,6 +18,8 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
@@ -26,6 +28,8 @@ import org.springframework.stereotype.Service;
 @Service("hdfs")
 @Module(doc = "The hdfs access service.")
 public class HdfsService extends BaseService {
+
+	private static Logger logger = LoggerFactory.getLogger(HdfsService.class);
 
 	private FileSystem fileSystem;
 
@@ -68,8 +72,15 @@ public class HdfsService extends BaseService {
 
 	@Function(doc = "Load file content into a string", parameters = @Parameter(name = "path", type = "string", doc = "The path to load."), returns = "The content of the file")
 	public String load(String path) throws IOException {
+		logger.info("Ready to load {} and file system is {}", path, fileSystem.getClass());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		IOUtils.copyBytes(loadStream(path), out, 1024);
+		InputStream input = loadStream(path);
+		try {
+			IOUtils.copyBytes(input, out, 1024);
+		} finally {
+			input.close();
+			logger.info("File of {} closed successfully", path);
+		}
 		return new String(out.toByteArray());
 	}
 
