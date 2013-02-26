@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
@@ -255,8 +256,7 @@ public class StringService extends BaseService {
 		return arr[0];
 	}
 
-	@Function(doc = "Parse the html to xml document", parameters = @Parameter(name = "xml", type = "string", doc = "The html string to parse"), returns = "The parsed dom4j document.")
-	public Document parse(String html) throws IOException {
+	public Document parse(InputStream in) throws IOException {
 		Tidy tidy = new Tidy();
 		tidy.setCharEncoding(Configuration.UTF8);
 		tidy.setIndentContent(true);
@@ -265,6 +265,11 @@ public class StringService extends BaseService {
 		tidy.setErrout(new Slf4jLoggingPrintWriter());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DOMReader reader = new DOMReader();
-		return reader.read(tidy.parseDOM(new ByteArrayInputStream(html.getBytes("utf-8")), out));
+		return reader.read(tidy.parseDOM(in, out));
+	}
+
+	@Function(doc = "Parse the html to xml document", parameters = @Parameter(name = "xml", type = "string | stream", doc = "The html string or stream to parse"), returns = "The parsed dom4j document.")
+	public Document parse(String html) throws IOException {
+		return parse(new ByteArrayInputStream(html.getBytes()));
 	}
 }

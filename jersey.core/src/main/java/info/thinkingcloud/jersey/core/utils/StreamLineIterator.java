@@ -37,4 +37,7 @@ public class StreamLineIterator implements Iterator<String> {
 		throw new UnsupportedOperationException();
 	}
 
+	public void close() throws IOException {
+		reader.close();
+	}
 }

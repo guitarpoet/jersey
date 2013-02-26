@@ -25,7 +25,9 @@ public class MessageSupportService extends BaseService {
 
 	private static Logger logger = LoggerFactory.getLogger(MessageSupportService.class);
 
-	@Function(doc = "Send the message to the message broker", parameters = @Parameter(name = "message", type = "string", doc = "The message to send."))
+	@Function(doc = "Send the message to the message broker", parameters = {
+	        @Parameter(name = "destination", type = "string", doc = "The destination of the message"),
+	        @Parameter(name = "message", type = "string", doc = "The message to send.") })
 	public void send(final String destination, final String message) {
 		template.execute(destination, new ProducerCallback<TextMessage>() {
 			@Override

@@ -21,6 +21,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.message.BasicNameValuePair;
@@ -93,22 +94,9 @@ public class HttpService extends BaseService {
 
 	public String post(String url, Map<String, String> headers, Map<String, Object> datas)
 	        throws ClientProtocolException, IOException {
-		HttpPost post = new HttpPost(url);
 		HttpResponse response = null;
 		try {
-			if (headers != null) {
-				for (Map.Entry<String, String> e : headers.entrySet()) {
-					post.addHeader(e.getKey(), e.getValue());
-				}
-			}
-			if (datas != null) {
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				for (Map.Entry<String, Object> e : datas.entrySet()) {
-					params.add(new BasicNameValuePair(e.getKey(), String.valueOf(e.getValue())));
-				}
-				post.setEntity(new UrlEncodedFormEntity(params));
-			}
-			response = client.execute(post);
+			response = postResponse(url, headers, datas);
 			if (response.getEntity().getContentType() == null
 			        || (!response.getEntity().getContentType().getValue().contains("text") && !response.getEntity()
 			                .getContentType().getValue().contains("json"))) {
@@ -134,20 +122,70 @@ public class HttpService extends BaseService {
 		writer.close();
 	}
 
+	@Function(doc = "Post to get the raw http reponse object wrapper", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The url to send http post"),
+	        @Parameter(name = "header", type = "object", doc = "The headers for http post."),
+	        @Parameter(name = "datas", type = "object", doc = "The data to post.") })
+	public HttpResponse postResponse(String url, Map<String, String> headers, Map<String, Object> datas)
+	        throws ClientProtocolException, IOException {
+		logger.info("Ready to post {} using headers {} and data {}", new Object[] { url, headers, datas });
+		HttpPost post = new HttpPost(url);
+		HttpResponse response = null;
+
+		if (headers != null) {
+			for (Map.Entry<String, String> e : headers.entrySet()) {
+				post.addHeader(e.getKey(), e.getValue());
+			}
+		}
+		if (datas != null) {
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			for (Map.Entry<String, Object> e : datas.entrySet()) {
+				params.add(new BasicNameValuePair(e.getKey(), String.valueOf(e.getValue())));
+			}
+			post.setEntity(new UrlEncodedFormEntity(params));
+		}
+		response = client.execute(post);
+		return response;
+	}
+
+	@Function(doc = "Get the raw http reponse object wrapper", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The url to send http get"),
+	        @Parameter(name = "header", type = "object", doc = "The headers for http get.") })
+	public HttpResponse getResponse(String url, Map<String, String> headers) throws ClientProtocolException,
+	        IOException {
+		logger.info("Ready to get {}", url);
+		HttpGet get = new HttpGet(url);
+		HttpResponse response = null;
+		if (headers != null) {
+			for (Map.Entry<String, String> e : headers.entrySet()) {
+				get.addHeader(e.getKey(), e.getValue());
+			}
+		}
+		response = client.execute(get);
+		return response;
+	}
+
+	@Function(doc = "Execute the http head method", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The url to get the http head"),
+	        @Parameter(name = "headers", type = "object", doc = "The http headers.") })
+	public HttpResponse head(String url, Map<String, String> headers) throws ClientProtocolException, IOException {
+		HttpHead head = new HttpHead(url);
+		if (headers != null) {
+			for (Map.Entry<String, String> e : headers.entrySet()) {
+				head.addHeader(e.getKey(), e.getValue());
+			}
+		}
+		HttpResponse response = client.execute(head);
+		return response;
+	}
+
 	@Function(doc = "Get response using http get.", parameters = {
 	        @Parameter(name = "url", type = "string", doc = "The get url"),
 	        @Parameter(name = "headers", optional = true, doc = "the headers for the requrest", type = "map") }, returns = "The result string.")
 	public String get(String url, Map<String, String> headers) throws HttpException, IOException {
-		logger.info("Ready to get {}", url);
-		HttpGet get = new HttpGet(url);
 		HttpResponse response = null;
 		try {
-			if (headers != null) {
-				for (Map.Entry<String, String> e : headers.entrySet()) {
-					get.addHeader(e.getKey(), e.getValue());
-				}
-			}
-			response = client.execute(get);
+			response = getResponse(url, headers);
 			if (response.getEntity().getContentType() == null
 			        || (!response.getEntity().getContentType().getValue().contains("text/html")
 			                && !response.getEntity().getContentType().getValue().contains("json") && !response

@@ -6,7 +6,9 @@ import info.thinkingcloud.jersey.core.meta.Parameter;
 import info.thinkingcloud.jersey.core.utils.BaseService;
 import info.thinkingcloud.jersey.core.utils.StreamLineIterator;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +17,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
@@ -40,7 +43,6 @@ public class HdfsService extends BaseService {
 		Configuration config = new Configuration();
 		config.addResource(resourceLoader.getResource(hadoopCore).getURL());
 		config.addResource(resourceLoader.getResource(hadoopHdfs).getURL());
-
 		fileSystem = FileSystem.get(config);
 	}
 
@@ -62,6 +64,18 @@ public class HdfsService extends BaseService {
 	@Function(doc = "Iterate the file in the hdfs", parameters = @Parameter(name = "path", type = "string", doc = "The file path to iterate."))
 	public StreamLineIterator iterate(String path) throws IOException {
 		return new StreamLineIterator(fileSystem.open(new Path(path)));
+	}
+
+	@Function(doc = "Load file content into a string", parameters = @Parameter(name = "path", type = "string", doc = "The path to load."), returns = "The content of the file")
+	public String load(String path) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		IOUtils.copyBytes(loadStream(path), out, 1024);
+		return new String(out.toByteArray());
+	}
+
+	@Function(doc = "Load the file stream", parameters = @Parameter(name = "path", type = "string", doc = "The path to load"))
+	public InputStream loadStream(String path) throws IOException {
+		return fileSystem.open(new Path(path));
 	}
 
 	@Function(doc = "List the directory", parameters = @Parameter(name = "path", type = "string", doc = "The directory path to list."))
