@@ -54,7 +54,7 @@ fi
 # 3. Run it
 if [[ -z ${JS_DEBUG} ]]
 then
-	java -cp "$classpath" -Dfile.encoding=UTF8 $main $args
+	exec java -cp "$classpath" -Dfile.encoding=UTF8 $main $args &
 else
-	java $DEBUG -cp "$classpath" -Dfile.encoding=UTF8 $main $args
+	exec java $DEBUG -cp "$classpath" -Dfile.encoding=UTF8 $main $args &
 fi
