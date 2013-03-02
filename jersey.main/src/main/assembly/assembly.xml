@@ -9,11 +9,14 @@
 	</formats>
 	<files>
 		<file>
-			
-		</file>
-		<file>
 			<outputDirectory>lib</outputDirectory>
 			<source>${project.build.directory}/${project.build.finalName}.jar</source>
+		</file>
+		<file>
+			<source>${basedir}/src/main/bin/jersey</source>
+		</file>
+		<file>
+			<source>${basedir}/src/main/bin/jpm</source>
 		</file>
 	</files>
 	<dependencySets>
