@@ -16,6 +16,9 @@
 			<source>${basedir}/src/main/bin/jersey</source>
 		</file>
 		<file>
+			<source>${basedir}/src/main/bin/INSTALL.markdown</source>
+		</file>
+		<file>
 			<source>${basedir}/src/main/bin/jpm</source>
 		</file>
 	</files>

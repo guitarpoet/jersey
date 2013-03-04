@@ -1,11 +1,15 @@
 package info.thinkingcloud.jersey.main.service;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import info.thinkingcloud.jersey.core.NewGlobal;
 import info.thinkingcloud.jersey.core.meta.Function;
 import info.thinkingcloud.jersey.core.meta.Module;
 import info.thinkingcloud.jersey.core.meta.Parameter;
 import info.thinkingcloud.jersey.core.utils.BaseService;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
@@ -16,8 +20,8 @@ import java.util.Map;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service("console")
 @Module(doc = "The console object")
@@ -26,6 +30,9 @@ public class Console extends BaseService {
 	private static final Logger logger = NewGlobal.logger;
 
 	private Map<String, Long> timestamps = new HashMap<String, Long>();
+
+	@Autowired
+	private Configuration freemarker;
 
 	@Function(doc = "Set the begin timestamp", parameters = @Parameter(name = "name", type = "string", optional = true, doc = "The timestamp's name"))
 	public void time(String name) {
@@ -117,7 +124,7 @@ public class Console extends BaseService {
 	@Function(doc = "Inspect the object.", parameters = {
 	        @Parameter(name = "o", type = "object", doc = "The object that need inspect."),
 	        @Parameter(name = "indentLevel", type = "int", doc = "The indent level for this inspect, using for beautify.") })
-	public String inspect(Object o, int indentLevel) {
+	public String inspect(Object o, int indentLevel) throws IOException, TemplateException {
 		StringBuilder sb = new StringBuilder();
 		if (o instanceof List) {
 			sb.append("[\n");
@@ -158,14 +165,26 @@ public class Console extends BaseService {
 			sb.append("\"").append(o).append("\"");
 		} else if (o instanceof NativeJavaObject && ((NativeJavaObject) o).unwrap() instanceof String) {
 			sb.append("\"").append(((NativeJavaObject) o).unwrap()).append("\"");
-		} else if (o instanceof NativeJavaObject) {
-			sb.append(((NativeJavaObject) o).unwrap());
+		} else {
+			Object obj = o;
+			if (o instanceof NativeJavaObject) {
+				obj = ((NativeJavaObject) o).unwrap();
+			}
+			Template template = freemarker.getTemplate("classpath:templates/inspect.ftl");
+			HashMap<String, Object> datas = new HashMap<String, Object>();
+			datas.put("class", obj.getClass().getName());
+			datas.put("fields", obj.getClass().getFields());
+			datas.put("methods", obj.getClass().getMethods());
+			datas.put("obj", obj);
+			StringWriter writer = new StringWriter();
+			template.process(datas, writer);
+			sb.append(writer.toString());
 		}
 		return sb.toString();
 	}
 
 	@Function(doc = "Dump the object into stdout.", parameters = { @Parameter(name = "o", type = "object", doc = "The object that need inspect.") })
-	public void dir(Object o) {
+	public void dir(Object o) throws IOException, TemplateException {
 		print(inspect(o, 0));
 	}
 }
