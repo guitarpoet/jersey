@@ -186,10 +186,7 @@ public class HttpService extends BaseService {
 		HttpResponse response = null;
 		try {
 			response = getResponse(url, headers);
-			if (response.getEntity().getContentType() == null
-			        || (!response.getEntity().getContentType().getValue().contains("text/html")
-			                && !response.getEntity().getContentType().getValue().contains("json") && !response
-			                .getEntity().getContentType().getValue().contains("Chemical/MolFile"))) {
+			if (response.getEntity().getContentType() == null) {
 				return null;
 			}
 			logger.info("Decoding using default charset {}", defaultCharset);

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,7 +34,9 @@ import org.apache.oro.text.regex.Perl5Compiler;
 import org.apache.oro.text.regex.Perl5Matcher;
 import org.apache.oro.text.regex.Perl5Pattern;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.io.DOMReader;
+import org.dom4j.io.SAXReader;
 import org.mozilla.javascript.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -254,6 +257,12 @@ public class StringService extends BaseService {
 		if (arr.length == 0)
 			return "0";
 		return arr[0];
+	}
+
+	@Function(doc = "Parse the xml string")
+	public Document praseXml(String xml) throws DocumentException {
+		SAXReader reader = new SAXReader();
+		return reader.read(new StringReader(xml));
 	}
 
 	public Document parse(InputStream in) throws IOException {
