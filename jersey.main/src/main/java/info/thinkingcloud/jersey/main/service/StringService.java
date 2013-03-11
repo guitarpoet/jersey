@@ -260,7 +260,7 @@ public class StringService extends BaseService {
 	}
 
 	@Function(doc = "Parse the xml string")
-	public Document praseXml(String xml) throws DocumentException {
+	public Document parseXml(String xml) throws DocumentException {
 		SAXReader reader = new SAXReader();
 		return reader.read(new StringReader(xml));
 	}
