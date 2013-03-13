@@ -48,7 +48,7 @@
 				<configuration>
 					<executable>/usr/bin/find</executable>
 					<arguments>
-						<argument>src</argument>
+						<argument>.</argument>
 						<argument>-name</argument>
 						<argument>*.coffee</argument>
 						<argument>-exec</argument>

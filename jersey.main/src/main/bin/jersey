@@ -1,17 +1,18 @@
 #! /bin/sh
-
-export JSCONSOLE_HOME="/Applications/jersey"
+if [[ ! $JERSEY_HOME ]];
+then
+	export JERSEY_HOME="/usr/local/jersey"
+fi
 
 tmp_file=/tmp/arg.tmp
 
 # 1. Making classpath
 classpath=`pwd`
 
-
 # Added the system libraries
-for file in `ls ${JSCONSOLE_HOME}/lib`
+for file in `ls ${JERSEY_HOME}/lib`
 do
-	classpath="$classpath:${JSCONSOLE_HOME}/lib/$file"
+	classpath="$classpath:${JERSEY_HOME}/lib/$file"
 done
 
 # Added the local libraries
