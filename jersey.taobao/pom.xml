@@ -6,16 +6,16 @@
 	<parent>
 		<artifactId>jersey</artifactId>
 		<groupId>info.thinkingcloud</groupId>
-		<version>1.0.1</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>jersey.taobao</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>The Taobao api client plugin of Jersey</name>
 	<dependencies>
 		<dependency>
 			<groupId>info.thinkingcloud</groupId>
 			<artifactId>jersey.http</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

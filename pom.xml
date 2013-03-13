@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.thinkingcloud</groupId>
 	<artifactId>jersey</artifactId>
-	<version>1.0.1</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Jersey - The pluggable JavaScript Execution Enviroment</name>
 	<properties>
@@ -142,9 +142,10 @@
 				<version>3.8</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-httpclient</groupId>
-				<artifactId>commons-httpclient</artifactId>
-				<version>3.1</version>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.2.3</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.htmlparser</groupId>
@@ -232,11 +233,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>4.2.3</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpmime</artifactId>
 				<version>4.2.3</version>
 			</dependency>
@@ -246,6 +242,7 @@
 				<version>2.0.8</version>
 			</dependency>
 		</dependencies>
+	</dependencyManagement>
 	<modules>
 		<module>jersey.main</module>
 		<module>jersey.db</module>
@@ -263,6 +260,6 @@
 		<module>jersey.hdfs</module>
 		<module>jersey.activemq</module>
 		<module>jersey.htmlunit</module>
-    <module>jersey.imagerec</module>
+		<module>jersey.imagerec</module>
   </modules>
 </project>

@@ -6,10 +6,10 @@
 	<parent>
 		<artifactId>jersey</artifactId>
 		<groupId>info.thinkingcloud</groupId>
-		<version>1.0.1</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>jersey.mvc</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>The mvc framework plugin for web development for Jersey</name>
 	<dependencies>
 		<dependency>
@@ -19,6 +19,7 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -33,7 +34,8 @@
 		<dependency>
 			<groupId>info.thinkingcloud</groupId>
 			<artifactId>jersey.core</artifactId>
-			<version>1.0.1</version>
+			<version>1.0-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

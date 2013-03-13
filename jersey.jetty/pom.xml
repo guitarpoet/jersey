@@ -6,10 +6,10 @@
 	<parent>
 		<artifactId>jersey</artifactId>
 		<groupId>info.thinkingcloud</groupId>
-		<version>1.0.1</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>jersey.jetty</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>Jetty plugin of Jersey</name>
 	<dependencies>
 		<dependency>
@@ -24,20 +24,23 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>info.thinkingcloud</groupId>
 			<artifactId>jersey.core</artifactId>
-			<version>1.0.1</version>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
