@@ -113,14 +113,18 @@ public class HttpService extends BaseService {
 	        @Parameter(name = "basePath", type = "string", doc = "The base path of this document") }, returns = "The result that downloaded")
 	public String download(String url, String basePath) throws IOException, HttpException {
 		String fileName = url.substring(url.lastIndexOf("/") + 1);
-		File out = new File(basePath + "/" + fileName);
-		if (!out.exists())
-			out.createNewFile();
-		FileWriter writer = new FileWriter(out);
+
 		String data = get(url);
-		writer.write(data);
-		writer.flush();
-		writer.close();
+		if (data != null) {
+			File out = new File(basePath + "/" + fileName);
+			if (!out.exists())
+				out.createNewFile();
+			FileWriter writer = new FileWriter(out);
+			writer.write(data);
+			writer.flush();
+			writer.close();
+		}
+
 		return data;
 	}
 
