@@ -20,27 +20,36 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 
 /**
- * A variant of Hebbian learning called Anti-Hebbian learning.
- * The only difference is that it subbstracts weight change (Hebbian learning adds)
- * @author Zoran Sevarac <sevarac@gmail.com> 
+ * A variant of Hebbian learning called Anti-Hebbian learning. The only
+ * difference is that it subbstracts weight change (Hebbian learning adds)
+ * 
+ * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class AntiHebbianLearning extends UnsupervisedHebbianLearning {
-    
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6307819278930526904L;
+
 	/**
 	 * This method implements weights update procedure for the single neuron
 	 * 
 	 * @param neuron
 	 *            neuron to update weights
 	 */
-         @Override
+	@Override
 	protected void updateNeuronWeights(Neuron neuron) {
 		double output = neuron.getOutput();
 
 		for (Connection connection : neuron.getInputConnections()) {
 			double input = connection.getInput();
-			double deltaWeight = input * output * this.learningRate;                       
-			connection.getWeight().dec(deltaWeight); // the only difference to UnsupervisedHebbianLearning is this substraction instead addition
+			double deltaWeight = input * output * this.learningRate;
+			connection.getWeight().dec(deltaWeight); // the only difference to
+													 // UnsupervisedHebbianLearning
+													 // is this substraction
+													 // instead addition
 		}
-	}    
-    
+	}
+
 }

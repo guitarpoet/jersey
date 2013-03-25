@@ -20,13 +20,16 @@ import org.neuroph.core.learning.LearningRule;
 
 /**
  * This class holds information about the source of some learning event.
-  * @author Zoran Sevarac
+ * 
+ * @author Zoran Sevarac
  */
 
 public class LearningEvent extends java.util.EventObject {
-    
-    public LearningEvent(LearningRule source) {
-        super(source);
-    }
-        
+
+	private static final long serialVersionUID = -1168561505593143111L;
+
+	public LearningEvent(LearningRule source) {
+		super(source);
+	}
+
 }

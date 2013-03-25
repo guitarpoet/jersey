@@ -1,5 +1,6 @@
 package info.thinkingcloud.jersey.core;
 
+
 public interface Buffer {
 	void write(Object message) throws Exception;
 
@@ -11,5 +12,5 @@ public interface Buffer {
 
 	void flush() throws Exception;
 
-	void reset();
+	void reset() throws Exception;
 }

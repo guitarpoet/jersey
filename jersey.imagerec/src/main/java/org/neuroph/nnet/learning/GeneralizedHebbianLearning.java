@@ -20,13 +20,19 @@ import org.neuroph.core.Connection;
 import org.neuroph.core.Neuron;
 
 /**
- * A variant of Hebbian learning called Generalized Hebbian learning.
- * Weight change is calculated using formula
- *      deltaWeight = (input - netInput) * output * learningRate
- * @author Zoran Sevarac <sevarac@gmail.com> 
+ * A variant of Hebbian learning called Generalized Hebbian learning. Weight
+ * change is calculated using formula deltaWeight = (input - netInput) * output
+ * * learningRate
+ * 
+ * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class GeneralizedHebbianLearning extends UnsupervisedHebbianLearning {
-    
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5168785933500653309L;
+
 	/**
 	 * This method implements weights update procedure for the single neuron
 	 * 
@@ -36,12 +42,18 @@ public class GeneralizedHebbianLearning extends UnsupervisedHebbianLearning {
 	@Override
 	protected void updateNeuronWeights(Neuron neuron) {
 		double output = neuron.getOutput();
-		for(Connection connection : neuron.getInputConnections()) {
+		for (Connection connection : neuron.getInputConnections()) {
 			double input = connection.getInput();
-                        double netInput = neuron.getNetInput();
-			double deltaWeight = (input - netInput) * output * this.learningRate; // is it right to use netInput here?
+			double netInput = neuron.getNetInput();
+			double deltaWeight = (input - netInput) * output * this.learningRate; // is
+																				  // it
+																				  // right
+																				  // to
+																				  // use
+																				  // netInput
+																				  // here?
 			connection.getWeight().inc(deltaWeight);
 		}
-	}    
-    
+	}
+
 }

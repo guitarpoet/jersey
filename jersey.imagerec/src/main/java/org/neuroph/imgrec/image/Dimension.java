@@ -19,32 +19,38 @@ package org.neuroph.imgrec.image;
 import java.io.Serializable;
 
 /**
- * This class holds dimensions (width and height) and it is a replacement for java.awt.Dimension on Android
+ * This class holds dimensions (width and height) and it is a replacement for
+ * java.awt.Dimension on Android
+ * 
  * @author dmicic
  */
 public class Dimension implements Serializable {
 
-    private int width;
-    private int height;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -574437475785528263L;
+	private int width;
+	private int height;
 
-    public Dimension(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
+	public Dimension(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
 
-    public int getWidth() {
-        return width;
-    }
+	public int getWidth() {
+		return width;
+	}
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
+	public void setWidth(int width) {
+		this.width = width;
+	}
 
-    public int getHeight() {
-        return height;
-    }
+	public int getHeight() {
+		return height;
+	}
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
+	public void setHeight(int height) {
+		this.height = height;
+	}
 }

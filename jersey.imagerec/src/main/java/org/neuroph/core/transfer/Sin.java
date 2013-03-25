@@ -22,18 +22,24 @@ package org.neuroph.core.transfer;
  * 
  * output = sin(input)
  * </pre>
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class Sin extends TransferFunction {
 
-    @Override
-    public double getOutput(double net) {
-        return Math.sin(net);
-    }
-    
-    @Override
-    public double getDerivative(double net) {
-	return Math.cos(net);
-    }    
-         
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6753993326817749521L;
+
+	@Override
+	public double getOutput(double net) {
+		return Math.sin(net);
+	}
+
+	@Override
+	public double getDerivative(double net) {
+		return Math.cos(net);
+	}
+
 }

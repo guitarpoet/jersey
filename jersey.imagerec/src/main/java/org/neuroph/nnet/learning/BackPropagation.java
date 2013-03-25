@@ -16,7 +16,6 @@
 
 package org.neuroph.nnet.learning;
 
-import java.util.List;
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
 import org.neuroph.core.Neuron;

@@ -17,7 +17,6 @@
 package org.neuroph.nnet.comp.neuron;
 
 import java.util.Arrays;
-import java.util.Vector;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.input.InputFunction;

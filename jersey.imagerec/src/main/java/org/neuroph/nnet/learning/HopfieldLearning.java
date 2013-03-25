@@ -18,11 +18,10 @@ package org.neuroph.nnet.learning;
 
 import org.neuroph.core.Connection;
 import org.neuroph.core.Layer;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
-import org.neuroph.core.learning.LearningRule;
-import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.learning.LearningRule;
 
 /**
  * Learning algorithm for the Hopfield neural network.
@@ -30,11 +29,11 @@ import org.neuroph.core.learning.DataSet;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class HopfieldLearning extends LearningRule {
-	
+
 	/**
-	 * The class fingerprint that is set to indicate serialization
-	 * compatibility with a previous version of the class.
-	 */	
+	 * The class fingerprint that is set to indicate serialization compatibility
+	 * with a previous version of the class.
+	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -43,7 +42,6 @@ public class HopfieldLearning extends LearningRule {
 	public HopfieldLearning() {
 		super();
 	}
-
 
 	/**
 	 * Calculates weights for the hopfield net to learn the specified training

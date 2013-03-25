@@ -24,22 +24,31 @@ import org.neuroph.util.NeuronFactory;
 import org.neuroph.util.NeuronProperties;
 
 /**
- * Represents a layer of input neurons - a typical neural network input layer 
+ * Represents a layer of input neurons - a typical neural network input layer
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  * @see InputNeuron
  */
 public class InputLayer extends Layer {
 
-    /**
-     * Creates a new instance of InputLayer with specified number of input neurons
-     * @param neuronsCount input neurons count for this layer
-     */
-    public InputLayer(int neuronsCount) {
-        NeuronProperties inputNeuronProperties = new NeuronProperties(InputNeuron.class, Linear.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3864618660250522828L;
 
-        for (int i = 0; i < neuronsCount; i++) {
-            Neuron neuron = NeuronFactory.createNeuron(inputNeuronProperties);
-            this.addNeuron(neuron);
-        }
-    }
+	/**
+	 * Creates a new instance of InputLayer with specified number of input
+	 * neurons
+	 * 
+	 * @param neuronsCount
+	 *            input neurons count for this layer
+	 */
+	public InputLayer(int neuronsCount) {
+		NeuronProperties inputNeuronProperties = new NeuronProperties(InputNeuron.class, Linear.class);
+
+		for (int i = 0; i < neuronsCount; i++) {
+			Neuron neuron = NeuronFactory.createNeuron(inputNeuronProperties);
+			this.addNeuron(neuron);
+		}
+	}
 }

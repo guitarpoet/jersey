@@ -25,10 +25,9 @@ import java.io.IOException;
 import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.learning.DataSet;
 
-
 /**
  * Handles training set imports
- *
+ * 
  * @author Zoran Sevarac
  * @author Ivan Nedeljkovic
  * @author Kokanovic Rados
@@ -36,58 +35,57 @@ import org.neuroph.core.learning.DataSet;
 
 // TODO: importFromDatabase(sql, ...) and importFromUrl(url, ...)
 
-public class TrainingSetImport
-{
-  
-  public static DataSet importFromFile(String filePath, int inputsCount, int outputsCount, String separator)
-    throws IOException, FileNotFoundException, NumberFormatException
-  {
+public class TrainingSetImport {
 
-    FileReader fileReader = null;
+	public static DataSet importFromFile(String filePath, int inputsCount, int outputsCount, String separator)
+	        throws IOException, FileNotFoundException, NumberFormatException {
 
-    try {
-     DataSet trainingSet = new DataSet(inputsCount, outputsCount);
-     fileReader = new FileReader(new File(filePath));
-     BufferedReader reader = new BufferedReader(fileReader);
+		FileReader fileReader = null;
 
-     String line = "";
-      
-      while((line = reader.readLine())!=null) {
-        double[] inputs = new double[inputsCount];
-        double[] outputs = new double[outputsCount];
-        String[] values = line.split(separator);
+		try {
+			DataSet trainingSet = new DataSet(inputsCount, outputsCount);
+			fileReader = new FileReader(new File(filePath));
+			BufferedReader reader = new BufferedReader(fileReader);
 
-        if (values[0].equals("")) continue; // skip if line was empty
+			String line = "";
 
-        for (int i = 0; i < inputsCount; i++)
-          inputs[i] =  Double.parseDouble(values[i]);
+			while ((line = reader.readLine()) != null) {
+				double[] inputs = new double[inputsCount];
+				double[] outputs = new double[outputsCount];
+				String[] values = line.split(separator);
 
-           for (int i = 0; i < outputsCount; i++)
-          outputs[i] = Double.parseDouble(values[inputsCount + i]);
+				if (values[0].equals(""))
+					continue; // skip if line was empty
 
-        if (outputsCount>0) {
-              trainingSet.addRow(new DataSetRow(inputs, outputs));
-        } else {
-              trainingSet.addRow(new DataSetRow(inputs));
-        }
-      }
+				for (int i = 0; i < inputsCount; i++)
+					inputs[i] = Double.parseDouble(values[i]);
 
-      return trainingSet;
-      
-    } catch (FileNotFoundException ex) {
-       ex.printStackTrace();
-       throw ex;
-    } catch(IOException ex) {
-    	if(fileReader != null) {
-    		fileReader.close();
-    	}
-    	ex.printStackTrace();
-    	throw ex;
-    } catch (NumberFormatException ex) {
-       fileReader.close();
-       ex.printStackTrace();
-       throw ex;
-    }
-  }
+				for (int i = 0; i < outputsCount; i++)
+					outputs[i] = Double.parseDouble(values[inputsCount + i]);
+
+				if (outputsCount > 0) {
+					trainingSet.addRow(new DataSetRow(inputs, outputs));
+				} else {
+					trainingSet.addRow(new DataSetRow(inputs));
+				}
+			}
+			reader.close();
+			return trainingSet;
+
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+			throw ex;
+		} catch (IOException ex) {
+			if (fileReader != null) {
+				fileReader.close();
+			}
+			ex.printStackTrace();
+			throw ex;
+		} catch (NumberFormatException ex) {
+			fileReader.close();
+			ex.printStackTrace();
+			throw ex;
+		}
+	}
 
 }

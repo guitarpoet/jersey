@@ -21,18 +21,24 @@ package org.neuroph.core.transfer;
  * 
  * output = log(input)
  * </pre>
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class Log extends TransferFunction {
 
-    @Override
-    public double getOutput(double net) {
-        return Math.log(net);
-    }
-    
-    @Override
-    public double getDerivative(double net) {
-	return (1/net);
-    }       
-        
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9150750057457207081L;
+
+	@Override
+	public double getOutput(double net) {
+		return Math.log(net);
+	}
+
+	@Override
+	public double getDerivative(double net) {
+		return (1 / net);
+	}
+
 }

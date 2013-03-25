@@ -17,8 +17,6 @@
 package org.neuroph.util;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
@@ -46,13 +44,16 @@ import org.neuroph.nnet.learning.ResilientPropagation;
 
 /**
  * Provides methods to create various neural networks.
+ * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class NeuralNetworkFactory {
 
 	/**
 	 * Creates and returns a new instance of Adaline network
-	 * @param inputsCount number of inputs of Adaline network
+	 * 
+	 * @param inputsCount
+	 *            number of inputs of Adaline network
 	 * @return instance of Adaline network
 	 */
 	public static Adaline createAdaline(int inputsCount) {
@@ -60,107 +61,131 @@ public class NeuralNetworkFactory {
 		return nnet;
 	}
 
-
 	/**
-	 * Creates  and returns a new instance of Perceptron network
-	 * @param inputNeuronsCount number of neurons in input layer
-         * @param outputNeuronsCount number of neurons in output layer
-         * @param transferFunctionType type of transfer function to use
+	 * Creates and returns a new instance of Perceptron network
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of neurons in input layer
+	 * @param outputNeuronsCount
+	 *            number of neurons in output layer
+	 * @param transferFunctionType
+	 *            type of transfer function to use
 	 * @return instance of Perceptron network
-	 */	
-	public static Perceptron createPerceptron(int inputNeuronsCount, int outputNeuronsCount, TransferFunctionType transferFunctionType) {
+	 */
+	public static Perceptron createPerceptron(int inputNeuronsCount, int outputNeuronsCount,
+	        TransferFunctionType transferFunctionType) {
 		Perceptron nnet = new Perceptron(inputNeuronsCount, outputNeuronsCount, transferFunctionType);
 		return nnet;
 	}
 
 	/**
-	 * Creates  and returns a new instance of Perceptron network
-	 * @param inputNeuronsCount number of neurons in input layer
-         * @param outputNeuronsCount number of neurons in output layer
-         * @param transferFunctionType type of transfer function to use
-         * @param learningRule learning rule class
+	 * Creates and returns a new instance of Perceptron network
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of neurons in input layer
+	 * @param outputNeuronsCount
+	 *            number of neurons in output layer
+	 * @param transferFunctionType
+	 *            type of transfer function to use
+	 * @param learningRule
+	 *            learning rule class
 	 * @return instance of Perceptron network
 	 */
-	public static Perceptron createPerceptron(int inputNeuronsCount, int outputNeuronsCount, TransferFunctionType transferFunctionType, Class learningRule) {
+	public static Perceptron createPerceptron(int inputNeuronsCount, int outputNeuronsCount,
+	        TransferFunctionType transferFunctionType, Class learningRule) {
 		Perceptron nnet = new Perceptron(inputNeuronsCount, outputNeuronsCount, transferFunctionType);
 
-                if (learningRule.getName().equals(PerceptronLearning.class.getName()))  {
-                    nnet.setLearningRule(new PerceptronLearning());
-                } else if (learningRule.getName().equals(BinaryDeltaRule.class.getName())) {
-                    nnet.setLearningRule(new BinaryDeltaRule());
-                }
+		if (learningRule.getName().equals(PerceptronLearning.class.getName())) {
+			nnet.setLearningRule(new PerceptronLearning());
+		} else if (learningRule.getName().equals(BinaryDeltaRule.class.getName())) {
+			nnet.setLearningRule(new BinaryDeltaRule());
+		}
 
 		return nnet;
 	}
 
 	/**
 	 * Creates and returns a new instance of Multi Layer Perceptron
-	 * @param layersStr space separated number of neurons in layers
-	 * @param transferFunctionType transfer function type for neurons
+	 * 
+	 * @param layersStr
+	 *            space separated number of neurons in layers
+	 * @param transferFunctionType
+	 *            transfer function type for neurons
 	 * @return instance of Multi Layer Perceptron
 	 */
 	public static MultiLayerPerceptron createMLPerceptron(String layersStr, TransferFunctionType transferFunctionType) {
 		ArrayList<Integer> layerSizes = VectorParser.parseInteger(layersStr);
-		MultiLayerPerceptron nnet = new MultiLayerPerceptron(layerSizes,
-				transferFunctionType);
+		MultiLayerPerceptron nnet = new MultiLayerPerceptron(layerSizes, transferFunctionType);
 		return nnet;
 	}
 
 	/**
 	 * Creates and returns a new instance of Multi Layer Perceptron
-	 * @param layersStr space separated number of neurons in layers
-	 * @param transferFunctionType transfer function type for neurons
+	 * 
+	 * @param layersStr
+	 *            space separated number of neurons in layers
+	 * @param transferFunctionType
+	 *            transfer function type for neurons
 	 * @return instance of Multi Layer Perceptron
 	 */
-	public static MultiLayerPerceptron createMLPerceptron(String layersStr, TransferFunctionType transferFunctionType, Class learningRule,  boolean useBias, boolean connectIO) {
+	public static MultiLayerPerceptron createMLPerceptron(String layersStr, TransferFunctionType transferFunctionType,
+	        Class learningRule, boolean useBias, boolean connectIO) {
 		ArrayList<Integer> layerSizes = VectorParser.parseInteger(layersStr);
-                NeuronProperties neuronProperties = new NeuronProperties(transferFunctionType, useBias);
+		NeuronProperties neuronProperties = new NeuronProperties(transferFunctionType, useBias);
 		MultiLayerPerceptron nnet = new MultiLayerPerceptron(layerSizes, neuronProperties);
-                
-                // set learning rule - TODO: use reflection here
-                if (learningRule.getName().equals(BackPropagation.class.getName()))  {
-                    nnet.setLearningRule(new BackPropagation());
-                } else if (learningRule.getName().equals(MomentumBackpropagation.class.getName())) {
-                    nnet.setLearningRule(new MomentumBackpropagation());
-                } else if (learningRule.getName().equals(DynamicBackPropagation.class.getName())) {
-                    nnet.setLearningRule(new DynamicBackPropagation());
-                } else if (learningRule.getName().equals(ResilientPropagation.class.getName())) {
-                    nnet.setLearningRule(new ResilientPropagation());
-                } 
 
-                // connect io
-                if (connectIO) {
-                    nnet.connectInputsToOutputs();
-                }
+		// set learning rule - TODO: use reflection here
+		if (learningRule.getName().equals(BackPropagation.class.getName())) {
+			nnet.setLearningRule(new BackPropagation());
+		} else if (learningRule.getName().equals(MomentumBackpropagation.class.getName())) {
+			nnet.setLearningRule(new MomentumBackpropagation());
+		} else if (learningRule.getName().equals(DynamicBackPropagation.class.getName())) {
+			nnet.setLearningRule(new DynamicBackPropagation());
+		} else if (learningRule.getName().equals(ResilientPropagation.class.getName())) {
+			nnet.setLearningRule(new ResilientPropagation());
+		}
+
+		// connect io
+		if (connectIO) {
+			nnet.connectInputsToOutputs();
+		}
 
 		return nnet;
 	}
-	
+
 	/**
 	 * Creates and returns a new instance of Hopfield network
-	 * @param neuronsCount number of neurons in Hopfield network
+	 * 
+	 * @param neuronsCount
+	 *            number of neurons in Hopfield network
 	 * @return instance of Hopfield network
 	 */
 	public static Hopfield createHopfield(int neuronsCount) {
 		Hopfield nnet = new Hopfield(neuronsCount);
 		return nnet;
 	}
-	
+
 	/**
 	 * Creates and returns a new instance of BAM network
-	 * @param inputNeuronsCount number of input neurons
-         * @param outputNeuronsCount number of output neurons
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of input neurons
+	 * @param outputNeuronsCount
+	 *            number of output neurons
 	 * @return instance of BAM network
 	 */
 	public static BAM createBam(int inputNeuronsCount, int outputNeuronsCount) {
 		BAM nnet = new BAM(inputNeuronsCount, outputNeuronsCount);
 		return nnet;
-	}	
+	}
 
 	/**
 	 * Creates and returns a new instance of Kohonen network
-	 * @param inputNeuronsCount number of input neurons
-         * @param outputNeuronsCount number of output neurons
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of input neurons
+	 * @param outputNeuronsCount
+	 *            number of output neurons
 	 * @return instance of Kohonen network
 	 */
 	public static Kohonen createKohonen(int inputNeuronsCount, int outputNeuronsCount) {
@@ -170,85 +195,103 @@ public class NeuralNetworkFactory {
 
 	/**
 	 * Creates and returns a new instance of Hebbian network
-	 * @param inputNeuronsCount number of neurons in input layer
-	 * @param outputNeuronsCount number of neurons in output layer
-	 * @param transferFunctionType neuron's transfer function type
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of neurons in input layer
+	 * @param outputNeuronsCount
+	 *            number of neurons in output layer
+	 * @param transferFunctionType
+	 *            neuron's transfer function type
 	 * @return instance of Hebbian network
 	 */
-	public static SupervisedHebbianNetwork createSupervisedHebbian(int inputNeuronsCount,
-			int outputNeuronsCount, TransferFunctionType transferFunctionType) {
-		SupervisedHebbianNetwork nnet = new SupervisedHebbianNetwork(inputNeuronsCount,
-				outputNeuronsCount, transferFunctionType);
+	public static SupervisedHebbianNetwork createSupervisedHebbian(int inputNeuronsCount, int outputNeuronsCount,
+	        TransferFunctionType transferFunctionType) {
+		SupervisedHebbianNetwork nnet = new SupervisedHebbianNetwork(inputNeuronsCount, outputNeuronsCount,
+		        transferFunctionType);
 		return nnet;
 	}
-	
+
 	/**
 	 * Creates and returns a new instance of Unsupervised Hebbian Network
-	 * @param inputNeuronsCount number of neurons in input layer
-	 * @param outputNeuronsCount number of neurons in output layer
-	 * @param transferFunctionType neuron's transfer function type
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of neurons in input layer
+	 * @param outputNeuronsCount
+	 *            number of neurons in output layer
+	 * @param transferFunctionType
+	 *            neuron's transfer function type
 	 * @return instance of Unsupervised Hebbian Network
 	 */
-	public static UnsupervisedHebbianNetwork createUnsupervisedHebbian(int inputNeuronsCount,
-			int outputNeuronsCount, TransferFunctionType transferFunctionType) {
-		UnsupervisedHebbianNetwork nnet = new UnsupervisedHebbianNetwork(inputNeuronsCount,
-				outputNeuronsCount, transferFunctionType);
+	public static UnsupervisedHebbianNetwork createUnsupervisedHebbian(int inputNeuronsCount, int outputNeuronsCount,
+	        TransferFunctionType transferFunctionType) {
+		UnsupervisedHebbianNetwork nnet = new UnsupervisedHebbianNetwork(inputNeuronsCount, outputNeuronsCount,
+		        transferFunctionType);
 		return nnet;
-	}	
+	}
 
 	/**
 	 * Creates and returns a new instance of Max Net network
-	 * @param neuronsCount number of neurons (same num in input and output layer)
+	 * 
+	 * @param neuronsCount
+	 *            number of neurons (same num in input and output layer)
 	 * @return instance of Max Net network
 	 */
 	public static MaxNet createMaxNet(int neuronsCount) {
 		MaxNet nnet = new MaxNet(neuronsCount);
 		return nnet;
 	}
-	
+
 	/**
 	 * Creates and returns a new instance of Instar network
-	 * @param inputNeuronsCount umber of input neurons
+	 * 
+	 * @param inputNeuronsCount
+	 *            umber of input neurons
 	 * @return instance of Instar network
 	 */
 	public static Instar createInstar(int inputNeuronsCount) {
 		Instar nnet = new Instar(inputNeuronsCount);
 		return nnet;
-	}	
-	
+	}
+
 	/**
 	 * Creates and returns a new instance of Outstar network
-	 * @param outputNeuronsCount number of output neurons
+	 * 
+	 * @param outputNeuronsCount
+	 *            number of output neurons
 	 * @return instance of Outstar network
 	 */
 	public static Outstar createOutstar(int outputNeuronsCount) {
 		Outstar nnet = new Outstar(outputNeuronsCount);
 		return nnet;
-	}	
+	}
 
 	/**
 	 * Creates and returns a new instance of competitive network
-	 * @param inputNeuronsCount number of neurons in input layer
-	 * @param outputNeuronsCount number of neurons in output layer
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of neurons in input layer
+	 * @param outputNeuronsCount
+	 *            number of neurons in output layer
 	 * @return instance of CompetitiveNetwork
 	 */
-	public static CompetitiveNetwork createCompetitiveNetwork(
-			int inputNeuronsCount, int outputNeuronsCount) {
+	public static CompetitiveNetwork createCompetitiveNetwork(int inputNeuronsCount, int outputNeuronsCount) {
 		CompetitiveNetwork nnet = new CompetitiveNetwork(inputNeuronsCount, outputNeuronsCount);
 		return nnet;
 	}
 
 	/**
 	 * Creates and returns a new instance of RBF network
-	 * @param inputNeuronsCount number of neurons in input layer
-	 * @param rbfNeuronsCount number of neurons in RBF layer
-	 * @param outputNeuronsCount number of neurons in output layer
+	 * 
+	 * @param inputNeuronsCount
+	 *            number of neurons in input layer
+	 * @param rbfNeuronsCount
+	 *            number of neurons in RBF layer
+	 * @param outputNeuronsCount
+	 *            number of neurons in output layer
 	 * @return instance of RBF network
 	 */
-	public static RbfNetwork createRbfNetwork(int inputNeuronsCount,
-			int rbfNeuronsCount, int outputNeuronsCount) {
-		RbfNetwork nnet = new RbfNetwork(inputNeuronsCount, rbfNeuronsCount,
-				outputNeuronsCount);
+	public static RbfNetwork createRbfNetwork(int inputNeuronsCount, int rbfNeuronsCount, int outputNeuronsCount) {
+		RbfNetwork nnet = new RbfNetwork(inputNeuronsCount, rbfNeuronsCount, outputNeuronsCount);
 		return nnet;
 	}
 
@@ -257,20 +300,21 @@ public class NeuralNetworkFactory {
 	 * last as output)
 	 */
 	public static void setDefaultIO(NeuralNetwork nnet) {
-               ArrayList<Neuron> inputNeuronsList = new ArrayList<Neuron>();
-                Layer firstLayer = nnet.getLayerAt(0);
-                for (Neuron neuron : firstLayer.getNeurons() ) {
-                    if (!(neuron instanceof BiasNeuron)) {  // dont set input to bias neurons
-                        inputNeuronsList.add(neuron);
-                    }
-                }
+		ArrayList<Neuron> inputNeuronsList = new ArrayList<Neuron>();
+		Layer firstLayer = nnet.getLayerAt(0);
+		for (Neuron neuron : firstLayer.getNeurons()) {
+			if (!(neuron instanceof BiasNeuron)) { // dont set input to bias
+												   // neurons
+				inputNeuronsList.add(neuron);
+			}
+		}
 
-                Neuron[] inputNeurons = new Neuron[inputNeuronsList.size()];
-                inputNeurons = inputNeuronsList.toArray(inputNeurons);
-		Neuron[] outputNeurons = ((Layer) nnet.getLayerAt(nnet.getLayersCount()-1)).getNeurons();
+		Neuron[] inputNeurons = new Neuron[inputNeuronsList.size()];
+		inputNeurons = inputNeuronsList.toArray(inputNeurons);
+		Neuron[] outputNeurons = ((Layer) nnet.getLayerAt(nnet.getLayersCount() - 1)).getNeurons();
 
 		nnet.setInputNeurons(inputNeurons);
-		nnet.setOutputNeurons(outputNeurons); 
+		nnet.setOutputNeurons(outputNeurons);
 	}
 
 }

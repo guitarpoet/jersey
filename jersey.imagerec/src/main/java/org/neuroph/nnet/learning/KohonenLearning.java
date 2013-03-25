@@ -23,10 +23,9 @@ import org.neuroph.core.Layer;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.events.LearningEvent;
-import org.neuroph.core.learning.LearningRule;
-import org.neuroph.core.learning.DataSetRow;
 import org.neuroph.core.learning.DataSet;
-import org.neuroph.nnet.Kohonen;
+import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.core.learning.LearningRule;
 
 /**
  * Learning algorithm for Kohonen network.
@@ -34,13 +33,13 @@ import org.neuroph.nnet.Kohonen;
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class KohonenLearning extends LearningRule {
-	
+
 	/**
-	 * The class fingerprint that is set to indicate serialization
-	 * compatibility with a previous version of the class.
-	 */	
+	 * The class fingerprint that is set to indicate serialization compatibility
+	 * with a previous version of the class.
+	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	double learningRate = 0.9d;
 	int[] iterations = { 100, 0 };
 	double decStep[] = new double[2];
@@ -48,25 +47,25 @@ public class KohonenLearning extends LearningRule {
 	int[] nR = { 1, 1 }; // neighborhood radius
 	int currentIteration;
 
-    
 	public KohonenLearning() {
 		super();
 	}
 
-        @Override
+	@Override
 	public void learn(DataSet trainingSet) {
-                
+
 		for (int phase = 0; phase < 2; phase++) {
 			for (int k = 0; k < iterations[phase]; k++) {
 				Iterator<DataSetRow> iterator = trainingSet.iterator();
 				while (iterator.hasNext() && !isStopped()) {
 					DataSetRow trainingSetRow = iterator.next();
-					learnPattern(trainingSetRow, nR[phase]);				
+					learnPattern(trainingSetRow, nR[phase]);
 				} // while
 				currentIteration = k;
-				//this.notifyChange();	
-                                this.fireLearningEvent(new LearningEvent(this));
-				if (isStopped()) return;
+				// this.notifyChange();
+				this.fireLearningEvent(new LearningEvent(this));
+				if (isStopped())
+					return;
 			} // for k
 			learningRate = learningRate * 0.5;
 		} // for phase
@@ -97,13 +96,13 @@ public class KohonenLearning extends LearningRule {
 
 	// get unit with closetst weight vector
 	private Neuron getClosest() {
-//		Iterator<Neuron> i = this.neuralNetwork.getLayerAt(1)
-//				.getNeuronsIterator();
+		// Iterator<Neuron> i = this.neuralNetwork.getLayerAt(1)
+		// .getNeuronsIterator();
 		Neuron winner = new Neuron();
 		double minOutput = 100;
-                for(Neuron n : this.neuralNetwork.getLayerAt(1).getNeurons() ) {
-//		while (i.hasNext()) {
-//			Neuron n = i.next();
+		for (Neuron n : this.neuralNetwork.getLayerAt(1).getNeurons()) {
+			// while (i.hasNext()) {
+			// Neuron n = i.next();
 			double out = n.getOutput();
 			if (out < minOutput) {
 				minOutput = out;
@@ -114,12 +113,11 @@ public class KohonenLearning extends LearningRule {
 	}
 
 	private void adjustCellWeights(Neuron cell, int r) {
-		//Iterator<Connection> i = cell.getInputsIterator();
-//		while (i.hasNext()) {
-//			Connection conn = i.next();
-                for(Connection conn : cell.getInputConnections()) {
-			double dWeight = (learningRate / (r + 1))   
-					* (conn.getInput() - conn.getWeight().getValue());
+		// Iterator<Connection> i = cell.getInputsIterator();
+		// while (i.hasNext()) {
+		// Connection conn = i.next();
+		for (Connection conn : cell.getInputConnections()) {
+			double dWeight = (learningRate / (r + 1)) * (conn.getInput() - conn.getWeight().getValue());
 			conn.getWeight().inc(dWeight);
 		}// while
 	}
@@ -184,12 +182,12 @@ public class KohonenLearning extends LearningRule {
 	public int getMapSize() {
 		return mapSize;
 	}
-        
-        @Override
-        public void setNeuralNetwork(NeuralNetwork neuralNetwork) {
-            super.setNeuralNetwork(neuralNetwork);
-            int neuronsNum = neuralNetwork.getLayerAt(1).getNeuronsCount();
-            mapSize = (int) Math.sqrt(neuronsNum);
-        }
+
+	@Override
+	public void setNeuralNetwork(NeuralNetwork neuralNetwork) {
+		super.setNeuralNetwork(neuralNetwork);
+		int neuronsNum = neuralNetwork.getLayerAt(1).getNeuronsCount();
+		mapSize = (int) Math.sqrt(neuronsNum);
+	}
 
 }
