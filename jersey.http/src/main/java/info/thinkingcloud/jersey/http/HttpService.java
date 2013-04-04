@@ -52,6 +52,11 @@ public class HttpService extends BaseService {
 		client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, new HttpHost(host, (int) port));
 	}
 
+	@Function(doc = "Remove the proxy that we have set.")
+	public void removeProxy() {
+		client.getParams().removeParameter(ConnRoutePNames.DEFAULT_PROXY);
+	}
+
 	@Function(doc = "Setting the timeout for the http", parameters = @Parameter(name = "timeout", doc = "The timeout parameter, units in millisecondes."))
 	public void setTimeout(int timeout) {
 		HttpConnectionParams.setConnectionTimeout(client.getParams(), timeout);

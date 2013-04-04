@@ -44,7 +44,7 @@ public class NormalizationSample {
         
         // print out normalized training set
         for (DataSetRow dataSetRow : dataSet.getRows()) {
-            System.out.print("Input: " + Arrays.toString(dataSetRow.getInput()));
+            System.out.println("Input: " + Arrays.toString(dataSetRow.getInput()));
         }
     }
 }

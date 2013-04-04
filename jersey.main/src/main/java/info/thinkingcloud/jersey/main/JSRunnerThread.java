@@ -39,7 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class JSRunnerThread {
 
@@ -83,6 +82,7 @@ public class JSRunnerThread {
 			Options opts = new Options();
 			opts.addOption("c", "config", true, "The configuration of this application.");
 			opts.addOption("s", "script", true, "The script to run");
+			logger.debug("Calling jersey with args {}", Arrays.toString(args));
 
 			CommandLine cmd = parser.parse(opts, args);
 
@@ -109,9 +109,15 @@ public class JSRunnerThread {
 				String source = cmd.getOptionValue("s");
 				global.defineProperty("__filename", "-", ScriptableObject.DONTENUM);
 				if (source.equals("-")) {
+					logger.debug("We are using script from standard input.");
 					source = sutils.readToEnd(new InputStreamReader(System.in));
+					evaluateScript(loadScriptFromSource(c, source, "<stdin>", 1, null), c, global);
+				} else {
+					String file = source;
+					logger.debug("We are using script from {}", source);
+					source = sutils.readToEnd(new FileReader(source));
+					evaluateScript(loadScriptFromSource(c, source, file, 1, null), c, global);
 				}
-				evaluateScript(loadScriptFromSource(c, source, "<stdin>", 1, null), c, global);
 				return;
 			} else {
 				global.defineProperty("__filename", "-", ScriptableObject.DONTENUM);

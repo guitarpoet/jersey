@@ -3,7 +3,6 @@ package info.thinkingcloud.jersey.core.utils;
 import info.thinkingcloud.jersey.core.Buffer;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
