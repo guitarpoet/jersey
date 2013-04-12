@@ -28,7 +28,6 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service("solr")
 @Module(doc = "The solr module.")
 public class SolrService extends BaseService {
@@ -70,9 +69,20 @@ public class SolrService extends BaseService {
 		return solr.query(q).getResults();
 	}
 
+	public SolrDocumentList query(String query, int start, int count) throws SolrServerException {
+		SolrQuery q = new SolrQuery(query);
+		q.setStart(start);
+		q.setRows(count);
+		return solr.query(q).getResults();
+	}
+
 	@Function(doc = "Query for the solr documents", parameters = @Parameter(name = "query", type = "string", doc = "The solr query"))
 	public SolrDocument[] queryForArray(String query) throws SolrServerException {
 		return query(query).toArray(new SolrDocument[0]);
+	}
+
+	public SolrDocument[] queryForArray(String query, int start, int count) throws SolrServerException {
+		return query(query, start, count).toArray(new SolrDocument[0]);
 	}
 
 	@Function(doc = "Convert the solr doc to solr input doc.", parameters = @Parameter(name = "doc", type = "solr", doc = "The doc to convert."), returns = "The solr input document")
