@@ -81,6 +81,11 @@ public class FileUtils extends BaseService {
 		return file;
 	}
 
+	@Function(doc = "Test if the path is exists.", parameters = @Parameter(name = "path", type = "string", doc = "The path of the file to test."))
+	public boolean exists(String path) {
+		return fileMeta(path) != null;
+	}
+
 	@Function(doc = "Get the file's meta information", returns = "The file's meta information", parameters = @Parameter(name = "path", type = "string", doc = "The file's path"))
 	public Map<String, Object> fileMeta(String path) {
 		File f = getFile(path);
@@ -125,6 +130,12 @@ public class FileUtils extends BaseService {
 	@Function(doc = "Get the file's file name", parameters = @Parameter(name = "path", type = "string", doc = "The file's path."), returns = "The file's name")
 	public String fileName(String path) {
 		return new File(path).getName();
+	}
+
+	@Function(doc = "Make dir and all the parent folders")
+	public void mkdir(String path) {
+		File file = new File(path);
+		file.mkdirs();
 	}
 
 	@Function(doc = "Copy the file", parameters = {
