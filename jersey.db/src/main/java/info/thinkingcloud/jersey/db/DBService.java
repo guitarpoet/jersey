@@ -9,17 +9,50 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.hibernate.dialect.Dialect;
+import org.hibernate.engine.spi.RowSelection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-
 @Service("db")
 @Module(doc = "The service for database access.")
 public class DBService {
+
+	private static final Logger logger = LoggerFactory.getLogger(DBService.class);
+
 	@Autowired
 	private JdbcTemplate jdbc;
+
+	private Dialect dialect;
+
+	@PostConstruct
+	public void init() {
+		logger.debug("Initializing the dialect using the configuration of {}", System.getProperty("hibernate.dialect"));
+		dialect = Dialect.getDialect(System.getProperties());
+	}
+
+	@Function(doc = "Iterate the sql results using page.", parameters = {
+	        @Parameter(name = "sql", doc = "The sql query for iterate", type = "string"),
+	        @Parameter(name = "fetchSize", type = "int", doc = "The fetch size for every fetch"),
+	        @Parameter(name = "args", type = "object", multi = true, doc = "The arguments for the query") })
+	public SqlIterator iterate(String sql, int fetchSize, Object... args) {
+		return new SqlIterator(sql, args, fetchSize, this);
+	}
+
+	public String pagerSql(String sql, int fetchSize, int firstRow, int total) {
+		RowSelection rs = new RowSelection();
+		rs.setFetchSize(fetchSize);
+		rs.setFirstRow(firstRow);
+		rs.setMaxRows(total);
+		rs.setTimeout(-1);
+		return dialect.buildLimitHandler(sql, rs).getProcessedSql();
+	}
 
 	/**
 	 * @param sql
@@ -100,6 +133,10 @@ public class DBService {
 	@Function(doc = "Query for a map list", parameters = { @Parameter(name = "sql", type = "string", doc = "The sql"),
 	        @Parameter(name = "args", multi = true, type = "object", doc = "The args for sql", optional = true) }, returns = "The map list result.")
 	public List<Map<String, Object>> queryForList(String sql, Object... args) throws DataAccessException {
+		return jdbc.queryForList(sql, args);
+	}
+
+	public List<Map<String, Object>> queryForListInner(String sql, Object[] args) throws DataAccessException {
 		return jdbc.queryForList(sql, args);
 	}
 
