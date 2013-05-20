@@ -4,10 +4,9 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import freemarker.template.TemplateException;
 
-public class BaseService {
+public class BaseService extends MessageSupport {
 	@Autowired
 	private DocUtils doc;
 
