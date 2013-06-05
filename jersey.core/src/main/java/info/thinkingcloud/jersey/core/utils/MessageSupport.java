@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,10 @@ public class MessageSupport {
 
 	}
 
+	protected void destroy() throws Exception {
+
+	}
+
 	@PostConstruct
 	public void initialize() throws Exception {
 		if (localeString.equals("default")) {
@@ -33,7 +38,12 @@ public class MessageSupport {
 		init();
 	}
 
-	public String message(String code, Object... args) {
+	@PreDestroy
+	public void cleanup() throws Exception {
+		destroy();
+	}
+
+	public String text(String code, Object... args) {
 		try {
 			return source.getMessage(code, args, locale);
 		} catch (NoSuchMessageException ex) {

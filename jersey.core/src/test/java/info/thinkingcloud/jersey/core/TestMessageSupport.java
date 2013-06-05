@@ -26,7 +26,7 @@ public class TestMessageSupport {
 
 	@Test
 	public void testGetMessage() {
-		assertThat(dummy.message("greeting", "Jack"), equalTo("Hello, Jack"));
-		assertThat(dummy.message("test {0}", "Jack"), equalTo("test Jack"));
+		assertThat(dummy.text("greeting", "Jack"), equalTo("Hello, Jack"));
+		assertThat(dummy.text("test {0}", "Jack"), equalTo("test Jack"));
 	}
 }
