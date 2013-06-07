@@ -304,5 +304,6 @@
 		<module>jersey.htmlunit</module>
 		<module>jersey.imagerec</module>
     <module>jersey.snmp</module>
+    <module>jersey.couchdb</module>
   </modules>
 </project>

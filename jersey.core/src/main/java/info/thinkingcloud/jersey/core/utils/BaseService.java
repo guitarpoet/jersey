@@ -10,6 +10,10 @@ public class BaseService extends MessageSupport {
 	@Autowired
 	private DocUtils doc;
 
+	public String config(String key) {
+		return System.getProperty(key);
+	}
+
 	public String doc() throws IOException, TemplateException {
 		return doc.serviceDoc(doc.generateModuleData(getClass()));
 	}
