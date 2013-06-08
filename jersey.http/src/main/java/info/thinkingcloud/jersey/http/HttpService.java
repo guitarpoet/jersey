@@ -8,11 +8,13 @@ import info.thinkingcloud.jersey.core.utils.BaseService;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -20,10 +22,13 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.util.EntityUtils;
@@ -87,6 +92,62 @@ public class HttpService extends BaseService {
 		headers.put("User-Agent", safari);
 		headers.put("Accept-Language", "zh,en-us;q=0.7,en;q=0.3");
 		return headers;
+	}
+
+	public void put(String url, Map<String, Object> headers) throws IOException {
+		put(url, headers, null);
+	}
+
+	public void put(String url) throws IOException {
+		put(url, null, null);
+	}
+
+	@Function(doc = "Executing http put method", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The url to execute the http put"),
+	        @Parameter(name = "headers", type = "object", optional = true, doc = "The headers for http put"),
+	        @Parameter(name = "file", type = "stream", optional = true, doc = "The file stream to put.") })
+	public void put(String url, Map<String, Object> headers, InputStream file) throws IOException {
+		HttpPut put = new HttpPut(url);
+		if (headers != null) {
+			for (Map.Entry<String, Object> e : headers.entrySet()) {
+				put.addHeader(e.getKey(), String.valueOf(e.getValue()));
+			}
+		}
+		if (file != null)
+			put.setEntity(new InputStreamEntity(file, file.available()));
+		try {
+			HttpResponse response = client.execute(put);
+			if (response.getStatusLine().getStatusCode() != 200) {
+				HttpEntity e = response.getEntity();
+				String message = EntityUtils.toString(e);
+				EntityUtils.consume(e);
+				throw new IOException(message);
+			}
+			System.out.println(response);
+		} finally {
+			put.releaseConnection();
+		}
+	}
+
+	public void del(String url) throws ClientProtocolException, IOException {
+		del(url, null);
+	}
+
+	@Function(doc = "Executing the http delete method", parameters = {
+	        @Parameter(name = "url", type = "string", doc = "The url to execute the http delete method"),
+	        @Parameter(name = "headers", optional = true, type = "object", doc = "The headers for http delete") })
+	public void del(String url, Map<String, Object> headers) throws ClientProtocolException, IOException {
+		HttpDelete delete = new HttpDelete(url);
+		if (headers != null) {
+			for (Map.Entry<String, Object> e : headers.entrySet()) {
+				delete.addHeader(e.getKey(), String.valueOf(e.getValue()));
+			}
+		}
+		try {
+			client.execute(delete);
+		} finally {
+			delete.releaseConnection();
+		}
 	}
 
 	@Function(doc = "Get response using http post.", parameters = {

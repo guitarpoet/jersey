@@ -1,2 +1,2 @@
 #! /bin/sh
-jersey -s "jpm.retrieve('$*')"
+echo "jpm.retrieve('$*')" | jersey -s -

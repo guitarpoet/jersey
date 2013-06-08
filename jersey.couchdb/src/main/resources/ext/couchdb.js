@@ -13,6 +13,7 @@
 // A simple class to represent a database. Uses XMLHttpRequest to interface with
 // the CouchDB server.
 require('std/env.rhino');
+require('ext/http');
 
 function CouchDB(name, httpHeaders) {
   this.name = name;
@@ -81,6 +82,14 @@ function CouchDB(name, httpHeaders) {
     doc._deleted = true;
     return result;
   };
+
+  this.addDocAttachment = function(doc, name, type, stream) {
+		var url = config("couchdb.server") + this.uri + encodeURIComponent(doc._id) + "/" +  encodeURIComponent(name) + "?rev=" + doc._rev;
+		var t = type? type: "text/plain";
+		http.put(url, {
+			"Content-Type": t
+		}, stream);
+  }
 
   // Deletes an attachment from a document
   this.deleteDocAttachment = function(doc, attachment_name) {
@@ -513,3 +522,5 @@ function CouchError(error) {
   return inst;
 }
 CouchError.prototype.constructor = CouchError;
+
+window.location = config("couchdb.server");
