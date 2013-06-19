@@ -74,7 +74,8 @@ public class SqlIterator implements Iterator<Map<String, Object>> {
 				offset += fetchSize;
 			}
 			String pagerSql = db.pagerSql(sql, fetchSize, offset, (int) total);
-
+			logger.debug("The sql for paging query is like this {} with paging parameters of {}, {}", new Object[] {
+			        pagerSql, offset, fetchSize });
 			int paramCount = scan("\\?", pagerSql).length;
 			switch (paramCount - a.size()) {
 			case 0:
@@ -83,8 +84,8 @@ public class SqlIterator implements Iterator<Map<String, Object>> {
 				a.add(fetchSize);
 				break;
 			default:
-				a.add(fetchSize);
 				a.add(offset);
+				a.add(fetchSize);
 				break;
 			}
 

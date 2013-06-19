@@ -8,9 +8,45 @@ import java.io.PrintWriter;
 
 public abstract class WriteBuffer implements Buffer {
 
+	private int flushLimit = 1000;
+
 	private ByteArrayOutputStream buffer;
 
 	private PrintWriter writer;
+
+	private boolean autoFlush = false;
+
+	private int flushCount = 0;
+
+	/**
+	 * @return the autoFlush
+	 */
+	public boolean isAutoFlush() {
+		return autoFlush;
+	}
+
+	/**
+	 * @return the flushLimit
+	 */
+	public int getFlushLimit() {
+		return flushLimit;
+	}
+
+	/**
+	 * @param flushLimit
+	 *            the flushLimit to set
+	 */
+	public void setFlushLimit(int flushLimit) {
+		this.flushLimit = flushLimit;
+	}
+
+	/**
+	 * @param autoFlush
+	 *            the autoFlush to set
+	 */
+	public void setAutoFlush(boolean autoFlush) {
+		this.autoFlush = autoFlush;
+	}
 
 	public OutputStream getBuffer() {
 		if (buffer == null)
@@ -25,12 +61,26 @@ public abstract class WriteBuffer implements Buffer {
 		return writer;
 	}
 
+	public void checkFlush() throws Exception {
+		if (autoFlush) {
+			if (flushCount++ == flushLimit) {
+				try {
+					flush();
+				} finally {
+					flushCount = 0;
+				}
+			}
+		}
+	}
+
 	public void write(Object message) throws Exception {
 		getWriter().print(message);
+		checkFlush();
 	}
 
 	public void writeln(Object message) throws Exception {
 		getWriter().println(message);
+		checkFlush();
 	}
 
 	public void clear() throws Exception {
