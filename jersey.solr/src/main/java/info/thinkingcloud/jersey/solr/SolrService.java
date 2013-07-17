@@ -8,12 +8,9 @@ import info.thinkingcloud.jersey.core.utils.BaseService;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -48,12 +45,6 @@ public class SolrService extends BaseService {
 			}
 		});
 
-		client.addResponseInterceptor(new HttpResponseInterceptor() {
-			@Override
-			public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
-				IOUtils.copy(response.getEntity().getContent(), System.out);
-			}
-		});
 	}
 
 	public String toXml(SolrInputDocument doc) {

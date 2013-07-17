@@ -61,10 +61,14 @@ public class DBService {
 
 	@Function(doc = "Iterate the sql results using page.", parameters = {
 	        @Parameter(name = "sql", doc = "The sql query for iterate", type = "string"),
-	        @Parameter(name = "fetchSize", type = "int", doc = "The fetch size for every fetch"),
+	        @Parameter(name = "fetchSize", type = "int", optional = true, doc = "The fetch size for every fetch"),
 	        @Parameter(name = "args", type = "object", multi = true, doc = "The arguments for the query") })
 	public SqlIterator iterate(String sql, int fetchSize, Object... args) {
 		return new SqlIterator(sql, args, fetchSize, this);
+	}
+
+	public SqlIterator iterate(String sql, Object... args) {
+		return new SqlIterator(sql, args, 1000, this);
 	}
 
 	@Function(doc = "Create the sql for paging using the query sql", parameters = {
@@ -131,7 +135,7 @@ public class DBService {
 	        @Parameter(name = "sql", type = "string", doc = "The sql"),
 	        @Parameter(name = "args", multi = true, type = "object", doc = "The args for sql", optional = true) }, returns = "The long result.")
 	public long queryForLong(String sql, Object... args) throws DataAccessException {
-		return jdbc.queryForLong(sql, args);
+		return jdbc.queryForObject(sql, args, Long.class);
 	}
 
 	/**
@@ -145,7 +149,7 @@ public class DBService {
 	@Function(doc = "Query for a int value", parameters = { @Parameter(name = "sql", type = "string", doc = "The sql"),
 	        @Parameter(name = "args", multi = true, type = "object", doc = "The args for sql", optional = true) }, returns = "The int result.")
 	public int queryForInt(String sql, Object... args) throws DataAccessException {
-		return jdbc.queryForInt(sql, args);
+		return jdbc.queryForObject(sql, args, Integer.class);
 	}
 
 	/**

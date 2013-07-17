@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.InflaterInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,22 @@ public class FileUtils extends BaseService {
 		if (file == null)
 			return null;
 		return new StreamLineIterator(new FileInputStream(file));
+	}
+
+	@Function(doc = "Iterate the zlib file line by line.", parameters = @Parameter(name = "path", type = "string", doc = "The zlib file."))
+	public StreamLineIterator iterateZip(String path) throws FileNotFoundException {
+		File file = getFile(path);
+		if (file == null)
+			return null;
+		return new StreamLineIterator(new InflaterInputStream(new FileInputStream(file)));
+	}
+
+	@Function(doc = "Iterate the gzip file line by line.", parameters = @Parameter(name = "path", type = "string", doc = "The zlib file."))
+	public StreamLineIterator iterateGZip(String path) throws IOException {
+		File file = getFile(path);
+		if (file == null)
+			return null;
+		return new StreamLineIterator(new GZIPInputStream(new FileInputStream(file)));
 	}
 
 	@Function(doc = "Test if the file is a directory", parameters = @Parameter(doc = "The file's path", type = "string", name = "path"), returns = "The result")

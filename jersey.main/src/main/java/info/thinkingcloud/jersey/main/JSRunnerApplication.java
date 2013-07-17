@@ -9,5 +9,6 @@ public class JSRunnerApplication {
 		JSRunnerThread thread = context.getBean(JSRunnerThread.class);
 		thread.setArgs(args);
 		thread.run();
+		context.close();
 	}
 }

@@ -8,3 +8,4 @@ logs
 *.out
 *.tmp
 makefile
+.settings
