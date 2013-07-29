@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -22,6 +23,16 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @Module(doc = "The module for provide the http unit service.")
 public class HtmlUnitService {
 	private WebClient client = new WebClient();
+
+	public HtmlUnitService firefox() {
+		client = new WebClient(BrowserVersion.FIREFOX_3_6);
+		return this;
+	}
+
+	public HtmlUnitService chrome() {
+		client = new WebClient(BrowserVersion.CHROME_16);
+		return this;
+	}
 
 	@Function(doc = "Get the data using http get", parameters = {
 	        @Parameter(name = "url", type = "string", doc = "The url for http get"),
